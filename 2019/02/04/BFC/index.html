@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>BFC IFC | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="BFC如何形成1.float的值不为none 2.position的值不为static或relative 3.display的值为table-cell、table-caption、inline-block、flex或inline-flex 4.overflow的值不为visiable BFC有什么特性1 BFC中盒子对齐,在BFC上下文中，每个盒子的左外侧紧贴包含块的左侧（从右到左的格式里，则为盒">
+<meta name="keywords" content="bfc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BFC IFC">
+<meta property="og:url" content="https://luhu9012.github.io/2019/02/04/BFC/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="BFC如何形成1.float的值不为none 2.position的值不为static或relative 3.display的值为table-cell、table-caption、inline-block、flex或inline-flex 4.overflow的值不为visiable BFC有什么特性1 BFC中盒子对齐,在BFC上下文中，每个盒子的左外侧紧贴包含块的左侧（从右到左的格式里，则为盒">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-13T09:05:50.799Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BFC IFC">
+<meta name="twitter:description" content="BFC如何形成1.float的值不为none 2.position的值不为static或relative 3.display的值为table-cell、table-caption、inline-block、flex或inline-flex 4.overflow的值不为visiable BFC有什么特性1 BFC中盒子对齐,在BFC上下文中，每个盒子的左外侧紧贴包含块的左侧（从右到左的格式里，则为盒">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-BFC" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      BFC IFC
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/css/">css</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-02-04
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="BFC如何形成"><a href="#BFC如何形成" class="headerlink" title="BFC如何形成"></a>BFC如何形成</h3><p>1.float的值不为none</p>
+<p>2.position的值不为static或relative</p>
+<p>3.display的值为table-cell、table-caption、inline-block、flex或inline-flex</p>
+<p>4.overflow的值不为visiable</p>
+<h4 id="BFC有什么特性"><a href="#BFC有什么特性" class="headerlink" title="BFC有什么特性"></a>BFC有什么特性</h4><p>1 BFC中盒子对齐,在BFC上下文中，每个盒子的左外侧紧贴包含块的左侧（从右到左的格式里，则为盒子右外侧紧贴包含块右侧），甚至有浮动也是如此（尽管盒子里的行盒子 Line Box 可能由于浮动而变窄），除非盒子创建了一个新的BFC（在这种情况下盒子本身可能由于浮动而变窄）。<br>2 外边距折叠, 一个BFC盒子与它的子元素之间不会发生外边距折叠,但是同一个BFC盒子内部的子元素之间也是会发生外边距折叠的,可如果为其中一个子元素创建一个新的BFC（不同于父元素那个BFC盒子），让这些子元素分属于不同的BFC，他们之间就不会发生外边距折叠了<br>3.BFC内外元素互不影响,这条通俗来讲就是：无论BFC内部元素如何布局——浮动、绝对定位或是其他，都不会对BFC盒子外的其他盒子的布局造成影响，同时，外部元素也不会影响BFC内部元素的布局。这个特性用途很广，也解释了为何BFC可以清除浮动了。</p>
+<h4 id="如何应用BFC"><a href="#如何应用BFC" class="headerlink" title="如何应用BFC"></a>如何应用BFC</h4><p>使用BFC避免外边距折叠<br>使用BFC清除浮动:1.设置父元素也浮动；2.设置父元素的display为table(不常用)；3.设置父元素overflow：hidden/auto；<br>使用BFC避免文字环绕效果<br>多列布局与自适应布局</p>
+<h3 id="IFC"><a href="#IFC" class="headerlink" title="IFC"></a>IFC</h3><p>　　IFC也是一种布局规则，inline元素和inline-block符合IFC的布局规则。在IFC布局中重点关注一下line box。<br>       在IFC中，内联元素在水平方向上一个接一个的排布，其中，容器之间水平方向上的margin，padding，border方向上是好使的。他们垂直方向上有很多种对其方式，比如居底部或顶端对齐，或者基线对齐。他们对齐完了之后形成的这个四方块儿区域，叫做一个line box（行框）。</p>
+<p>　　一个line box的宽度由包含它的元素的宽度和包含它的元素里面有没有float元素来决定，而高度由内部元素中实际高度最高的元素而计算出来。</p>
+<p>　　line box的高度是足够高来包含他内部的容器们的，也可能比它包含的容器们都高（比如在基线对齐的时候），当他包含的内部容器的高度小于line box的高度的时候，内部容器的垂直位置由自己的vertical这个属性来确定。当内部的容器盒子太多了一个line box装不下来，他们折行之后会变成两个或者多个line box， line box们相互之间垂直方向不能分离，不能重叠。</p>
+<p>　　一般来说，line box的左边缘挨着包含它的元素的左边缘，并且右边缘挨着包含它的元素的右边缘，浮动元素会在包含他们的元素的边缘和line box的边缘之间，所以虽然在同一个IFC下的line box们通常拥有相同的宽度（就是包含他们的容器的宽度），但是也会因为浮动元素的捣乱，导致line box们的可用宽度产生了变化不一样了。在同一个Ifc下的line box们的高度也会不一样（比如说，一个line box里有个比较大的image，他就高了）。</p>
+<p>　　如果一个line box 里的内联元素们的宽度总和小于这个line box的宽度，那么他们在这个line box里的水平方向的排布方式由 text-align这个属性来决定，如果这个属性被设置成了“justify”，可以使这些盒子在剩余空间内拉伸（除了inline-table 和 inline-block的元素）</p>
+<p>　　在一个line box中，当他包含的内部容器的高度小于line box的高度的时候，内部容器的垂直位置由自己的vertical这个属性来确定。那么，我们设想一下，如果手动创建一个IFC的环境，让line box的高度是包含块的高度的100%，让line box内部的元素使用vertical-align：middle，就可以实现垂直居中。</p>
+<p>　　一个line box的高度由内部元素中实际高度最高的元素而计算出来。所以，我们在line box中插入一个高度100%的inline-block元素。则会把整个line box撑高直到包含块的100%.</p>
+<p>　　当内联元素的宽度超过了line box的宽度，那么它会折行分裂成了几个line box，如果这个元素里面的内容不可以折行，例如只有一个字，或者white-space设置了nowrap/pre。那么内联元素会溢出line box。</p>
+<p>　　当一个内联元素分裂时，分裂处的 margins, borders 和 padding不会有任何视觉效果（或者其他任何分裂，只要是有多个line box）。</p>
+<p>　　line box 的生存条件是在IFC中并且包含inline-level元素，如果line box里没有文本，空白，换行符，内联元素，也没有其他的存在IFC环境中的元素，(如inline-block，inline- table，images等)，将会被视为零高度，也将会被视为没有意义。</p>
+<p>　　补充：在IFC的环境中，是不能存在block-level元素的，如果将block-level元素插入到IFC中，那么此IFC将会被破坏掉， 而block-level元素前的元素和block-level元素后的元素将会各自自动产生一个匿名容器其包围，这个匿名的容器内部环境将是一个新的 IFC。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年05月13日 17:05</p>
+        <p>原始链接： <a class="post-url" href="/2019/02/04/BFC/" title="BFC IFC">https://luhu9012.github.io/2019/02/04/BFC/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/02/04/BFC/&title=《BFC IFC》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/02/04/BFC/&title=《BFC IFC》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/02/04/BFC/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BFC IFC》 — 前端笔记&url=https://luhu9012.github.io/2019/02/04/BFC/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/02/04/BFC/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/02/04/BFC/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/bfc/" class="color4">bfc</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BFC如何形成"><span class="post-toc-text">BFC如何形成</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#BFC有什么特性"><span class="post-toc-text">BFC有什么特性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#如何应用BFC"><span class="post-toc-text">如何应用BFC</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IFC"><span class="post-toc-text">IFC</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/03/12/jsoop/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          对象的创建与继承
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/02/04/bom/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">BOM 浏览器对象模型</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

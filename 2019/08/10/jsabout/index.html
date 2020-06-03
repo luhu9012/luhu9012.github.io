@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>js运行机制 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="js运行机制相关引用：https://github.com/mqyqingfeng/Blog/issues/17 相关术语es5之前只有全局作用域和函数作用域，es6加入了块级作用域  Execution Context(执行环境或执行上下文)  Context Stack (执行栈)  Variable Object(VO: 变量对象) es5   JS的执行上下文中都有个对象用来存放执行上下文">
+<meta name="keywords" content="js基础 js运行机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js运行机制">
+<meta property="og:url" content="https://luhu9012.github.io/2019/08/10/jsabout/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="js运行机制相关引用：https://github.com/mqyqingfeng/Blog/issues/17 相关术语es5之前只有全局作用域和函数作用域，es6加入了块级作用域  Execution Context(执行环境或执行上下文)  Context Stack (执行栈)  Variable Object(VO: 变量对象) es5   JS的执行上下文中都有个对象用来存放执行上下文">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-06-03T08:39:01.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js运行机制">
+<meta name="twitter:description" content="js运行机制相关引用：https://github.com/mqyqingfeng/Blog/issues/17 相关术语es5之前只有全局作用域和函数作用域，es6加入了块级作用域  Execution Context(执行环境或执行上下文)  Context Stack (执行栈)  Variable Object(VO: 变量对象) es5   JS的执行上下文中都有个对象用来存放执行上下文">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-jsabout" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      js运行机制
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-08-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="js运行机制"><a href="#js运行机制" class="headerlink" title="js运行机制"></a>js运行机制</h3><p>相关引用：<a href="https://github.com/mqyqingfeng/Blog/issues/17" target="_blank" rel="noopener">https://github.com/mqyqingfeng/Blog/issues/17</a></p>
+<h4 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h4><p>es5之前只有全局作用域和函数作用域，es6加入了块级作用域</p>
+<ul>
+<li><p>Execution Context(执行环境或执行上下文)</p>
+</li>
+<li><p>Context Stack (执行栈)</p>
+</li>
+<li><p>Variable Object(VO: 变量对象) es5</p>
+</li>
+</ul>
+<p>JS的执行上下文中都有个对象用来存放执行上下文中可被访问但是不能被delete的函数标示符、形参、变量声明等。它们会被挂在这个对象上，对象的属性对应它们的名字对象属性的值对应它们的值但这个对象是规范上或者说是引擎实现上的不可在JS环境中访问到活动对象</p>
+<p>创建VO对象可以大致分为四步 - 1.创建arguments对象 - 2.扫描上下文的函数声明(而非函数表达式),为发现的每一个函数，在变量对象上创建一个属性——确切的说是函数的名字——其有一个指向函数在内存中的引用。如果函数的名字已经存在，引用指针将被重写。 - 3.扫描上下文的变量声明,为发现的每个变量声明，在变量对象上创建一个属性——就是变量的名字，并且将变量的值初始化为undefined。如果变量的名字已经在变量对象里存在，将不会进行任何操作并继续扫描。</p>
+<p> 整个过程可以大概描述成： 函数的形参=&gt;函数声明=&gt;变量声明， 其中在创建函数声明时，如果名字存在，则会被重写，在创建变量时，如果变量名存在，则忽略不会进行任何操作</p>
+<ul>
+<li><p>Active Object(AO: 活动对象) es5<br>有了变量对象存每个上下文中的东西，但是它什么时候能被访问到呢？就是每进入一个执行上下文时，这个执行上下文儿中的变量对象就被激活，也就是该上下文中的函数标示符、形参、变量声明等就可以被访问到了</p>
+</li>
+<li><p>LexicalEnvironment（词法环境） es6</p>
+</li>
+</ul>
+<p>词法环境由两个部分组成 - 环境记录(enviroment record)，存储变量和函数声明 - 对外部环境的引用(outer)，可以通过它访问外部词法环境.<br>环境记录分两部分 - 声明性环境记录(declarative environment records)： 存储变量、函数和参数, 但是主要用于函数 、catch词法环境。 注意：函数环境下会存储arguments的值。而详细的过程可以参考VO 的执行细节，基本大同小异 - 对象环境记录(object environment records), 主要用于with 和全局的词法环境</p>
+<ul>
+<li>VariableEnvironment（变量环境）es6<br>变量环境也是个词法环境，主要的区别在于lexicalEnviroment用于存储函数声明和变量（ let 和 const ）绑定，而ObjectEnviroment仅用于存储变量（ var ）绑定。</li>
+</ul>
+<h4 id="执行环境的创建过程"><a href="#执行环境的创建过程" class="headerlink" title="执行环境的创建过程"></a>执行环境的创建过程</h4><p>执行环境的创建分为两个阶段，创建阶段和激活/执行阶段，es3和es5规范不同：</p>
+<blockquote>
+<p>es5:<br>创建阶段： - 1.创建作用域链。 - 2.创建变量对象VO(包括参数，函数，变量)。 - 3.确定this的值。</p>
+<blockquote>
+<p>函数的作用域在定义时就确定了，函数内部有个[[scope]]属性保存其父级变量的层级链，函数在执行前会复制[[scope]]创建作用域链<br>js采用的是词法作用域，是静态作用域，在函数定义时就决定了，如下例子：</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var value = 1;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">    var value = 2;</span><br><span class="line">    foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();// 1</span><br></pre></td></tr></table></figure>
+
+<p>激活/执行阶段： - 完成变量分配，执行代码。</p>
+<blockquote>
+<p>es6规范<br>创建阶段： - 1.确定 this 的值。 - 2.创建词法环境(LexicalEnvironment)。 - 3.创建变量环境(VariableEnvironment)。</p>
+</blockquote>
+<p>激活/执行阶段： - 完成变量分配，执行代码。</p>
+<h4 id="Temporal-Dead-Zone-TDZ-暂时性死区理解"><a href="#Temporal-Dead-Zone-TDZ-暂时性死区理解" class="headerlink" title="Temporal Dead Zone(TDZ)暂时性死区理解"></a>Temporal Dead Zone(TDZ)暂时性死区理解</h4><blockquote>
+<p>TDZ相关：let const 默认参数<br>TDZ解释：let const 变量在词法环境初始化时被创建，但是在变量的词法绑定被执行前他们不能被以任何形式被访问。在词法绑定被执行的时候用他的初始化器的赋值表达式的计算结果来赋值，而不是在变量被创建的时候赋值。如果一个let声明的词法绑定没有初始化器，那么这个变量在初始化绑定被执行的时候会被用undefined赋值。<br>TDZ陷阱：<br>typeof x ；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // TDZ</span><br><span class="line">  typeof x // ReferenceError</span><br><span class="line">  let x = 42</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let y = y // ReferenceError;</span><br><span class="line"></span><br><span class="line">// Default parameters are evaluated from left to right,</span><br><span class="line">// so `b` is in the TDZ when `a`&apos;s initializer tries to read it.</span><br><span class="line">(function(a = b, b) &#123;&#125;(undefined, 1)); // ReferenceError</span><br><span class="line"></span><br><span class="line">// `a` is still in the TDZ when its own initializer tries to read `a`.</span><br><span class="line">// See the &quot;gory details&quot; section above for more details.</span><br><span class="line">(function(a = a) &#123;&#125;()); // ReferenceError</span><br></pre></td></tr></table></figure>
+
+<p>子类（通过class x extends y{}创建的）的构造器如果在super构造器调用之前尝试访问this也会抛出TDZ的ReferenceError。这是因为只要一个子类的构造器还没有调用super(), 他的this绑定就被认为是未初始化</p>
+<p>TDZ期间抛出的错误是运行阶段的错误；<br>运行效能比var低；<br>转译到es5;</p>
+<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><h4 id="垃圾回收之引用计数（IE-6-7）"><a href="#垃圾回收之引用计数（IE-6-7）" class="headerlink" title="垃圾回收之引用计数（IE 6, 7）"></a>垃圾回收之引用计数（IE 6, 7）</h4><blockquote>
+<p>如果没有引用指向该对象（零引用），对象将被垃圾回收机制回收<br>缺点：无法处理循环引用的事例</p>
+</blockquote>
+<h4 id="垃圾回收之标记清除法（2012年起所有浏览器）"><a href="#垃圾回收之标记清除法（2012年起所有浏览器）" class="headerlink" title="垃圾回收之标记清除法（2012年起所有浏览器）"></a>垃圾回收之标记清除法（2012年起所有浏览器）</h4><blockquote>
+<p>这个算法假定设置一个叫做根（root）的对象（在Javascript里，根是全局对象）。垃圾回收器将定期从根开始，找所有从根开始引用的对象，然后找这些对象引用的对象……从根开始，垃圾回收器将找到所有可以获得的对象和收集所有不能获得的对象。<br>解决了循环引用的问题<br>限制：那些无法从根对象查询到的对象都将被清除</p>
+</blockquote>
+<h3 id="理解继承与原型链"><a href="#理解继承与原型链" class="headerlink" title="理解继承与原型链"></a>理解继承与原型链</h3><h4 id="proto-与-prototype的区别"><a href="#proto-与-prototype的区别" class="headerlink" title="proto 与 prototype的区别"></a><strong>proto</strong> 与 prototype的区别</h4><blockquote>
+<p>对象原型<strong>proto</strong>：是每个实例对象都有的属性，可以通过es6的Object.getPrototypeOf(someobj)读取，是从构造函数的prototype属性派生<br> 只有浏览器必须部署这个属性，其他运行环境不一定需要部署，而且新的代码最好认为这个属性是不存在的。因此，无论从语义的角度，还是从兼容性的角度，都不要使用这个属性，而是使用下面的Object.setPrototypeOf()（写操作）、Object.getPrototypeOf()（读操作）、Object.create()（生成操作）代替<br>构造函数的prototype：prototype是构造函数的属性，每个函数都有一个特殊的属性prototype叫做原型（new生成的实例对象没有prototype只有<strong>proto</strong>）<br>一个对象的<strong>proto</strong>属性指向创建该对象的构造函数的prototype，即：o.<strong>proto</strong> === o.constructor.prototype</p>
+</blockquote>
+<blockquote>
+<p><a href="../imgs/prototype.jpg">‘原型链图解’</a></p>
+</blockquote>
+<h4 id="prototype-继承成员被定义的地方"><a href="#prototype-继承成员被定义的地方" class="headerlink" title="prototype: 继承成员被定义的地方"></a>prototype: 继承成员被定义的地方</h4><blockquote>
+<p>并不是对象的所有属性成员都被继承，只有定义在prototype指向的对象上的属性才能被继承，如Object.valueof Object.toString等可以被继承，而Object.keys Object.getPrototypeOf等属性只能被Object构造器自身调用</p>
+</blockquote>
+<blockquote>
+<p>Object.create():实际做的是从指定原型对象创建一个新的对象,var person2 = Object.create(person1);person2.<strong>proto</strong> === person1</p>
+</blockquote>
+<h3 id="模拟call或者apply"><a href="#模拟call或者apply" class="headerlink" title="模拟call或者apply"></a>模拟call或者apply</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.myCall = function(context)&#123;</span><br><span class="line">    var ctx = context||window</span><br><span class="line">    ctx.fn = this // this指向当前调用的函数</span><br><span class="line">    // Array.prototype.slice.apply(arguments)</span><br><span class="line">    var args = []</span><br><span class="line">    // 从第二个参数开始</span><br><span class="line">    for(var i=1;i&lt;arguments.length;i++)&#123;</span><br><span class="line">        args.push(arguments[i])</span><br><span class="line">    &#125;</span><br><span class="line">   var result = eval(&apos;ctx.fn(&apos;+args+&apos;)&apos;)</span><br><span class="line">   delete ctx.fn</span><br><span class="line">   return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="arguments-callee-与-Function-caller"><a href="#arguments-callee-与-Function-caller" class="headerlink" title="arguments callee 与 Function.caller"></a>arguments callee 与 Function.caller</h3><blockquote>
+<p>arguments callee:<br>es6规范中已被删除，不建议使用；<br>es6之前引入是解决匿名函数的递归调用</p>
+</blockquote>
+<blockquote>
+<p>Function.caller<br>非标准特性，不建议使用<br>如果一个函数f是在全局作用域内被调用的,则f.caller为null,相反,如果一个函数是在另外一个函数作用域内被调用的,则f.caller指向调用它的那个函数.<br>该属性的常用形式arguments.callee.caller替代了被废弃的 arguments.caller.</p>
+</blockquote>
+<h3 id="递归与尾递归"><a href="#递归与尾递归" class="headerlink" title="递归与尾递归"></a>递归与尾递归</h3><p>递归，是指在函数的定义中使用函数自身的一种方法。函数调用自身即称为递归，那么函数在尾调用自身，即称为尾递归。</p>
+<blockquote>
+<p>解决调用栈过多问题，方案一：尾递归<br>解决调用栈过多问题，方案二：改用循环</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 斐波那契普通写法</span><br><span class="line">// 调用栈随着n的增加而线性增加，当n为一个大数（大概测了一下，当n为100的时候，浏览器窗口就会卡死。。）时，就会爆栈了（栈溢出，stack overflow）</span><br><span class="line">function fibo(n)&#123;</span><br><span class="line">    if(n===0) return 0</span><br><span class="line">    if(n===1) return 1</span><br><span class="line">    return f(n-1)+f(n-2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 尾递归</span><br><span class="line">// 被尾递归改写之后的调用栈永远都是更新当前的栈帧而已，这样就完全避免了爆栈的危险</span><br><span class="line">function fibo(n,a=0,b=1)&#123;</span><br><span class="line">    if(n===0) return a</span><br><span class="line">    return fibo(n-1,b,a+b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 动态规划的思想，转化为循环</span><br><span class="line">function fibo(n)&#123;</span><br><span class="line">    if(n===0) return 0</span><br><span class="line">    if(n===1) return 1</span><br><span class="line">    let res,a=0,b=1</span><br><span class="line">    for(let i=2,i&lt;=n;i++)&#123;</span><br><span class="line">       // res = a+b</span><br><span class="line">       // a= b</span><br><span class="line">       // b = res </span><br><span class="line">       b = a+b</span><br><span class="line">       a = b-a</span><br><span class="line">    &#125;</span><br><span class="line">    return res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月03日 16:39</p>
+        <p>原始链接： <a class="post-url" href="/2019/08/10/jsabout/" title="js运行机制">https://luhu9012.github.io/2019/08/10/jsabout/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/08/10/jsabout/&title=《js运行机制》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/08/10/jsabout/&title=《js运行机制》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/08/10/jsabout/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js运行机制》 — 前端笔记&url=https://luhu9012.github.io/2019/08/10/jsabout/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/08/10/jsabout/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/08/10/jsabout/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/js基础js运行机制/" class="color2">js基础 js运行机制</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#js运行机制"><span class="post-toc-text">js运行机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#相关术语"><span class="post-toc-text">相关术语</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#执行环境的创建过程"><span class="post-toc-text">执行环境的创建过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Temporal-Dead-Zone-TDZ-暂时性死区理解"><span class="post-toc-text">Temporal Dead Zone(TDZ)暂时性死区理解</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#内存管理"><span class="post-toc-text">内存管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收之引用计数（IE-6-7）"><span class="post-toc-text">垃圾回收之引用计数（IE 6, 7）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收之标记清除法（2012年起所有浏览器）"><span class="post-toc-text">垃圾回收之标记清除法（2012年起所有浏览器）</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#理解继承与原型链"><span class="post-toc-text">理解继承与原型链</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#proto-与-prototype的区别"><span class="post-toc-text">proto 与 prototype的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#prototype-继承成员被定义的地方"><span class="post-toc-text">prototype: 继承成员被定义的地方</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模拟call或者apply"><span class="post-toc-text">模拟call或者apply</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#arguments-callee-与-Function-caller"><span class="post-toc-text">arguments callee 与 Function.caller</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#递归与尾递归"><span class="post-toc-text">递归与尾递归</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/08/10/interview/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          interview
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/08/10/jsFunc/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">js功能函数</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

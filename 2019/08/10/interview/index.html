@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>interview | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="echarts 使用优化（节点缓存？）vue-cli 打包命令后面加 –report分析打包文件大小 balbel-plugin-syntax-dynamic-import 支持异步路由 组件按需引入 imoort 懒加载echarts  cdn+webpack external   缓存初始化后的节点方便数据更新， 解决销毁实例和内存泄露 1234567891011121314151617//-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="interview">
+<meta property="og:url" content="https://luhu9012.github.io/2019/08/10/interview/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="echarts 使用优化（节点缓存？）vue-cli 打包命令后面加 –report分析打包文件大小 balbel-plugin-syntax-dynamic-import 支持异步路由 组件按需引入 imoort 懒加载echarts  cdn+webpack external   缓存初始化后的节点方便数据更新， 解决销毁实例和内存泄露 1234567891011121314151617//-">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-13T09:05:50.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="interview">
+<meta name="twitter:description" content="echarts 使用优化（节点缓存？）vue-cli 打包命令后面加 –report分析打包文件大小 balbel-plugin-syntax-dynamic-import 支持异步路由 组件按需引入 imoort 懒加载echarts  cdn+webpack external   缓存初始化后的节点方便数据更新， 解决销毁实例和内存泄露 1234567891011121314151617//-">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-interview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      interview
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-08-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="echarts-使用优化（节点缓存？）"><a href="#echarts-使用优化（节点缓存？）" class="headerlink" title="echarts 使用优化（节点缓存？）"></a>echarts 使用优化（节点缓存？）</h4><p>vue-cli 打包命令后面加 –report分析打包文件大小</p>
+<p>balbel-plugin-syntax-dynamic-import 支持异步路由</p>
+<p>组件按需引入 imoort</p>
+<p>懒加载echarts  cdn+webpack external</p>
+<script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.min.js"></script>
+
+<p>缓存初始化后的节点方便数据更新，</p>
+<p>解决销毁实例和内存泄露</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//-dom 不存在时不画</span><br><span class="line">     if (!this.$refs.barchart) &#123;</span><br><span class="line">          return</span><br><span class="line">     &#125;</span><br><span class="line">     //- 不要重复初始化</span><br><span class="line">     let Chart = echarts.getInstanceByDom(this.$refs.barchart)</span><br><span class="line">     if (!Chart) &#123;</span><br><span class="line">            Chart = echarts.init(this.$refs.barchart, &apos;light&apos;)</span><br><span class="line">     &#125;</span><br><span class="line">//-释放echarts对象</span><br><span class="line">let Chart = echarts.getInstanceByDom(this.$refs.barchart)</span><br><span class="line">        if (!Chart) &#123;</span><br><span class="line">            Chart = echarts.init(this.$refs.barchart, &apos;light&apos;)</span><br><span class="line">            this.$once(&apos;hook:beforeDestroy&apos;, function () &#123;</span><br><span class="line">                echarts.dispose(Chart)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>原来ECharts在每次setOption后都需要清理变量，在ECharts中是有API手动清理变量的，分别是clear()和dispose()，区别是前者只需插入参数，ECharts就会重绘图表；而后者则是直接将ECharts对象进行清理，需要重新构建ECharts对象。另外，针对IE，也有专门的回收内存函数CollectGarbage，每次浏览器最小化的时候，浏览器都会调用该函数，清理内存。</p>
+<h4 id="seajs-requerjs-commomjs-es6-module-横向对比，如何解决循环依赖-模块缓存？"><a href="#seajs-requerjs-commomjs-es6-module-横向对比，如何解决循环依赖-模块缓存？" class="headerlink" title="seajs requerjs commomjs es6 module 横向对比，如何解决循环依赖  模块缓存？"></a>seajs requerjs commomjs es6 module 横向对比，如何解决循环依赖  模块缓存？</h4><p><a href="https://juejin.im/post/5aaa37c8f265da23945f365c" target="_blank" rel="noopener">前端模块化：CommonJS,AMD,CMD,ES6</a><br>ES6 模块与 CommonJS 模块的差异：<br>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。<br>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>seajs优化点：提前加载依赖，但是不执行，等到requer才执行<br>seajs可以在任意处直接require文件，无需提前写依赖模块；一旦提前写了任意一个依赖模块，下面的所有require的使用必须保证也有其对应的依赖模块<br>假如 a.js 依赖了另一个 c.js，则在 a.js 中使用 require(‘b’) 时必须也写上依赖[‘b’]，否则b.js将因为查找不到而不会加载<br>对于seajs,如果不写依赖那就一个都不要写，一旦写了，下面所有require的地方都需要提前在头部写上依赖<br>但对require.ascnc例外，可以如下写法：<br>//a.js<br>define([‘c’], function(require, exports, module){<br>    var b = require.async(‘b’);<br>})<br>此时c.js, b.js都被加载，只有 b.js 被执行<br>下一点将会介绍require.async<br>总结：</p>
+<ol>
+<li><p>seajs对依赖模块只加载不执行，requirejs对依赖模块加载并执行</p>
+</li>
+<li><p>seajs ，requirejs在 require具体文件时既加载也执行</p>
+</li>
+<li><p>seajs可以在任意处直接require文件，无需提前写依赖模块；一旦提前写了任意一个依赖模块，下面的所有require的使用必须保证也有其对应的依赖模块</p>
+</li>
+<li><p>seajs的require.async在执行到使用位置的时候才去异步加载<br><a href="https://www.cnblogs.com/saysmy/p/7560823.html" target="_blank" rel="noopener">参考</a></p>
+</li>
+</ol>
+<p>解决循环依赖<br><a href="https://www.jianshu.com/p/ba0faf79c167" target="_blank" rel="noopener">Commonjs、esm、Amd 和 Cmd 的循环依赖表现和原理</a><br><a href="https://www.cnblogs.com/chaojidan/p/4514710.html" target="_blank" rel="noopener">seaJS循环依赖的解决原理 </a><br>getPureDependencies方法进行判断是否有循环依赖，有的话直接变为ready状态<br><a href="https://blog.csdn.net/xujiezi/article/details/51077362" target="_blank" rel="noopener">解决requirejs循环依赖问题</a><br>1.用scope模式传参方式；<br>2.用pubsub解耦；<br>3.用require(“A”)的方式： </p>
+<p>vue组件的循环依赖解决：<br>在组件的beforeCreate中去注册循环依赖的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JSbeforeCreate: function () &#123;</span><br><span class="line">  this.$options.components.TreeFolderContents = require(&apos;./tree-folder-contents.vue&apos;).default</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者在本地注册的时候使用webpack的import去注册</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JScomponents: &#123;</span><br><span class="line">  TreeFolderContents: () =&gt; import(&apos;./tree-folder-contents.vue&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>commonjs exports 与 module.exports区别<br>1.module.exports 初始值为一个空对象 {}<br>2.exports 是指向的 module.exports 的引用<br>3.require() 返回的是 module.exports 而不是 exports<br>4.直接对exports赋值就切断了module.exports 和 exports的联系</p>
+<h4 id="jq-backbone"><a href="#jq-backbone" class="headerlink" title="jq backbone"></a>jq backbone</h4><p><a href="https://www.zhihu.com/question/19720745" target="_blank" rel="noopener">Backbone.js 的最佳应用场景有哪些？</a><br>Backbone 的一些缺点:<br>1 • Model 层比较简单，如果要支持 One-To-One 或者 One-To-Many 等复杂数据关系时有些力不从心。还有 一个 Model 只能属于一个 Collection 这个设计，页面复杂的时候会很受局限。<br>2 • View 层没有很强的 Page 管理机制，比如通过 URL 切换改变整个页面时，页面上尚存的 View 如何处理？直接销毁的话，是否要销毁关联的 Model、Collection？Cache 住？如何管理 Cache？<br>3 • 内存管理需要比较小心，缺乏机制避免创建重复 Model。<br>4 • 对调试非常不友好。<br><a href="https://www.zhangshengrong.com/p/79MNlyvXJr/" target="_blank" rel="noopener">backbone最佳实践</a></p>
+<h4 id="react-vue横向对比"><a href="#react-vue横向对比" class="headerlink" title="react vue横向对比"></a>react vue横向对比</h4><p>相同点<br>1.数据驱动视图，提供响应式的视图组件<br>2.都有Virtual DOM，组件化开发，通过props参数进行父子组件数据的传递，都实现webComponents规范<br>3.数据流动单向<br>都支持服务端渲染<br>4.都有支持native的方案，React的React native，Vue的weex</p>
+<p>不同点<br>1.社区：React社区还是要比vue大很多；<br>2.开发模式：React在view层侵入性还是要比Vue大很多的,React严格上只针对MVC的view层，Vue则是MVVM模式的一种实现；<br>3.数据绑定：Vue有实现了双向数据绑定，React数据流动是单向的<br>4.数据渲染：对于大规模数据渲染，React要比Vue更快，渲染机制启动时候要做的工作比较多；<br>5.数据更新方面：Vue 由于采用依赖追踪，默认就是优化状态：你动了多少数据，就触发多少更新，不多也不少。React在复杂的应用里有两个选择:</p>
+<pre><code>(1). 手动添加 shouldComponentUpdate 来避免不需要的 vdom re-render。
+(2).Components 尽可能都用 pureRenderMixin，然后采用 redux 结构 + Immutable.js；</code></pre><p>6.开发风格的偏好：React 推荐的做法是 JSX + inline style，也就是把 HTML 和 CSS 全都写进 JavaScript 了，即”all in js”；Vue进阶之后推荐的是使用 webpack + vue-loader 的单文件组件格式，即html,css,js写在同一个文件；<br>7.使用场景：React配合Redux架构适合超大规模多人协作的复杂项目;Vue则适合小快灵的项目。对于需要对 DOM 进行很多自定义操作的项目，Vue 的灵活性优于 React；<br>8.Vue要比React更好上手，具体可能体现在很多人不熟悉React的JSX语法和函数式编程的思想，以及想要发挥出React的最大威力需要学习它一系列生态的缘故；<br>9.Vue着重提高开发效率,让前端程序员更快速方便的开发应用。React着重于变革开发思想，提升前端程序员编程的深度与创造力,让前端工程师成为真正的程序员而不是UI的构建者</p>
+<p><a href="https://microzz.com/2017/03/22/react-vue/" target="_blank" rel="noopener">参考</a></p>
+<h4 id="css3-h5-新特性"><a href="#css3-h5-新特性" class="headerlink" title="css3 h5 新特性"></a>css3 h5 新特性</h4><p>h5:</p>
+<ol>
+<li>语义化标签 header footer section nav aside article </li>
+<li>增强表单 input 的多个type  color date datetime datetime-local email month number range search tel time url week </li>
+<li>新增表单元素 datalist keygen output </li>
+<li>新增表单属性<br>form: autocomplete novalidate<br>input: autocomplete autofocus form formation formenctype formmethod formvalidate formtarget height width list min max multiple pattern placeholder required step<br>list 属性规定输入域的 datalist。datalist 是输入域的选项列表<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"> &lt;input list=&quot;browsers&quot;&gt;</span><br><span class="line"></span><br><span class="line"> &lt;datalist id=&quot;browsers&quot;&gt;</span><br><span class="line">   &lt;option value=&quot;Internet Explorer&quot;&gt;</span><br><span class="line">   &lt;option value=&quot;Firefox&quot;&gt;</span><br><span class="line">   &lt;option value=&quot;Chrome&quot;&gt;</span><br><span class="line">   &lt;option value=&quot;Opera&quot;&gt;</span><br><span class="line">   &lt;option value=&quot;Safari&quot;&gt;</span><br><span class="line"> &lt;/datalist&gt; </span><br><span class="line"> ```  </span><br><span class="line"> 5. 音频视频 audio video</span><br><span class="line"> 6. canvas</span><br><span class="line"> 7. 地理定位</span><br><span class="line"> 8. 拖拽</span><br><span class="line"> 9. localStorage sessionStorage</span><br><span class="line"> 10. 新事件 onresize ondrag onscroll onmousewhell onerror onplay onpaulse</span><br><span class="line"> 11. websocket 单个tcp连接上的全双工通信</span><br><span class="line"></span><br><span class="line"> #### dom事件模型 事件级别</span><br><span class="line"> DOM级别一共可以分为四个级别：DOM0级、DOM1级、DOM2级和DOM3级。而DOM事件分为3个级别：DOM0级事件处理，DOM2级事件处理和DOM3级事件处理。</span><br><span class="line"> DOM0级事件 onclick </span><br><span class="line"> DOM2级事件 addEventListener 和 removeEventListener IE8以下只支持冒泡事件</span><br><span class="line"> DOM3级事件是在DOM2级事件的基础上添加很多事件类型：</span><br><span class="line"> UI事件，当用户与页面上的元素交互时触发，如：load、scroll </span><br><span class="line"> 焦点事件，当元素获得或失去焦点时触发，如：blur、focus </span><br><span class="line"> 鼠标事件，当用户通过鼠标在页面执行操作时触发如：dbclick、mouseup </span><br><span class="line"> 滚轮事件，当使用鼠标滚轮或类似设备时触发，如：mousewheel </span><br><span class="line"> 文本事件，当在文档中输入文本时触发，如：textInput </span><br><span class="line"> 键盘事件，当用户通过键盘在页面上执行操作时触发，如：keydown、keypress </span><br><span class="line"> 合成事件，当为IME（输入法编辑器）输入字符时触发，如：compositionstart </span><br><span class="line"> 变动事件，当底层DOM结构发生变化时触发，如：DOMsubtreeModified </span><br><span class="line"> 同时DOM3级事件也允许使用者自定义一些事件。</span><br><span class="line"></span><br><span class="line">[事件对象的类型](https://developer.mozilla.org/en-US/docs/Web/Events)</span><br><span class="line"></span><br><span class="line">[JS事件模型 ](https://segmentfault.com/a/1190000006934031)</span><br><span class="line">事件流: 捕获与冒泡</span><br><span class="line">事件模型：</span><br><span class="line">DOM0级模型 onclick</span><br><span class="line">IE事件模型 事件处理阶段 事件冒泡阶段 没有事件捕获 </span><br><span class="line">attachEvent(eventType, handler) detachEvent(eventType, handler) •eventType指定事件类型(注意加on)</span><br><span class="line">DOM2级模型 addEventListener(eventType, handler, useCapture •eventType指定事件类型(不要加on)</span><br><span class="line">事件对象：</span><br><span class="line"></span><br><span class="line">•DOM事件模型中的事件对象常用属性:</span><br><span class="line">◦type用于获取事件类型</span><br><span class="line">◦target获取事件目标</span><br><span class="line">◦stopPropagation()阻止事件冒泡</span><br><span class="line">◦preventDefault()阻止事件默认行为</span><br><span class="line"></span><br><span class="line">•IE事件模型中的事件对象常用属性:</span><br><span class="line">◦type用于获取事件类型</span><br><span class="line">◦srcElement获取事件目标</span><br><span class="line">◦cancelBubble阻止事件冒泡</span><br><span class="line">◦returnValue阻止事件默认行为</span><br><span class="line"></span><br><span class="line">兼容性写法</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>var eventUtils={<br>     // 添加句柄<br>     addHandler:function(element,type,handler){<br>       if(element.addEventListener){<br>         element.addEventListener(type,handler,false);<br>       }else if(element.attachEvent){<br>         element.attachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=handler;<br>       }<br>     },<br>     // 删除句柄<br>     removeHandler:function(element,type,handler){<br>       if(element.removeEventListener){<br>         element.removeEventListener(type,handler,false);<br>       }else if(element.detachEvent){<br>         element.detachEvent(‘on’+type,handler);<br>       }else{<br>         element[‘on’+type]=null;<br>       }<br>     },<br>    //获取事件对象<br>    //IE模型中event是一个全局唯一的对象绑定在window对象上<br>    getEvent:function(event){<br>       return event?event:window.event;<br>    },<br>    //获取类型<br>    getType:function(event){<br>     return event.type;<br>    },<br>    getElement:function(event){<br>     return event.target || event.srcElement;<br>    },<br>    //阻止默认事件<br>    preventDefault:function(event){<br>     if(event.preventDefault){<br>      event.preventDefault();<br>     }else{<br>      event.returnValue=false;<br>     }<br>    },<br>    //阻止冒泡<br>   stopPropagation:function(event){<br>   if(event.stopPropagation){<br>     event.stopPropagation();<br>   }else{<br>     event.cancelBubble=true;<br>    }<br>   }<br>  }</p>
+<p>```<br>自定义事件</p>
+<h4 id="cookie-loacalstorage-sessionStorage-对比"><a href="#cookie-loacalstorage-sessionStorage-对比" class="headerlink" title="cookie loacalstorage sessionStorage 对比"></a>cookie loacalstorage sessionStorage 对比</h4><p>1 api友好性 loacalstorage sessionStorage &gt; cookie  cookie需要自己封装get set<br>2 大小 cookie同域名下有字符串限制 20或 50不等 ，大小不超过4kb，oacalstorage sessionStorage 5M甚至更大<br>3  存活时间 sessionStorage会话级别存储，刷新（包括F5）后 还存在，浏览器窗口关闭后消失<br>4  与服务器通信 kookie在http头部携带<br>5  • 作用域区别：sessionStorage 不在不同的浏览器窗口中共享，即使是同一个页面； localStorage 和 cookie 在所有同源窗口是共享的<br>6 • Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者。Web Storage 的 api 接口使用更方便。</p>
+<h4 id="页面布局方式有哪些-flex的属性背熟"><a href="#页面布局方式有哪些-flex的属性背熟" class="headerlink" title="页面布局方式有哪些  flex的属性背熟"></a>页面布局方式有哪些  flex的属性背熟</h4><p><a href="https://blog.csdn.net/qq_44993284/article/details/97484437" target="_blank" rel="noopener">左侧固定右侧自适应</a><br><a href="https://blog.csdn.net/lyyo_cd/article/details/73329068" target="_blank" rel="noopener">页面布局的几种方式</a></p>
+<ol>
+<li>流式布局 Fluid 百分比</li>
+<li>固定布局 Fixed</li>
+<li>弹性布局 Elastic em或者rem</li>
+<li>伸缩 Flex box</li>
+<li>响应式 @media<br><a href="https://www.jb51.net/it/685028.html" target="_blank" rel="noopener">5种网页布局方式</a><br><a href="https://www.jianshu.com/p/5a411d2d119a" target="_blank" rel="noopener">页面布局的方式有哪些</a></li>
+</ol>
+<p>flex<br>容器的属性：<br>◾flex-direction  row | row-reverse | column | column-reverse<br>◾flex-wrap       nowrap | wrap | wrap-reverse;<br>◾flex-flow       flex-direction || flex-wrap; 默认值为row nowrap<br>◾justify-content flex-start | flex-end | center | space-between | space-around<br>◾align-items     flex-start | flex-end | center | baseline | stretch;<br>◾align-content 属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。<br>align-content: flex-start | flex-end | center | space-between | space-around | stretch;</p>
+<p>项目的属性:<br>  order     定义项目的排列顺序。数值越小，排列越靠前，默认为0。<br>◾flex-grow  项目的放大比例，默认为0，即如果存在剩余空间，也不放大。<br>◾flex-shrink  项目的缩小比例，默认为1，即如果空间不足，该项目将缩小<br>◾flex-basis   length | auto; /* default auto */ 属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。</p>
+<p>◾flex 是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto 后两个属性可选。该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。<br>◾align-self 属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+<p>盒子模型 获取宽高<br>标准盒子模型 width 和 height 指的是内容区域的宽度和高度。增加内边距、边框和外边距不会影响内容区域的尺寸，但是会增加元素框的总尺寸<br>IE盒子模型 width 和 height 指的是内容区域+border+padding的宽度和高度</p>
+<p>get post 详细区别</p>
+<p>1 传参方式不同<br>2 传参大小不同  浏览器get为2kb，post理论上没有限制<br>3 get 可缓存 post不能缓存<br>4 对数据类型的限制 get只能为ASCII 字符（application/x-www-form-urlencoded），post没有限制，允许二进制（application/x-www-form-urlencoded 或 multipart/form-data ）<br>5 get参数保存在浏览器历史中，可收藏为书签，post不能</p>
+<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><p>100 continue 继续。客户端应继续其请求<br>101 switching protocols 切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</p>
+<p>200 ok 请求成功。一般用于GET与POST请求<br>201 create 已创建。成功请求并创建了新的资源<br>202 Accepted 已接受。已经接受请求，但未处理完成<br>203  Non-Authoritative Information 非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本<br>204 no content 无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档<br>205 reset content 重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域<br>206 partial content 部分内容。服务器成功处理了部分GET请求</p>
+<p>300 multiple choice 多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择<br>301 move pamanently 永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替<br>302 found 临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI<br>303 see other 查看其它地址。与301类似。使用GET和POST请求查看<br>304 not modified 未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源<br>305 user proxy 使用代理。所请求的资源必须通过代理访问<br>306 unuserd 已经被废弃的HTTP状态码<br>307 temporary direct 临时重定向。与302类似。使用GET请求重定向</p>
+<p>400 bad request 客户端请求的语法错误，服务器无法理解<br>401 unauthrized 请求要求用户的身份认证<br>402 payment required 保留，将来使用<br>403 forbidden 服务器理解请求客户端的请求，但是拒绝执行此请求<br>404 not found 服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面<br>405 method not allowed 客户端请求中的方法被禁止<br>406 not accetable 服务器无法根据客户端请求的内容特性完成请求<br>407 proxy authentication required 请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权<br>408 request timeout 服务器等待客户端发送的请求时间过长，超时<br>409 conflict 服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突<br>410 gone 客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置<br>411 lenth required 服务器无法处理客户端发送的不带Content-Length的请<br>412 precondition faild  客户端请求信息的先决条件错误<br>413 request entity too large 由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息<br>414 request url too large 请求的URI过长（URI通常为网址），服务器无法处理<br>415 unsurport media type 服务器无法处理请求附带的媒体格式<br>416 request range not satisfiable 客户端请求的范围无效<br>417 expctation fail 服务器无法满足Expect的请求头信息</p>
+<p>500 internal serve error 服务器内部错误，无法完成请求<br>501 not implemented 服务器不支持请求的功能，无法完成请求<br>502 bad gateway 作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应<br>503 service unavaliable 由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中<br>504 gateway time out 充当网关或代理的服务器，未及时从远端服务器获取请求<br>505 http version not support 服务器不支持请求的HTTP协议的版本，无法完成处理</p>
+<p>面向对象编程： 原型 构造函数 实例 的关系</p>
+<p>创建类的方式</p>
+<p>哪些继承方式，优缺点是什么，怎么选择</p>
+<p>跨域方式：子域名不同是否跨域  如何跨域 </p>
+<p>vue权限 登录</p>
+<p>vue跨组件通信<br>1 event bus<br>2 vuex<br>3 produst广播<br>4 provide inject 原理？<br>5 遍历$parent `? iview<br>6 $refs</p>
+<p>h函数 vue 属性设置与原生有无区别</p>
+<h4 id="vue如何封装高质量组件"><a href="#vue如何封装高质量组件" class="headerlink" title="vue如何封装高质量组件"></a>vue如何封装高质量组件</h4><p><a href="https://zhuanlan.zhihu.com/p/61517722" target="_blank" rel="noopener">参考这里</a><br><a href="https://www.cnblogs.com/he-bo/p/11134912.html" target="_blank" rel="noopener">vue up-loader</a><br><a href="https://juejin.im/post/5cb3eed65188251b0351f2c4" target="_blank" rel="noopener">封装Vue组件的一些技巧</a></p>
+<p>复杂组件 弹框</p>
+<h4 id="react-diff"><a href="#react-diff" class="headerlink" title="react diff"></a>react diff</h4><p><a href="https://zhuanlan.zhihu.com/p/20346379" target="_blank" rel="noopener">diff</a></p>
+<h4 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h4><p><a href="https://juejin.im/post/5980752ef265da3e2e56e82e" target="_blank" rel="noopener">webpack</a><br><a href="https://segmentfault.com/a/1190000008060440" target="_blank" rel="noopener">webpack事件流</a></p>
+<h4 id="几种常见的js内存泄露"><a href="#几种常见的js内存泄露" class="headerlink" title="几种常见的js内存泄露"></a>几种常见的js内存泄露</h4><p>1 意外的全局变量<br>另外一种全局变量可能由this创建。<br>2 没有及时清理的计时器或回调函数<br>3、脱离 DOM 的引用</p>
+<p>有时，保存 DOM 节点内部数据结构很有用。假如你想快速更新表格的几行内容，把每一行 DOM 存成字典（JSON 键值对）或者数组很有意义。此时，同样的 DOM 元素存在两个引用：一个在 DOM 树中，另一个在字典中。将来你决定删除这些行时，需要把两个引用都清除。<br>4 闭包<br>5 echart不停调用导致内存泄露(setOption(option);)<br>    每一个图例在没有数据的时候它会创建一个定时器去渲染气泡，页面切换后，echarts图例是销毁了，但是这个echarts的实例还在内存当中，同时它的气泡渲染定时器还在运行。这就导致Echarts占用CPU高，导致浏览器卡顿，当数据量比较大时甚至浏览器崩溃。</p>
+<pre><code>解决方法：
+在mounted()方法和destroy()方法之间加一个beforeDestroy()方法释放该页面的chart资源，我也试过使用dispose()方法，但是dispose销毁这个图例，图例是不存在了，但图例的resize()方法会启动，则会报没有resize这个方法，而clear()方法则是清空图例数据，不影响图例的resize，而且能够释放内存，切换的时候就很顺畅了</code></pre><p> 谷歌浏览器查看内存使用 任务管理器 + Chrome DevTools 的 Timeline 面板</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年05月13日 17:05</p>
+        <p>原始链接： <a class="post-url" href="/2019/08/10/interview/" title="interview">https://luhu9012.github.io/2019/08/10/interview/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/08/10/interview/&title=《interview》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/08/10/interview/&title=《interview》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/08/10/interview/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《interview》 — 前端笔记&url=https://luhu9012.github.io/2019/08/10/interview/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/08/10/interview/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/08/10/interview/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#echarts-使用优化（节点缓存？）"><span class="post-toc-text">echarts 使用优化（节点缓存？）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#seajs-requerjs-commomjs-es6-module-横向对比，如何解决循环依赖-模块缓存？"><span class="post-toc-text">seajs requerjs commomjs es6 module 横向对比，如何解决循环依赖  模块缓存？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#jq-backbone"><span class="post-toc-text">jq backbone</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#react-vue横向对比"><span class="post-toc-text">react vue横向对比</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#css3-h5-新特性"><span class="post-toc-text">css3 h5 新特性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#cookie-loacalstorage-sessionStorage-对比"><span class="post-toc-text">cookie loacalstorage sessionStorage 对比</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#页面布局方式有哪些-flex的属性背熟"><span class="post-toc-text">页面布局方式有哪些  flex的属性背熟</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#状态码"><span class="post-toc-text">状态码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#vue如何封装高质量组件"><span class="post-toc-text">vue如何封装高质量组件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#react-diff"><span class="post-toc-text">react diff</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#webpack"><span class="post-toc-text">webpack</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#几种常见的js内存泄露"><span class="post-toc-text">几种常见的js内存泄露</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/08/12/security/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          前端安全
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/08/10/jsabout/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">js运行机制</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

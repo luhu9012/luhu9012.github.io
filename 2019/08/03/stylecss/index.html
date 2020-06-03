@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>div垂直居中 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="水平居中1) 若是行内元素, 给其父元素设置 text-align:center,即可实现行内元素水平居中. 2) 若是块级元素, 该元素设置 margin:0 auto即可. 3) 若子元素包含 float:left 属性, 为了让子元素水平居中, 则可让父元素宽度设置为width:fit-content,并且配合margin：0 auto 4) 使用flex 可以轻松的实现水平居中, disp">
+<meta name="keywords" content="垂直居中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="div垂直居中">
+<meta property="og:url" content="https://luhu9012.github.io/2019/08/03/stylecss/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="水平居中1) 若是行内元素, 给其父元素设置 text-align:center,即可实现行内元素水平居中. 2) 若是块级元素, 该元素设置 margin:0 auto即可. 3) 若子元素包含 float:left 属性, 为了让子元素水平居中, 则可让父元素宽度设置为width:fit-content,并且配合margin：0 auto 4) 使用flex 可以轻松的实现水平居中, disp">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-13T09:05:50.802Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="div垂直居中">
+<meta name="twitter:description" content="水平居中1) 若是行内元素, 给其父元素设置 text-align:center,即可实现行内元素水平居中. 2) 若是块级元素, 该元素设置 margin:0 auto即可. 3) 若子元素包含 float:left 属性, 为了让子元素水平居中, 则可让父元素宽度设置为width:fit-content,并且配合margin：0 auto 4) 使用flex 可以轻松的实现水平居中, disp">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-stylecss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      div垂直居中
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/css/">css</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-08-03
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>1) 若是行内元素, 给其父元素设置 text-align:center,即可实现行内元素水平居中.</p>
+<p>2) 若是块级元素, 该元素设置 margin:0 auto即可.</p>
+<p>3) 若子元素包含 float:left 属性, 为了让子元素水平居中, 则可让父元素宽度设置为width:fit-content,并且配合margin：0 auto</p>
+<p>4) 使用flex 可以轻松的实现水平居中, display:flex; justify-content:center</p>
+<p>6) 使用CSS3中新增的transform属性, position:absolute; left:50%; transform:translate(-50%,0)</p>
+<p>7) 使用绝对定位方式, 以及负值的margin-left,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.son&#123;</span><br><span class="line">    position:absolute;</span><br><span class="line">    width:固定;</span><br><span class="line">    left:50%;</span><br><span class="line">    margin-left:-0.5宽度;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>8) 使用绝对定位方式, 以及left:0;right:0;margin:0 auto; 子元素设置如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.son&#123;</span><br><span class="line">    position:absolute;</span><br><span class="line">    width:固定;</span><br><span class="line">    left:0;</span><br><span class="line">    right:0;</span><br><span class="line">    margin:0 auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><p>1) 若元素是单行文本, 则可设置 line-height 等于父元素高度</p>
+<p>2) 若元素是行内块级元素, 基本思想是使用display: inline-block, vertical-align: middle和一个伪元素让内容块处于容器中央.这是一种很流行的方法, 也适应IE7.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent::after, .son&#123;</span><br><span class="line">    display:inline-block;</span><br><span class="line">    vertical-align:middle;</span><br><span class="line">&#125;</span><br><span class="line">.parent::after&#123;</span><br><span class="line">    content:&apos;&apos;;</span><br><span class="line">    height:100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3) 元素高度不固定 ，可用 vertical-align 属性, 而vertical-align只有在父层为 td 或者 th 时, 才会生效, 对于其他块级元素, 例如 div、p 等, 默认情况是不支持的. 为了使用vertical-align, 我们需要设置父元素display:table, 子元素 display:table-cell;vertical-align:middle;</p>
+<p>4）元素 高度固定，父元素使用relative相对定位，子元素使用绝对定位absolute 加 margin-top ：-0.5倍高</p>
+<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><p>•已知高度和宽度的元素</p>
+<p>1.绝对定位居中(Absolute Centering)技术</p>
+<p>设置父元素为相对定位，给子元素设置绝对定位，top: 0; right: 0; bottom: 0; left: 0; margin: auto;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.Center-Container &#123;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.Absolute-Center &#123;</span><br><span class="line">  width: 50%;</span><br><span class="line">  height: 50%;</span><br><span class="line">  overflow: auto;</span><br><span class="line">  margin: auto;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 0; left: 0; bottom: 0; right: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<pre><code>1.支持跨浏览器，包括IE8-IE10.
+
+2.无需其他特殊标记，CSS代码量少
+
+3.支持百分比%属性值和min-/max-属性
+
+4.只用这一个类可实现任何内容块居中
+
+5.不论是否设置padding都可居中（在不使用box-sizing属性的前提下）
+
+6.内容块可以被重绘。
+
+7.完美支持图片居中。</code></pre><p>缺点：</p>
+<pre><code>1.必须声明高度（查看可变高度Variable Height）。
+
+2.建议设置overflow:auto来防止内容越界溢出。（查看溢出Overflow）。
+
+3.在Windows Phone设备上不起作用。</code></pre><p>浏览器兼容性：</p>
+<p>Chrome,Firefox, Safari, Mobile Safari, IE8-10.</p>
+<p>绝对定位方法在最新版的Chrome,Firefox, Safari, Mobile Safari, IE8-10.上均测试通过。</p>
+<p>2 设置父元素为相对定位，给子元素设置绝对定位，left: 50%; top: 50%; margin-left: –元素宽度的一半px; margin-top: –元素高度的一半px;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> #father &#123;</span><br><span class="line">        width: 500px;</span><br><span class="line">        height: 300px;</span><br><span class="line">        background-color: skyblue;</span><br><span class="line">        position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    #son &#123;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background-color: green;</span><br><span class="line">        position: absolute;</span><br><span class="line">        left: 50%;</span><br><span class="line">        top: 50%;</span><br><span class="line">        margin-left: -50px;</span><br><span class="line">        margin-top: -50px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">•未知高度和宽度的元素</span><br><span class="line"> 1 设置父元素为相对定位，给子元素设置绝对定位，left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%);</span><br></pre></td></tr></table></figure>
+
+<p>  #father {<br>        width: 500px;<br>        height: 300px;<br>        background-color: skyblue;<br>        position: relative;<br>}</p>
+<pre><code>#son {
+    background-color: green;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);</code></pre><p>}</p>
+<pre><code>2  使用flex布局实现 ,设置父元素为flex定位，justify-content: center; align-items: center;
+
+
+
+</code></pre>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年05月13日 17:05</p>
+        <p>原始链接： <a class="post-url" href="/2019/08/03/stylecss/" title="div垂直居中">https://luhu9012.github.io/2019/08/03/stylecss/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/08/03/stylecss/&title=《div垂直居中》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/08/03/stylecss/&title=《div垂直居中》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/08/03/stylecss/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《div垂直居中》 — 前端笔记&url=https://luhu9012.github.io/2019/08/03/stylecss/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/08/03/stylecss/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/08/03/stylecss/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/垂直居中/" class="color5">垂直居中</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#水平居中"><span class="post-toc-text">水平居中</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垂直居中"><span class="post-toc-text">垂直居中</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#水平垂直居中"><span class="post-toc-text">水平垂直居中</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/08/03/crossDomain/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          跨域
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/08/03/formSubmit/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">form表单提交的方式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

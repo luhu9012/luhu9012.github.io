@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>页面性能优化 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="MinHow,MinHow's Blog">
+  
+  <meta name="description" content="DNS解析在浏览器输入域名的时候，DNS是怎样解析的呢？分以下几步： 本地hosts文件本地DNS缓存DNS服务器缓存DNS服务器递归查找 优化策略略: ⻓连接 HTTP 1.1  服务端接收请求，双方建立连接，在服务端没有返回之前保持连接，当客户端再发送请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。 优势：减少了连接请求，降低TCP阻塞，减少了延迟，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="页面性能优化">
+<meta property="og:url" content="https://luhu9012.github.io/2019/08/09/webperformance/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="DNS解析在浏览器输入域名的时候，DNS是怎样解析的呢？分以下几步： 本地hosts文件本地DNS缓存DNS服务器缓存DNS服务器递归查找 优化策略略: ⻓连接 HTTP 1.1  服务端接收请求，双方建立连接，在服务端没有返回之前保持连接，当客户端再发送请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。 优势：减少了连接请求，降低TCP阻塞，减少了延迟，">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-28T10:32:37.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="页面性能优化">
+<meta name="twitter:description" content="DNS解析在浏览器输入域名的时候，DNS是怎样解析的呢？分以下几步： 本地hosts文件本地DNS缓存DNS服务器缓存DNS服务器递归查找 优化策略略: ⻓连接 HTTP 1.1  服务端接收请求，双方建立连接，在服务端没有返回之前保持连接，当客户端再发送请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。 优势：减少了连接请求，降低TCP阻塞，减少了延迟，">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">MinHow&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        MinHow&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-webperformance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      页面性能优化
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-08-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>DNS解析<br>在浏览器输入域名的时候，DNS是怎样解析的呢？分以下几步：</p>
+<p>本地hosts文件<br>本地DNS缓存<br>DNS服务器缓存<br>DNS服务器递归查找</p>
+<h4 id="优化策略略"><a href="#优化策略略" class="headerlink" title="优化策略略:"></a>优化策略略:</h4><ol>
+<li><p>⻓连接 HTTP 1.1</p>
+<p> 服务端接收请求，双方建立连接，在服务端没有返回之前保持连接，当客户端再发送请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。<br> 优势：减少了连接请求，降低TCP阻塞，减少了延迟，实时性较好。<br> 劣势：可能会影响性能，因为它在文件被请求之后还保持了不必要的连接很长时间。<br> <a href="https://www.cnblogs.com/gotodsp/p/6366163.html" target="_blank" rel="noopener">长链接短链接</a></p>
+</li>
+<li><p>减少文文件体积</p>
+<ol>
+<li>js打包压缩</li>
+<li>图片片压缩</li>
+<li>gzip<br> Gzip 压缩背后的原理理,是在一一个文文本文文件中找出一一些重复出现的字符串串、临时替换它们,从而而使整个文文<br> 件变小小。根据这个原理理,文文件中代码的重复率越高高,那么压缩的效率就越高高,使用用 Gzip 的收益也就越<br> 大大。反之亦然。基本上来说,Gzip都是服务器器干干的活,比比如nginx;Gzip有从1-10的十个等级。越高压缩的越小，但压缩使用的服务器硬件资源就越多。根据实践，等级为5的时候最均衡<br> accept-encoding:gzip 请求开启gzip<br> 将nginx配置开启gzip压缩，nginx会根据配置情况对指定的类型文件进行压缩。主要针对js与css.如果文件路径中存在与原文件同名（加了个.gz），nginx会获取gz文件，如果找不到，会主动进行gzip压缩。</li>
+</ol>
+</li>
+<li><p>减少文文件请求次数</p>
+<ol>
+<li><p>雪碧图<br> 图片片打包雪碧图 减少http请求次数 webpack-spritesmith</p>
+</li>
+<li><p>js,css打包</p>
+</li>
+<li><p>缓存控制</p>
+<ol>
+<li>Http Cache</li>
+<li>Service Worker Cache</li>
+<li>Memory Cache</li>
+<li>Push Cache</li>
+</ol>
+</li>
+<li><p>懒加载<br> 页面的图片非常的多，可以使用懒加载。只加载***屏的图片，当用户通过滚动访问后面的内容时再加载相应图片。方法是先用一张极小的占位图代替图片，占位图只下载一次，将原本图片的src存储在另一个属性中，判断当图片快进入可视区域就将路径赋值给src并下载图片进行展示。</p>
+</li>
+<li><p>通过延迟加载技术，在用户无感知的情况下请求资源</p>
+</li>
+</ol>
+</li>
+<li><p>减少用用户和服务器器的距离</p>
+<ol>
+<li>cdn</li>
+</ol>
+</li>
+<li><p>本地存储<br>cookie localstroage, sessionStroage,indexDB</p>
+<ol>
+<li>cookie<ol>
+<li>最早,体积先定,性能浪费 ,所有请求都带上所有当前域名的cookie</li>
+</ol>
+</li>
+<li>Web Storage<ol>
+<li>Local Storage 与 Session Storage</li>
+<li>存储量量大大,不不自自动发给服务端,js控制</li>
+</ol>
+</li>
+<li>indexdb<ol>
+<li>运行行行在浏览器器上的非非关系型数据库</li>
+</ol>
+</li>
+<li>PWA<ol>
+<li>基于缓存技术的应用用模型</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>dns-prefetch</p>
+</li>
+<li><p>图片片优化<br> 图片片通常是最占用用流量量的,PC端加载的平均图片片大大小小时600K,简直比比js打包后的文文件还大大了了,所以针对图片片的优化,也是收益不不错的<br> 不不同的场景,使用用不不同的文文件里里里类型</p>
+<ol>
+<li>jpg<ol>
+<li>有损压缩</li>
+<li>体积小小 不不支支持透明</li>
+<li>用用于背景图,轮播图</li>
+</ol>
+</li>
+<li>png<ol>
+<li>无无损压缩,质量量高高,支支持透明</li>
+<li>色色彩线条更更丰富,小小图,比比如logo,商品icon</li>
+</ol>
+</li>
+<li>svg<ol>
+<li>文文本,体积小小 矢矢量量图</li>
+<li>渲染成本,学习成本</li>
+</ol>
+</li>
+<li>使用字体图标webfont、CSS Sprites等。</li>
+<li>不用图片，尽量用css3代替。 比如说要实现修饰效果，如半透明、边框、圆角、阴影、渐变等，在当前主流浏览器中都可以用CSS达成。</li>
+</ol>
+</li>
+<li><p>服务端渲染<br> nuxt.js 服务端渲染框架体验</p>
+<ol>
+<li>基于Vuejs</li>
+<li>服务端渲染</li>
+<li>路路由</li>
+<li>热加载</li>
+<li>支支持http2</li>
+</ol>
+</li>
+</ol>
+<p>　react服务端渲染　next</p>
+<ol start="9">
+<li><p>大量请求时可以选择域名发散，应对浏览器同域名最大并发数</p>
+</li>
+<li><p>通过服务器配置，实现一次请求，返回多个资源文件，如淘宝CDN那样。</p>
+</li>
+<li><p>http2<br><a href="https://www.cnblogs.com/wujiaolong/p/5172e1f7e9924644172b64cb2c41fc58.html" target="_blank" rel="noopener">http2</a></p>
+</li>
+</ol>
+<h4 id="防止阻塞渲染"><a href="#防止阻塞渲染" class="headerlink" title="防止阻塞渲染"></a>防止阻塞渲染</h4><p>１　异步加载js</p>
+<h4 id="减少重流重绘"><a href="#减少重流重绘" class="headerlink" title="减少重流重绘"></a>减少重流重绘</h4><p>HTML,SVG,XHTML，解析生成DOM树。<br>CSS解析生成CSS规则树。<br>JavaScript用来操作DOM API和CSSOM API，生成DOM Tree和CSSOM API。</p>
+<p>解析完成后，浏览器会通过已经解析好的DOM Tree 和 CSS规则树来构造 Rendering Tree。<br>Rendering Tree 渲染树并不等同于DOM树，因为一些像Header或display:none的东西就没必要放在渲染树中了。<br>CSS 的 Rule Tree主要是为了完成匹配并把CSS Rule附加上Rendering。<br>Tree上的每个Element。也就是DOM结点，即Frame。然后，计算每个Frame（也就是每个Element）的位置，这又叫layout和reflow过程。<br>最后通过调用操作系统Native GUI的API绘制。</p>
+<p>当浏览器拿到一个网页后，首先浏览器会先解析HTML，如果遇到了外链的css，会一下载css，一边解析HTML。<br>当css下载完成后，会继续解析css，生成css Rules tree,不会影响到HTML的解析。<br>当遇到script标签时，一旦发现有对javascript的引用，就会立即下载脚本，同时阻断文档的解析，等脚本执行完成后，再开始文档的解析。<br>当DOM树和CSS规则树已经生成完毕后，构造 Rendering Tree。<br>调用系统渲染页面。</p>
+<p>引发重排：<br>DOM结构的变化，以及DOM样式中几何属性的变化，就会导致重排。几何属性顾名思义，就是宽、高、边框、外补丁、内补丁等俗称盒模型的属性。同时还有offset之类的边距属性：<br>删除，增加，或者修改DOM元素节点。<br>移动DOM的位置，开启动画的时候。<br>修改CSS样式，改变元素的大小，位置时，或者将使用display:none时，会造成重排；修改CSS颜色或者visibility:hidden等等，会造成重绘。<br>修改网页的默认字体时。<br>Resize窗口的时候（移动端没有这个问题），或是滚动的时候。<br>内容的改变，(用户在输入框中写入内容也会)。<br>激活伪类，如:hover。</p>
+<p>重排是最耗能的，减少重排的方法有：<br>1、如果需要多次改变DOM，则先在内存中改变，最后一次性的插入到DOM中。</p>
+<p>2、同上一条，如果多次改变样式，合成一条，再插入DOM中。</p>
+<p>3、由于position的值为absoute和fixed时候，是脱离文档流的，操作此类DOM节点，不会引起整页重排。所以动画元素设置position使其脱离文档流。</p>
+<p>4、当DOM节点的display等于none的时候，是不会存在于渲染树的，所以如果有比较复杂的操作，先使其display等于none，等待所有操作完毕后，再将display设成block，这样就只重排两次。</p>
+<p>5、获取会导致重排的属性值时，存入变量，再次使用时就不会再次重排。获取这些属性会导致重排：offsetTop、offsetLeft、offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight</p>
+<p>尽量避免style的使用，对于需要操作DOM元素节点，重新命名className，更改className名称。<br>如果增加元素或者clone元素，可以先把元素通过documentFragment放入内存中，等操作完毕后，再appendChild到DOM元素中。<br>不要经常获取同一个元素，可以第一次获取元素后，用变量保存下来，减少遍历时间。<br>尽量少使用dispaly:none，可以使用visibility:hidden代替，dispaly:none会造成重排，visibility:hidden会造成重绘。<br>不要使用Table布局，因为一个小小的操作，可能就会造成整个表格的重排或重绘。<br>使用resize事件时，做防抖和节流处理。<br>对动画元素使用absolute / fixed属性。<br>批量修改元素时，可以先让元素脱离文档流，等修改完毕后，再放入文档流。</p>
+<h4 id="减少浏览器内存占用"><a href="#减少浏览器内存占用" class="headerlink" title="减少浏览器内存占用"></a>减少浏览器内存占用</h4><p>Javascript的引擎会在固定的时间间隔，将不再使用的局部变量注销掉，释放其所占的内存。而闭包的存在，将使引用一直存在，无法被释放掉。全局变量的生命周期直至浏览器卸载页面才会结束。所以一般来讲，内存溢出就是由于全局变量的不释放和闭包引起。为了防止内存溢出，我们可以做的方法有:</p>
+<p>1、业务代码放在匿名立即执行函数里面，执行完毕会立即释放掉。</p>
+<p>2、少用全局变量，同时用完的变量手动注销掉。</p>
+<p>3、使用回调来代替闭包访问内部属性</p>
+<p>4、当不可避免使用闭包时，慎重的对待其中的细节。不用的时候注销掉。</p>
+<p>5、通过浏览器自带的工具profiles，来检查内存活动情况。如果是波浪型的，说明正常。如果是倾斜式渐进上涨的，说明有内存不会被释放，需要检查相应的函数。</p>
+<h4 id="优化实践"><a href="#优化实践" class="headerlink" title="优化实践"></a>优化实践</h4><p>echart按需加载<br>tree-shaking<br>    optimizetion:{<br>        usedExports:true;<br>    }<br>babel polyfill优化<br>修改　webpack.config.js<br>options:{<br>    preset:[<br>        babel/preset-env<br>        target:{}<br>        useBuiltIns:usage // balbel polyfill按需载入，全局污染<br>    ]<br>}<br>推荐使用闭包避免全局污染<br>＠balbel/plugin-transform-runtime</p>
+<p>keep-alive<br>    include<br>    exlude<br>    max </p>
+<p>相关引用资源</p>
+<p><a href="https://yq.aliyun.com/articles/709697" target="_blank" rel="noopener">如何从请求、传输、渲染3个方面提升Web前端性能</a><br><a href="https://juejin.im/post/5ca5c174f265da30cc7919d1" target="_blank" rel="noopener">支付宝弱网优化</a></p>
+<h3 id="长列表优化"><a href="#长列表优化" class="headerlink" title="长列表优化"></a>长列表优化</h3><p>非完整渲染的长列表一般有两种方式：</p>
+<blockquote>
+<p>setTimeout /requestAnimationFrame 时间分片渲染+DocumentFragment， setTimeout间隔时间不稳定可能会明显卡顿，requestAnimationFrame由系统vsync信号决定</p>
+</blockquote>
+<blockquote>
+<p>懒渲染：这个就是常见的无限滚动的，每次只渲染一部分（比如 10 条），等剩余部分滚动到可见区域，就再渲染另一部分。</p>
+</blockquote>
+<p>懒渲染就是大家平常说的无限滚动，指的就是在滚动到页面底部的时候，再去加载剩余的数据。这是一种前后端共同优化的方式，后端一次加载比较少的数据可以节省流量，前端首次渲染更少的数据速度会更快。这种优化要求产品方必须接受这种形式的列表，否则就无法使用这种方式优化。</p>
+<p>实现的思路非常简单：监听父元素的 scroll 事件（一般是 window），通过父元素的 scrollTop 判断是否到了页面是否到了页面底部，如果到了页面底部，就加载更多的数据。</p>
+<blockquote>
+<p>可视区域渲染：只渲染可见部分，不可见部分不渲染。</p>
+</blockquote>
+<p>可视区域渲染指的是只渲染可视区域的列表项，非可见区域的完全不渲染，在滚动条滚动时动态更新列表项。可视区域渲染适合下面这种场景：</p>
+<p>每个数据的展现形式的高度需要一致（非必须，但是最小高度需要确定）。</p>
+<p>产品设计上，一次需要加载的数据量比较大「1000条以上」。</p>
+<p>产品设计上，滚动条需要挂载在一个固定高度的区域（在 window 上也可以，但是需要整个区域都只显示这个列表）</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年05月28日 18:32</p>
+        <p>原始链接： <a class="post-url" href="/2019/08/09/webperformance/" title="页面性能优化">https://luhu9012.github.io/2019/08/09/webperformance/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/08/09/webperformance/&title=《页面性能优化》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/08/09/webperformance/&title=《页面性能优化》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2019/08/09/webperformance/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《页面性能优化》 — 前端笔记&url=https://luhu9012.github.io/2019/08/09/webperformance/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2019/08/09/webperformance/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2019/08/09/webperformance/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优化策略略"><span class="post-toc-text">优化策略略:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#防止阻塞渲染"><span class="post-toc-text">防止阻塞渲染</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#减少重流重绘"><span class="post-toc-text">减少重流重绘</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#减少浏览器内存占用"><span class="post-toc-text">减少浏览器内存占用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优化实践"><span class="post-toc-text">优化实践</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#长列表优化"><span class="post-toc-text">长列表优化</span></a>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/08/10/jsFunc/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          js功能函数
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/08/09/reactVsVue/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">reactVsVue</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
