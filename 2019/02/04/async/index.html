@@ -3,20 +3,23 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>异步编程 | 前端笔记</title>
+  <title>js异步编程 | 前端笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="luhu,luhu's Blog">
   
-  <meta name="keywords" content="es6 aync">
+  <meta name="description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
+<meta name="keywords" content="async 异步">
 <meta property="og:type" content="article">
-<meta property="og:title" content="异步编程">
+<meta property="og:title" content="js异步编程">
 <meta property="og:url" content="https://luhu9012.github.io/2019/02/04/async/index.html">
 <meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-05-21T03:28:14.186Z">
+<meta property="og:updated_time" content="2020-06-03T10:16:03.359Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="异步编程">
+<meta name="twitter:title" content="js异步编程">
+<meta name="twitter:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -105,7 +108,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      异步编程
+      js异步编程
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -113,7 +116,7 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/categories/es6/">es6</a>
+                      <a href="/categories/js异步编程/">js异步编程</a>
                   
               </li>
           
@@ -134,11 +137,47 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            
+            <p>在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。</p>
+<h3 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h3><blockquote>
+<p>promise es5版 es6版 polyfill<br>rx.js原理<br>各种方案优劣，使用场景</p>
+</blockquote>
+<h4 id="异步编程演进"><a href="#异步编程演进" class="headerlink" title="异步编程演进"></a>异步编程演进</h4><blockquote>
+<p>回调函数callback<br>简单、容易理解和实现，缺点是不利于代码的阅读和维护，各个部分之间高度耦合，使得程序结构混乱、流程难以追踪（尤其是多个回调函数嵌套的情况），而且每个任务只能指定一个回调函数。此外它不能使用 try catch 捕获错误，不能直接 return</p>
+</blockquote>
+<blockquote>
+<p>setTimeout  递归的setTimeout setInterval</p>
+</blockquote>
+<blockquote>
+<p>requestAnimationFrame()<br>一种允许您以给定当前浏览器/系统的最佳帧速率重复且高效地运行函数的方法。除非您需要特定的速率帧，否则您应该尽可能使用它而不要去使用setInterval()/recursive(递归) setTimeout()。</p>
+</blockquote>
+<blockquote>
+<p>事件监听<br>比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以”去耦合”，有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。阅读代码的时候，很难看出主流程。</p>
+</blockquote>
+<blockquote>
+<p>发布订阅<br>这种方法的性质与“事件监听”类似，但是明显优于后者。因为可以通过查看“消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行</p>
+</blockquote>
+<blockquote>
+<p>promise</p>
+</blockquote>
+<blockquote>
+<p>生成器Generators/ yield</p>
+</blockquote>
+<blockquote>
+<p>async/await</p>
+</blockquote>
+<blockquote>
+<p>jQuery.deffer对象</p>
+</blockquote>
+<blockquote>
+<p>RunPromiseAsParallel(promise1, promise2).then()实现下面的要求：<br>两个 Promise ，任意一个 resolve ，执行 resolve<br>两个 Promise 都报错，才执行 reject</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function RunPromiseAsParallel(promise1, promise2)&#123;</span><br><span class="line">    let counter = 0</span><br><span class="line">    return new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">        Promise.resolve(promise1).then(()=&gt;resolve()).catch(()=&gt;&#123;</span><br><span class="line">            counter++</span><br><span class="line">            if(counter===2)&#123;</span><br><span class="line">              return  reject()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">         Promise.resolve(promise2).then(()=&gt;resolve()).catch(()=&gt;&#123;</span><br><span class="line">            counter++</span><br><span class="line">            if(counter===2)&#123;</span><br><span class="line">              return  reject()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年05月21日 11:28</p>
-        <p>原始链接： <a class="post-url" href="/2019/02/04/async/" title="异步编程">https://luhu9012.github.io/2019/02/04/async/</a></p>
+        <p>最后更新： 2020年06月03日 18:16</p>
+        <p>原始链接： <a class="post-url" href="/2019/02/04/async/" title="js异步编程">https://luhu9012.github.io/2019/02/04/async/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
                 <img src="/images/logo.png" alt="luhu9012">
@@ -164,7 +203,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/02/04/async/&title=《异步编程》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2019/02/04/async/&title=《js异步编程》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -174,7 +213,7 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/02/04/async/&title=《异步编程》 — 前端笔记&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2019/02/04/async/&title=《js异步编程》 — 前端笔记&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
@@ -184,7 +223,7 @@
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《异步编程》 — 前端笔记&url=https://luhu9012.github.io/2019/02/04/async/&via=https://luhu9012.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js异步编程》 — 前端笔记&url=https://luhu9012.github.io/2019/02/04/async/&via=https://luhu9012.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -211,7 +250,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/tags/es6aync/" class="color4">es6 aync</a>
+    <a href="/tags/async异步/" class="color4">async 异步</a>
       
   </li>
 
@@ -222,22 +261,28 @@
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#todo"><span class="post-toc-text">todo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#异步编程演进"><span class="post-toc-text">异步编程演进</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
-    <a href="/2019/03/12/jsoop/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/02/04/bom/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          对象的创建与继承
+          BOM 浏览器对象模型
         
       </span>
     </a>
   
   
-    <a href="/2019/02/04/bom/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">BOM 浏览器对象模型</span>
+    <a href="/2019/01/07/es6/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">es6语法学习</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -299,10 +344,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/es6/">es6</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -335,7 +380,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/es6-aync/" style="font-size: 10px;">es6 aync</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
 </div>

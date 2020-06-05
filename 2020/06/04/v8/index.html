@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>v8引擎学习 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="luhu,luhu's Blog">
+  
+  <meta name="description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
+<meta name="keywords" content="浏览器  V8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="v8引擎学习">
+<meta property="og:url" content="https://luhu9012.github.io/2020/06/04/v8/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://luhu9012.github.io/2020/06/04/imgs/v8.jpg">
+<meta property="og:updated_time" content="2020-06-05T11:05:25.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="v8引擎学习">
+<meta name="twitter:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
+<meta name="twitter:image" content="https://luhu9012.github.io/2020/06/04/imgs/v8.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">luhu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        luhu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//luhu9012.github.io/">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-v8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      v8引擎学习
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-06-04
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="学习图谱"><a href="#学习图谱" class="headerlink" title="学习图谱"></a>学习图谱</h3><p> <img src="../imgs/v8.jpg" alt="v8知识图谱"></p>
+<p>市面javascript引擎：SpiderMonkey、V8、JavaScriptCore</p>
+<p>在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了<a href>即时编译（JIT）</a>的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的提升。V8 出现之后，各大厂商也都在自己的 JavaScript 虚拟机中引入了 JIT 机制，所以你会看到目前市面上 JavaScript 虚拟机都有着类似的架构。另外，V8 也是早于其他虚拟机引入了<a href>惰性编译</a>、<a href>内联缓存</a>、<a href>隐藏类</a>等机制，进一步优化了 JavaScript 代码的编译执行效率。</p>
+<h4 id="事件循环系统"><a href="#事件循环系统" class="headerlink" title="事件循环系统"></a>事件循环系统</h4><p>事件循环系统和 JavaScript 中的难点——异步编程特性紧密相关。我们知道，JavaScript 是单线程的，JavaScript 代码都是在一个线程上执行，如果同一时间发送了多个 JavaScript 执行的请求，就需要排队，也就是进行异步编程。</p>
+<p>V8 的事件循环系统会调度这些排队任务，保证 JavaScript 代码被 V8 有序地执行。因此也可以说，事件循环系统就是 V8 的心脏，它驱动了 V8 的持续工作</p>
+<h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><p>JavaScript 是一种自动垃圾回收的语言，V8 在执行垃圾回收时，会占用主线程的资源，如果我们编写的程序频繁触发垃圾回收，那么无疑会阻塞主线程，这也是我们经常会遇到的一个问题。</p>
+<h4 id="javascript函数"><a href="#javascript函数" class="headerlink" title="javascript函数"></a>javascript函数</h4><blockquote>
+<p>javaScript基于对象设计，对象的概念：由一组属性和值构成的集合</p>
+</blockquote>
+<blockquote>
+<p>javaScript不是面向对象编程，不像其他语言一样的封装继承多态特性，而是基于原型编程</p>
+</blockquote>
+<blockquote>
+<p>javaScript中函数作为一等公民，可以和数据类型做一样的事，比如函数可以返回函数，函数可以作为参数传递，函数可以赋值给变量等，这些特性使得js更容易实现如闭包，函数式编程等</p>
+</blockquote>
+<blockquote>
+<p>函数是特殊的对象，本身含有影藏的属性name（可访问）和code（不可访问），name对应函数名称，code对应函数体</p>
+</blockquote>
+<h4 id="javaScript对象存储-快属性和慢属性"><a href="#javaScript对象存储-快属性和慢属性" class="headerlink" title="javaScript对象存储,快属性和慢属性"></a>javaScript对象存储,快属性和慢属性</h4><blockquote>
+<p>对象的存储：线性存储，非线性存储（字典一一对应）</p>
+</blockquote>
+<blockquote>
+<p>对象内部隐藏属性elements(排序属性)和properties（常规属性）,对象中key为数字的为排序属性，其他为常规属性；</p>
+</blockquote>
+<blockquote>
+<p>对于elements排序属性，会分配一块线性空间存储数据，查找快速，for in遍历按顺序读取；</p>
+</blockquote>
+<blockquote>
+<p>对于properties常规属性，分为以下几种情况：</p>
+</blockquote>
+<pre><code>1. 常规属性不大于10个时（v8），存储在对象本身内部，方便快速查找，成为快属性；
+
+2. 长队属性大于10个的，不大于20个的，分配给properties属性一块线性空间存储11-20之间的的数据，读取的顺序按照写入的顺序执行；大于20个的，给properties分配一块非线性空间，以字典形式存储对象(不保证读取顺序)，方便扩容；properties称为慢属性</code></pre><h4 id="javaScript变量提升"><a href="#javaScript变量提升" class="headerlink" title="javaScript变量提升"></a>javaScript变量提升</h4><p>作用域链和原型链是两种不同的概念不能混淆</p>
+<blockquote>
+<p>变量提升：var声明的变量，函数声明都会提升到作用域上，变量提升知识变量名提升，提升后默认赋值undefined，函数声明是整体函数提升，v8引擎的惰性解析此时并不会编译解释函数体内的源代码，但是v8得预解析会分析函数体内有没有引用函数体外的对象（闭包）,有引用的话就将引用的变量名提升至作用域，并且将引用对象赋值一份到堆内存，防止调用栈执行完毕后引用对象被销毁。</p>
+</blockquote>
+<blockquote>
+<p>函数表达式与变量声明一样，只有变量能提升</p>
+</blockquote>
+<blockquote>
+<p>class 不存在变量提升，在声明之前使用会报错</p>
+</blockquote>
+<blockquote>
+<p>let const 声明的变量在变量环境初始化时创建，也算是声明提升，但是由于此时变量未绑定词法环境，所以此时访问会报错，称为暂时性死区（TDZ）,直到赋值完后才可以使用。</p>
+</blockquote>
+<blockquote>
+<p>全局作用域：直接写在script标签内的代码都在全局作用域中，多个script标签共用一个全局作用域，全局作用域中有个全局对象global（window）。</p>
+</blockquote>
+<blockquote>
+<p>浏览器解析文档时，多个script标签是分别独立解释执行的，只有前面的script标签解析执行完了才继续执行后面的（给script标签设置异步加载的除外）。</p>
+</blockquote>
+<blockquote>
+<p>var 声明的变量在全局作用域下会挂到顶层对象（window）的属性中，let const声明的变量不会挂载到顶层对象中，只会停留在全局作用域内。</p>
+</blockquote>
+<h4 id="javaScript作用域链和原型链"><a href="#javaScript作用域链和原型链" class="headerlink" title="javaScript作用域链和原型链"></a>javaScript作用域链和原型链</h4><blockquote>
+<p>原型链： 每个对象都有一个隐藏属性<strong>proto</strong>指向对象的构造函数的原型对象（prototype），该原型对象也有一个自己的原型对象( <strong>proto</strong> ) ，层层向上直到一个对象的原型对象为 null，当试图访问一个对象的属性时，它不仅仅在该对象上搜寻，还会搜寻该对象的原型，以及该对象的原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。</p>
+</blockquote>
+<blockquote>
+<p>作用域：全局作用域，函数作用域，块作用域（es6），catch作用域（e错误对象只能在catch内访问）,with作用域（已弃用），js使用的是静态作用域（词法作用域），作用域在定义时就已经决定了，一般由对象的影藏属性[[scope]]表示。</p>
+</blockquote>
+<blockquote>
+<p>作用域链： 作用域也是分层的，内部的作用域可以访问外部的作用域，直到全局作用域。</p>
+</blockquote>
+<h4 id="javaScript类型转换规则"><a href="#javaScript类型转换规则" class="headerlink" title="javaScript类型转换规则"></a>javaScript类型转换规则</h4><p><a href="https://juejin.im/post/5d1587f4e51d4510664d1715" target="_blank" rel="noopener">参考链接</a></p>
+<p>JavaScript作为一门典型的动态弱类型语言，采用的是强制类型转换（即隐式强制类型转换和显式强制类型转换），强制类型转换指发生在动态语言的运行阶段，在js的强制类型转换总是返回基本类型值，如字符串、布尔、数字，不会返回对象和函数。</p>
+<blockquote>
+<p>对象转为基本类型要借助toPrimitive抽象操作，该操作首先检查某个对象是否有valueOf属性，如果有则返回该对象的valueOf的值，否则调用该对象的toString属性并返回值（如果valueOf返回的不是基本类型则调用toString方法，例如数组的valueOf返回的还是数组）</p>
+</blockquote>
+<blockquote>
+<p>es6的Symbol.toPrimitive内置属性：可以给对象设置[Symbol.toPrimitive]属性为toPrimitive操作的实现函数，该函数接收一个参数表示当前的运算模式,可选值有number string default, default时可以转为数字也可以转为字符串，该函数返回toPrimitive的原始值</p>
+</blockquote>
+<blockquote>
+<p>非字符串到字符串的强制转换规则：</p>
+<ol>
+<li>null转换为’null’,undefined转换为’undefined’,其他基本类型都调用基本类型的包装对象属性toString()并返回值</li>
+<li>数字的字符串化遵循通用规则，但是极小极大数字使用指数形式</li>
+<li>对于普通对象来说，除非自行定义，否则toString()返回Object.prototype.toString()的值,其他对象有自己的toString()方法则调用自己的该方法</li>
+<li>数组的默认toString()方法进行了重新定义，将所有单元字符串化以后再用‘,’连接起来</li>
+<li>JSON对于不安全的值（undefined，function(){}，symbol）直接忽略，数组中则以null填充，对象循环引用直接报错，正则表达式序列化为｛｝</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>非数字转换为数字的规则：</p>
+<ol>
+<li>true转换为1，false转换为0，undefined转换为NaN，null转换为0</li>
+<li>对字符串的处理遵循数字常量的相关规定/语法（Number），处理失败时返回NaN</li>
+<li>对象（包括数组）会首先按照ToPrimitive抽象操作被转换为相应的基本类型值，再按照前两条规则处理；如果某个对象即不存在valueOf方法也不存在toString方法，则会产生TypeError错误（例如Object.create(null)不存在以上两种方法）</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>转化为布尔值规则：</p>
+<ol>
+<li>可以被转换为false的值（undefined，null，false， +0、-0和NaN，’’）</li>
+<li>除条件1的其他都被转换为true（切记：封装对象均被转为true）</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>隐式类型转换规则：</p>
+<ol>
+<li>一元运算符加号（+）首先把非基本类型通过ToPrimitive抽象操作转换为基本类型，如果加号中的两项有一项是字符串，另一项则进行ToString操作，进行字符串拼接，如果是布尔值加数字，则对布尔进行ToNumber操作再求和</li>
+<li>隐式强制类型转换为布尔值：<ol>
+<li>if(..)语句中的条件判断表达式</li>
+<li>for(..;..;..)语句的第二个条件判断表达式</li>
+<li>while(..)和do..while(..)的条件判断表达式</li>
+<li>?:中的条件判断表达式</li>
+<li>逻辑运算符||和&amp;&amp;左边的操作数（a||b等同于a?a:b，a&amp;&amp;b等同于a?b:a）</li>
+</ol>
+</li>
+<li>符号的强制类型转换：Symbol不能被强制转换为数字（显式和隐式都会产生错误），但可以被强制转换为布尔值（显式和隐式结果都为true）</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>特殊情况：<br>NaN !== NaN: 判断是否为NaN，使用isNaN有缺陷，isNaN(NaN) isNaN(undefined) isNaN({})都返回true，不能准确检测出NaN，一般使用value!==value检测<br>+0 === -0 : 检测方法 Number(Infinity/+0) === Infinity;Number(Infinity/-0) === -Infinity</p>
+</blockquote>
+<blockquote>
+<p>相等比较==的隐式转换规则：</p>
+<ol>
+<li>字符串和数字之间的相等比较：字符串转为数字做比较</li>
+<li>其他类型和布尔类型之间的比较：布尔类型转化为数字作比较</li>
+<li>null和undefined之间的相等比较，规范规定null和undefined宽松相等：null==undefined</li>
+<li>对象和非对象之间（包括数字、字符串；其中布尔遵循其他类型和布尔类型之间的比较）的相等比较： 现将对象toPrimitive的值做比较</li>
+<li>特殊情况：0 == [];//true —特殊；0 == ‘\n’;//true —特殊；</li>
+</ol>
+</blockquote>
+<h4 id="V8引擎解释执行js过程"><a href="#V8引擎解释执行js过程" class="headerlink" title="V8引擎解释执行js过程"></a>V8引擎解释执行js过程</h4><p>V8 执行一段 JavaScript 代码时，会先对 JavaScript 代码进行解析 (Parser)，并生成为 AST 和作用域信息，之后 AST 和作用域信息被输入到一个称为 Ignition 的解释器中，并将其转化为字节码，之后字节码再由 Ignition 解释器来解释执行，可以通过d8调试工具查看这个过程。</p>
+<p>解释器就是模拟物理机器来执行字节码的，比如可以实现如取指令、解析指令、执行指令、存储数据等。</p>
+<p>通常有两种类型的解释器，基于栈 (Stack-based)和基于寄存器 (Register-based)，基于栈的解释器使用栈来保存函数参数、中间运算结果、变量等，基于寄存器的虚拟机则支持寄存器的指令操作，使用寄存器来保存参数、中间计算结果。</p>
+<p>通常，基于栈的虚拟机也定义了少量的寄存器，基于寄存器的虚拟机也有堆栈，其区别体现在它们提供的指令集体系。</p>
+<p>大多数解释器都是基于栈的，比如 Java 虚拟机，.Net 虚拟机，还有早期的 V8 虚拟机。基于堆栈的虚拟机在处理函数调用、解决递归问题和切换上下文时简单明快</p>
+<p>而现在的 V8 虚拟机则采用了基于寄存器的设计，它将一些中间数据保存到寄存器中，了解这点对于分析字节码的执行过程非常重要。</p>
+<p>解释器执行时主要有四个模块，内存中的字节码、寄存器、栈、堆。寄存器中有累加器和栈顶指针，函数执行过程中入栈出栈的操作就是通过操作栈顶指针和栈贞指针达成，其中栈顶指针用于记录当前正在执行的函数位置，栈贞指针就是记录某个函数内的执行位置，有了这两个指针在函数出栈时就可以快速的恢复现场。</p>
+<h4 id="V8中的隐藏类：如何在内存中快速查找对象属性"><a href="#V8中的隐藏类：如何在内存中快速查找对象属性" class="headerlink" title="V8中的隐藏类：如何在内存中快速查找对象属性"></a>V8中的隐藏类：如何在内存中快速查找对象属性</h4><p>我们知道 JavaScript 是一门动态语言，其执行效率要低于静态语言，V8 为了提升 JavaScript 的执行速度，借鉴了很多静态语言的特性，比如实现了 JIT 机制，为了提升对象的属性访问速度而引入了隐藏类，为了加速运算而引入了内联缓存。</p>
+<p>JavaScript 在运行时，对象的属性是可以被修改的，所以当 V8 使用了一个对象时，比如使用了 start.x 的时候，它并不知道该对象中是否有 x，也不知道 x 相对于对象的偏移量是多少，也可以说 V8 并不知道该对象的具体的形状。</p>
+<p>那么，当在 JavaScript 中要查询对象 start 中的 x 属性时，V8 会按照具体的规则（原型链，快属性慢属性）一步一步来查询，这个过程非常的慢且耗时的，而编译型语言（比如c++）有明确的结构体，编译后的对象是固定的，可以直接通过偏移量查询来查询对象的属性值，这也就是静态语言的执行效率高的一个原因。</p>
+<p>那么如何将编译型的这种静态特性引入javaScript中呢，目前所采用的一个思路就是将 JavaScript 中的对象静态化，也就是 V8 在运行 JavaScript 的过程中，会假设 JavaScript 中的对象是静态的，具体地讲，V8 对每个对象做如下两点假设：</p>
+<ol>
+<li>对象创建好了之后就不会添加新的属性；</li>
+<li>对象创建好了之后也不会删除属性。</li>
+</ol>
+<p>符合这两个假设之后，V8 就可以对 JavaScript 中的对象做深度优化了，V8 会为每个对象创建一个隐藏类，对象的隐藏类中记录了该对象一些基础的布局信息，包括以下两点：</p>
+<ol>
+<li>对象中所包含的所有的属性；</li>
+<li>每个属性相对于对象的偏移量。</li>
+</ol>
+<p>有了隐藏类之后，那么当 V8 访问某个对象中的某个属性时，就会先去隐藏类中查找该属性相对于它的对象的偏移量，有了偏移量和属性类型，V8 就可以直接去内存中取出对于的属性值，而不需要经历一系列的查找过程，那么这就大大提升了 V8 查找对象的效率。</p>
+<p>在 V8 中，把隐藏类又称为 map，每个对象都有一个 map 属性，其值指向内存中的隐藏类。隐藏类描述了对象的属性布局，它主要包括了属性名称和每个属性所对应的偏移量。</p>
+<p>有了 map 之后，比如使用 point.x 访问 x 属性时，V8 会查询 point 的 map 中 x 属性相对 point 对象的偏移量，然后将 point 对象的起始位置加上偏移量，就得到了 x 属性的值在内存中的位置，有了这个位置也就拿到了 x 的值，这样我们就省去了一个比较复杂的查找过程。</p>
+<p>这就是将动态语言静态化的一个操作，V8 通过引入隐藏类，模拟 C++ 这种静态语言的机制，从而达到静态语言的执行效率。</p>
+<p>多个对象共用一个隐藏类: 当多个对象拥有相同的属性名称，相等的属性个数时隐藏类可以复用</p>
+<p>JavaScript 依然是动态语言，在执行过程中，对象的形状是可以被改变的，如果某个对象的形状改变了，隐藏类也会随着改变，这意味着 V8 要为新改变的对象重新构建新的隐藏类，这对于 V8 的执行效率来说，是一笔大的开销。</p>
+<p>最佳实践：</p>
+<ol>
+<li>使用字面量初始化对象时，要保证属性的顺序是一致的</li>
+<li>尽量使用字面量一次性初始化完整对象属性</li>
+<li>尽量避免使用 delete 方法</li>
+</ol>
+<h4 id="V8内联缓存：提升函数执行效率"><a href="#V8内联缓存：提升函数执行效率" class="headerlink" title="V8内联缓存：提升函数执行效率"></a>V8内联缓存：提升函数执行效率</h4><p>当引擎检测到热点代码时（比如for循环中的某个函数调用），V8 会想尽一切办法来压缩这个执行过程，以提升对象的查找效率。这个加速函数执行的策略就是内联缓存 (Inline Cache)，简称为 IC。IC 会为每个函数维护一个反馈向量 (FeedBack Vector)，反馈向量记录了函数在执行过程中的一些关键的中间数据。</p>
+<h4 id="消息队列：-回调函数如何执行的"><a href="#消息队列：-回调函数如何执行的" class="headerlink" title="消息队列： 回调函数如何执行的"></a>消息队列： 回调函数如何执行的</h4><p>回调函数：同步回调函数和异步回调函数，同步回调函数在函数内部执行，异步回调在函数外部执行</p>
+<p>消息队列： ui主线程维护消息队里，并不断循环取出该队列中的任务执行</p>
+<p>键盘事件，鼠标事件，settimeout，下载等会再合适的时机推入消息队列中等待执行</p>
+<h4 id="宏任务微任务"><a href="#宏任务微任务" class="headerlink" title="宏任务微任务"></a>宏任务微任务</h4><p>宏任务：就是指消息队列中的等待被主线程执行的事件。每个宏任务在执行时，V8 都会重新创建栈，然后随着宏任务中函数调用，栈也随之变化，最终，当该宏任务执行结束时，整个栈又会被清空，接着主线程继续执行下一个宏任务。</p>
+<p>微任务：其实你可以把微任务看成是一个需要异步执行的函数，执行时机是在主函数执行结束之后、当前宏任务结束之前。</p>
+<p>主线程执行消息队列中宏任务的时间颗粒度太粗了，无法胜任一些对精度和实时性要求较高的场景，那么微任务可以在实时性和效率之间做一个有效的权衡。宏任务需要先被放到消息队列中，如果某些宏任务的执行时间过久，那么就会影响到消息队列后面的宏任务的执行，而且这个影响是不可控的，因为你无法知道前面的宏任务需要多久才能执行完成。于是 JavaScript 中又引入了微任务，微任务会在当前的任务快要执行结束时执行，利用微任务，你就能比较精准地控制你的回调函数的执行时机。</p>
+<p>V8 会为每个宏任务维护一个微任务队列。当 V8 执行一段 JavaScript 时，会为这段代码创建一个环境对象，微任务队列就是存放在该环境对象中的。当你通过 Promise.resolve 生成一个微任务，该微任务会被 V8 自动添加进微任务队列，等整段代码快要执行结束时，该环境对象也随之被销毁，但是在销毁之前，V8 会先处理微任务队列中的微任务。</p>
+<h4 id="genarate生成器-aync-await-实现原理"><a href="#genarate生成器-aync-await-实现原理" class="headerlink" title="genarate生成器  aync/await 实现原理"></a>genarate生成器  aync/await 实现原理</h4><p>在生成器内部，如果遇到 yield 关键字，那么 V8 将返回关键字后面的内容给外部，并暂停该生成器函数的执行。生成器暂停执行后，外部的代码便开始执行，外部代码如果想要恢复生成器的执行，可以使用 result.next 方法。</p>
+<p>生成器函数的暂停执行和恢复执行的魔法就是协程，协程是一种比线程更加轻量级的存在。你可以把协程看成是跑在线程上的任务，一个线程上可以存在多个协程，但是在线程上同时只能执行一个协程。比如，当前执行的是 A 协程，要启动 B 协程，那么 A 协程就需要将主线程的控制权交给 B 协程，这就体现在 A 协程暂停执行，B 协程恢复执行；同样，也可以从 B 协程中启动 A 协程。通常，如果从 A 协程启动 B 协程，我们就把 A 协程称为 B 协程的父协程。</p>
+<p>正如一个进程可以拥有多个线程一样，一个线程也可以拥有多个协程。每一时刻，该线程只能执行其中某一个协程。最重要的是，协程不是被操作系统内核所管理，而完全是由程序所控制（也就是在用户态执行）。这样带来的好处就是性能得到了很大的提升，不会像线程切换那样消耗资源。</p>
+<p>在 JavaScript 中，生成器就是协程的一种实现方式，这样，你也就理解什么是生成器了。</p>
+<p>因为生成器可以暂停函数的执行，所以，通过genarate 的 * 和yiel, 我们将所有异步调用的方式，写成同步调用的方式。在外面依次使用一段代码来控制生成器genarate的暂停和恢复执行,以上，就是协程和 Promise 相互配合执行的大致流程。</p>
+<p>通常，我们把执行生成器的代码封装成一个函数，这个函数驱动了 genarate函数继续往下执行，我们把这个执行生成器代码的函数称为执行器（可参考著名的 co 框架）</p>
+<p>由于生成器函数可以暂停，因此我们可以在生成器内部编写完整的异步逻辑代码，不过生成器依然需要使用额外的 co 函数来驱动生成器函数的执行，这一点非常不友好。基于这个原因，ES7 引入了 async/await，这是 JavaScript 异步编程的一个重大改进，它改进了生成器的缺点，提供了在不阻塞主线程的情况下使用同步代码实现异步访问资源的能力。而且还支持 try catch 来捕获异常，这就是完全在写同步代码，所以非常符合人的线性思维。</p>
+<p>async/await 技术背后的秘密就是 Promise 和生成器应用，往底层说，就是微任务和协程应用。</p>
+<p>和生成器函数一样，使用了 async 声明的函数在执行时，也是一个单独的协程，我们可以使用 await 来暂停该协程，由于 await 等待的是一个 Promise 对象，我们可以 resolve 来恢复该协程。</p>
+<p>await后面跟的是一个promise对象，如果不是，则会隐式转化为promise</p>
+<h4 id="v8的两个垃圾回收器"><a href="#v8的两个垃圾回收器" class="headerlink" title="v8的两个垃圾回收器"></a>v8的两个垃圾回收器</h4><p>目前 V8 采用的可访问性（reachability）算法来判断堆中的对象是否是活动对象。具体地讲，这个算法是将一些 GC Root 作为初始存活的对象的集合，从 GC Roots 对象出发，遍历 GC Root 中的所有对象，遍历得到的就是可访问的活动对象，遍历不到的就是不可访问的非活动对象。</p>
+<p>GC Root 有很多，通常包括：全局的 window 对象（位于每个 iframe 中），文档 DOM 树，存放栈上变量。</p>
+<p>V8 为了更高效地回收垃圾，引入了两个垃圾回收器，主垃圾回收器 -Major GC 和副垃圾回收器 -Minor GC (Scavenger)，它们分别针对着不同的场景。V8 之所以使用了两个垃圾回收器，主要是受到了代际假说（The Generational Hypothesis）的影响。</p>
+<p>代际假说是垃圾回收领域中一个重要的术语，它有以下两个特点：</p>
+<ol>
+<li>第一个是大部分对象都是“朝生夕死”的，也就是说大部分对象在内存中存活的时间很短，比如函数内部声明的变量，或者块级作用域中的变量，当函数或者代码块执行结束时，作用域中定义的变量就会被销毁。因此这一类对象一经分配内存，很快就变得不可访问；</li>
+<li>第二个是不死的对象，会活得更久，比如全局的 window、DOM、Web API 等对象</li>
+</ol>
+<p>如果我们只使用一个垃圾回收器，在优化大多数新对象的同时，就很难优化到那些老对象，因此你需要权衡各种场景，根据对象生存周期的不同，而使用不同的算法，以便达到最好的效果。</p>
+<p>所以，在 V8 中，会把堆分为新生代和老生代两个区域，新生代中存放的是生存时间短的对象，老生代中存放生存时间久的对象。</p>
+<p>新生代通常只支持 1～8M 的容量，而老生代支持的容量就大很多了。对于这两块区域，V8 分别使用两个不同的垃圾回收器，以便更高效地实施垃圾回收。</p>
+<h5 id="副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><a href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。" class="headerlink" title="副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。"></a>副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</h5><p>副垃圾回收器主要负责新生代的垃圾回收。通常情况下，大多数小的对象都会被分配到新生代，所以说这个区域虽然不大，但是垃圾回收还是比较频繁的。</p>
+<p>新生代中的垃圾数据用 Scavenge 算法来处理。所谓 Scavenge 算法，是把新生代空间对半划分为两个区域，一半是对象区域 (from-space)，一半是空闲区域 (to-space)。</p>
+<p>新加入的对象都会存放到对象区域，当对象区域快被写满时，就需要执行一次垃圾清理操作。</p>
+<p>在垃圾回收过程中，首先要对对象区域中的垃圾做标记；标记完成之后，就进入垃圾清理阶段。副垃圾回收器会把这些存活的对象复制到空闲区域中，同时它还会把这些对象有序地排列起来，所以这个复制过程，也就相当于完成了内存整理操作，复制后空闲区域就没有内存碎片了。</p>
+<p>完成复制后，对象区域与空闲区域进行角色翻转，也就是原来的对象区域变成空闲区域，原来的空闲区域变成了对象区域。这样就完成了垃圾对象的回收操作，同时，这种角色翻转的操作还能让新生代中的这两块区域无限重复使用下去。</p>
+<p>不过，副垃圾回收器每次执行清理操作时，都需要将存活的对象从对象区域复制到空闲区域，复制操作需要时间成本，如果新生区空间设置得太大了，那么每次清理的时间就会过久，所以为了执行效率，一般新生区的空间会被设置得比较小。也正是因为新生区的空间不大，所以很容易被存活的对象装满整个区域，副垃圾回收器一旦监控对象装满了，便执行垃圾回收。同时，副垃圾回收器还会采用对象晋升策略，也就是移动那些经过两次垃圾回收依然还存活的对象到老生代中。</p>
+<h5 id="主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><a href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。" class="headerlink" title="主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。"></a>主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</h5><p>主垃圾回收器主要负责老生代中的垃圾回收。除了新生代中晋升的对象，一些大的对象会直接被分配到老生代里。因此，老生代中的对象有两个特点：</p>
+<ol>
+<li>一个是对象占用空间大</li>
+<li>另一个是对象存活时间长。</li>
+</ol>
+<p>由于老生代的对象比较大，若要在老生代中使用 Scavenge 算法进行垃圾回收，复制这些大的对象将会花费比较多的时间，从而导致回收执行效率不高，同时还会浪费一半的空间。所以，主垃圾回收器是采用标记 - 清除（Mark-Sweep）的算法进行垃圾回收的。</p>
+<p>首先是标记过程阶段。标记阶段就是从一组根元素开始，递归遍历这组根元素，在这个遍历过程中，能到达的元素称为活动对象，没有到达的元素就可以判断为垃圾数据。</p>
+<p>接下来就是垃圾的清除过程。它和副垃圾回收器的垃圾清除过程完全不同，主垃圾回收器会直接将标记为垃圾的数据清理掉。</p>
+<p>对一块内存多次执行标记 - 清除算法后，会产生大量不连续的内存碎片。而碎片过多会导致大对象无法分配到足够的连续内存，于是又引入了另外一种算法——标记 - 整理（Mark-Compact）。</p>
+<p>这个算法的标记过程仍然与标记 - 清除算法里的是一样的，先标记可回收对象，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉这一端之外的内存。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月05日 19:05</p>
+        <p>原始链接： <a class="post-url" href="/2020/06/04/v8/" title="v8引擎学习">https://luhu9012.github.io/2020/06/04/v8/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2020/06/04/v8/&title=《v8引擎学习》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2020/06/04/v8/&title=《v8引擎学习》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2020/06/04/v8/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《v8引擎学习》 — 前端笔记&url=https://luhu9012.github.io/2020/06/04/v8/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2020/06/04/v8/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2020/06/04/v8/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/浏览器V8/" class="color3">浏览器  V8</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习图谱"><span class="post-toc-text">学习图谱</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事件循环系统"><span class="post-toc-text">事件循环系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收"><span class="post-toc-text">垃圾回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javascript函数"><span class="post-toc-text">javascript函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript对象存储-快属性和慢属性"><span class="post-toc-text">javaScript对象存储,快属性和慢属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript变量提升"><span class="post-toc-text">javaScript变量提升</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript作用域链和原型链"><span class="post-toc-text">javaScript作用域链和原型链</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript类型转换规则"><span class="post-toc-text">javaScript类型转换规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8引擎解释执行js过程"><span class="post-toc-text">V8引擎解释执行js过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8中的隐藏类：如何在内存中快速查找对象属性"><span class="post-toc-text">V8中的隐藏类：如何在内存中快速查找对象属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8内联缓存：提升函数执行效率"><span class="post-toc-text">V8内联缓存：提升函数执行效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#消息队列：-回调函数如何执行的"><span class="post-toc-text">消息队列： 回调函数如何执行的</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#宏任务微任务"><span class="post-toc-text">宏任务微任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#genarate生成器-aync-await-实现原理"><span class="post-toc-text">genarate生成器  aync/await 实现原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8的两个垃圾回收器"><span class="post-toc-text">v8的两个垃圾回收器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><span class="post-toc-text">副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><span class="post-toc-text">主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/03/animate/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">动画</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
