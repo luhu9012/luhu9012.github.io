@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="前端笔记">
 <meta property="og:description" content="js运行机制相关引用：https://github.com/mqyqingfeng/Blog/issues/17 相关术语es5之前只有全局作用域和函数作用域，es6加入了块级作用域  Execution Context(执行环境或执行上下文)  Context Stack (执行栈)  Variable Object(VO: 变量对象) es5   JS的执行上下文中都有个对象用来存放执行上下文">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-03T08:39:01.378Z">
+<meta property="og:updated_time" content="2020-06-08T08:00:05.414Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js运行机制">
 <meta name="twitter:description" content="js运行机制相关引用：https://github.com/mqyqingfeng/Blog/issues/17 相关术语es5之前只有全局作用域和函数作用域，es6加入了块级作用域  Execution Context(执行环境或执行上下文)  Context Stack (执行栈)  Variable Object(VO: 变量对象) es5   JS的执行上下文中都有个对象用来存放执行上下文">
@@ -149,7 +149,8 @@
 <li><p>LexicalEnvironment（词法环境） es6</p>
 </li>
 </ul>
-<p>词法环境由两个部分组成 - 环境记录(enviroment record)，存储变量和函数声明 - 对外部环境的引用(outer)，可以通过它访问外部词法环境.<br>环境记录分两部分 - 声明性环境记录(declarative environment records)： 存储变量、函数和参数, 但是主要用于函数 、catch词法环境。 注意：函数环境下会存储arguments的值。而详细的过程可以参考VO 的执行细节，基本大同小异 - 对象环境记录(object environment records), 主要用于with 和全局的词法环境</p>
+<p>词法环境由两个部分组成 - 环境记录(enviroment record)，存储变量和函数声明 - 对外部环境的引用(outer)，可以通过它访问外部词法环境.</p>
+<p>环境记录分两部分 - 声明性环境记录(declarative environment records)： 存储变量、函数和参数, 但是主要用于函数 、catch词法环境。 注意：函数环境下会存储arguments的值。而详细的过程可以参考VO 的执行细节，基本大同小异 - 对象环境记录(object environment records), 主要用于with 和全局的词法环境</p>
 <ul>
 <li>VariableEnvironment（变量环境）es6<br>变量环境也是个词法环境，主要的区别在于lexicalEnviroment用于存储函数声明和变量（ let 和 const ）绑定，而ObjectEnviroment仅用于存储变量（ var ）绑定。</li>
 </ul>
@@ -207,7 +208,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 斐波那契普通写法</span><br><span class="line">// 调用栈随着n的增加而线性增加，当n为一个大数（大概测了一下，当n为100的时候，浏览器窗口就会卡死。。）时，就会爆栈了（栈溢出，stack overflow）</span><br><span class="line">function fibo(n)&#123;</span><br><span class="line">    if(n===0) return 0</span><br><span class="line">    if(n===1) return 1</span><br><span class="line">    return f(n-1)+f(n-2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 尾递归</span><br><span class="line">// 被尾递归改写之后的调用栈永远都是更新当前的栈帧而已，这样就完全避免了爆栈的危险</span><br><span class="line">function fibo(n,a=0,b=1)&#123;</span><br><span class="line">    if(n===0) return a</span><br><span class="line">    return fibo(n-1,b,a+b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 动态规划的思想，转化为循环</span><br><span class="line">function fibo(n)&#123;</span><br><span class="line">    if(n===0) return 0</span><br><span class="line">    if(n===1) return 1</span><br><span class="line">    let res,a=0,b=1</span><br><span class="line">    for(let i=2,i&lt;=n;i++)&#123;</span><br><span class="line">       // res = a+b</span><br><span class="line">       // a= b</span><br><span class="line">       // b = res </span><br><span class="line">       b = a+b</span><br><span class="line">       a = b-a</span><br><span class="line">    &#125;</span><br><span class="line">    return res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月03日 16:39</p>
+        <p>最后更新： 2020年06月08日 16:00</p>
         <p>原始链接： <a class="post-url" href="/2019/08/10/jsabout/" title="js运行机制">https://luhu9012.github.io/2019/08/10/jsabout/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -301,12 +302,12 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/08/10/interview/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/10/jsFunc/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          interview
+          js功能函数
         
       </span>
     </a>
@@ -378,7 +379,7 @@
             <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -411,7 +412,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css相关概念 | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="luhu,luhu's Blog">
+  
+  <meta name="description" content="语法 @规则：  @charset, 定义样式表使用的字符集. @import, 告诉 CSS 引擎引入一个外部样式表. @namespace, 告诉 CSS 引擎必须考虑XML命名空间。 嵌套@，是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里： @media, 如果满足媒介查询的条件则条件规则组里的规则生效。 @page, 描述打印文档时布局的变化. @font-fac">
+<meta name="keywords" content="css 概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css相关概念">
+<meta property="og:url" content="https://luhu9012.github.io/2020/06/10/css-consept/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="语法 @规则：  @charset, 定义样式表使用的字符集. @import, 告诉 CSS 引擎引入一个外部样式表. @namespace, 告诉 CSS 引擎必须考虑XML命名空间。 嵌套@，是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里： @media, 如果满足媒介查询的条件则条件规则组里的规则生效。 @page, 描述打印文档时布局的变化. @font-fac">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-06-11T03:49:34.123Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css相关概念">
+<meta name="twitter:description" content="语法 @规则：  @charset, 定义样式表使用的字符集. @import, 告诉 CSS 引擎引入一个外部样式表. @namespace, 告诉 CSS 引擎必须考虑XML命名空间。 嵌套@，是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里： @media, 如果满足媒介查询的条件则条件规则组里的规则生效。 @page, 描述打印文档时布局的变化. @font-fac">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">luhu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        luhu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//luhu9012.github.io/">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-css-consept" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      css相关概念
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-06-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><ul>
+<li><p>@规则：</p>
+<ul>
+<li>@charset, 定义样式表使用的字符集.</li>
+<li>@import, 告诉 CSS 引擎引入一个外部样式表.</li>
+<li>@namespace, 告诉 CSS 引擎必须考虑XML命名空间。</li>
+<li>嵌套@，是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里：<ul>
+<li>@media, 如果满足媒介查询的条件则条件规则组里的规则生效。</li>
+<li>@page, 描述打印文档时布局的变化.</li>
+<li>@font-face, 描述将下载的外部的字体。 </li>
+<li>@keyframes, 描述 CSS 动画的中间步骤 .</li>
+<li>@supports, 如果满足给定条件则条件规则组里的规则生效。</li>
+<li>@document, 如果文档样式表满足给定条件则条件规则组里的规则生效。 (推延至 CSS Level 4 规范)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>重置样式：all: unset</p>
+</li>
+</ul>
+<ul>
+<li>选择器类型的优先级是递增的：<ul>
+<li>类型选择器（例如，h1）和伪元素（例如，::before）</li>
+<li>类选择器 (例如，.example)，属性选择器（例如，[type=”radio”]）和伪类（例如，:hover）</li>
+<li>ID 选择器（例如，#example）</li>
+<li>通配选择符（universal selector）（*）关系选择符（combinators）（+, &gt;, ~, ‘ ‘, ||）和 否定伪类（negation pseudo-class）（:not()）对优先级没有影响。（但是，在 :not() 内部声明的选择器会影响优先级）</li>
+<li>给元素添加的内联样式 (例如，style=”font-weight:bold”) 总会覆盖外部样式表的任何样式 ，因此可看作是具有最高的优先级。</li>
+<li>!important 例外规则：用于覆盖内联样式或者高优先级的样式，应该尽量少使用，要想覆盖一个!important样式可以再声明一个!important加上更高优先级</li>
+</ul>
+</li>
+<li>css中（如background-image）,url()的参数可以也可以不使用引号。如果使用引号包围了URL，那么它会被解析为一个<url-token>，包含对某些字符的额外转义</url-token></li>
+</ul>
+<ul>
+<li>display属性：全局属性值有 inherit|initial|unset<ul>
+<li>display-outside 外部显示类型：block | inline | run-in，指示元素在流式布局中的表现（块级或内联元素） <ul>
+<li>block: 在正常流中产生块元素框，并在元素首尾产生换行符</li>
+<li>inline: 在正常流中产生一个或多个（ul）内联元素盒子，并且在元素首尾不会产生换行符，如果空间足够，在其后的元素将在同一行显示。</li>
+<li>run-in: chrom早期版本4-31支持，现在已废弃</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>display-inside 内部显示类型：flow | flow-root | table | flex | grid | ruby，对于非可替换元素，内部显示类型定义格式换上下文如何产生，指示内部元素如何布局，注意可替换元素的内部布局不是css能控制的。<ul>
+<li>flow:外部显示类型为inline或run-in产生行内格式化上下文，否则产生块级格式上下文</li>
+<li>flow-root: 该元素生成一个块元素框，该框将建立一个新的块格式化上下文 ，以定义格式化根所在的位置.</li>
+<li>table:</li>
+<li>flex</li>
+<li>grid</li>
+<li>ruby:元素的行为类似于内联元素，并根据ruby格式化模型布置其内容. 它的行为类似于相应的HTML ruby元素.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>display-listitem : 取值  display-outside? &amp;&amp; [ flow | flow-root ]? &amp;&amp; list-item</li>
+</ul>
+<ul>
+<li><p>display-internal：table-row-group | table-header-group |table-footer-group | table-row | table-cell |table-column-group | table-column | table-caption |<br>ruby-base | ruby-text | ruby-base-container |ruby-text-container。某些布局模型（例如table和ruby具有复杂的内部结构，其子代和后代可以担当几种不同的角色. 本部分定义了那些”内部”显示值，它们仅在该特定布局模式下才有意义.</p>
+</li>
+<li><p>display-box ： contents | none  ，规定元素是否产生boxs</p>
+<ul>
+<li>none:视觉上影藏不可见，不占用文档流位置，但屏幕阅读器可读，如果需要占位请改用visibility属性.</li>
+<li>contents</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>display-legacy：inline-block | inline-table | inline-flex | inline-grid  , 同一布局模式的块级和内联级变体,CSS 2为display属性使用了单关键字语法,等效于 外部显示类型-内部显示类型，在display更好地支持两个关键字值之前，开发人员应优先使用它们。</li>
+</ul>
+<h4 id="todolist-布局"><a href="#todolist-布局" class="headerlink" title="todolist  布局"></a>todolist  布局</h4><ul>
+<li><input checked disabled type="checkbox"> css 布局</li>
+<li><input disabled type="checkbox"> 正常布局流</li>
+</ul>
+<p>不对浏览器进行任何布局控制时浏览器的默认布局方式</p>
+<ul>
+<li><input disabled type="checkbox"> <p>弹性盒</p>
+<p>  一维布局，一次只能处理一个维度上的元素布局，一行或者一列，作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。<br>  flex布局的主轴与交叉轴，主轴由flex-direction定义，交叉轴与主轴垂直。flex-direction取值：</p>
+<ul>
+<li><p>row</p>
+</li>
+<li><p>row-reverse</p>
+</li>
+<li><p>column</p>
+</li>
+<li><p>column-reverse</p>
+<p>flex容器内元素默认行为：</p>
+</li>
+<li><p>元素排列为一行 (flex-direction 属性的初始值是 row)。</p>
+</li>
+<li><p>元素从主轴的起始线开始。</p>
+</li>
+<li><p>元素不会在主维度方向拉伸，但是可以缩小。</p>
+</li>
+<li><p>元素被拉伸来填充交叉轴大小。</p>
+</li>
+<li><p>flex-basis 属性为 auto。</p>
+</li>
+<li><p>flex-wrap 属性为 nowrap。</p>
+<p>flex-flow: flex-direction与flex-wrap的简写属性</p>
+<p>flex容器内元素简写属性flex:flex-grow flex-shrink flex-basis</p>
+<p>几种预定义的简写：</p>
+</li>
+<li><p>flex: inital  把flex元素重置为Flexbox的初始值,相当于flex:0 1 auto</p>
+</li>
+<li><p>flex: auto  相当于 flex: 1 1 auto</p>
+</li>
+<li><p>flex: none  相当于 flex:0 0 auto</p>
+</li>
+<li><p>flex: 数值  相当于flex: 数值 数值 0  </p>
+<p>flex-basis: 指定了 flex 元素在主轴方向上的初始大小。flex容器内空间减去元素占用空间就得到剩余空间，flex-basis=0时就相当于将元素宽度让渡给剩余空间供所有容器内元素扩张。如果不使用  box-sizing 改变盒模型的话，那么这个属性就决定了 flex 元素的内容盒（content-box）的尺寸。注意，当一个元素同时被设置了 flex-basis (除值为 auto 外) 和 width (或者在 flex-direction: column 情况下设置了height) , flex-basis 具有更高的优先级，优先级关系：max-width/minwidth&gt;flex-basis&gt;width&gt;内容宽度。</p>
+</li>
+</ul>
+</li>
+<li><input disabled type="checkbox"> <p>网格</p>
+<p>  网格仅仅是由水平和垂直线集合创建的一个模式，我们可以根据这个模式排列我们的设计元素。它们帮助我们创建设计——在页面之间移动时元素不会跳动或更改宽度，从而在我们的网站上提供高一致性。这意味着您不需要考虑某个元素相对于其他元素的宽度。您的选择限于“该元素将跨越多少个网格列”。</p>
+<p>  在css grid网格之前，大多数网格框架都是基于float技术实现，从float多列布局演进为网格布局。网格布局一般分为12个列，因为12可以被2346整除，可以适应不同的情况。网格布局的因素有：单列宽度，列沟槽，容器宽度，为了更高的适用性会限制max-width,且各项宽度使用百分比，例如max-width为980px宽度的border-box容器，除去内边距20px，剩余960px的内容宽度布局列和沟槽，如果沟槽设置20px，一共12个沟槽12<em>20 = 240px，列宽度就是（960-240）/12 = 60px，列宽百分比宽度就是60/960 = 6.25%，沟槽宽度百分比就是20/960 = 2.08333333％,这样跨越n列的宽度计算就是 calc((6.25%*n) + (2.08333333%</em>(n-1)))。</p>
+<p>  使用浮动技术实现网格布局的限制：<br>  最大限制是它基本上是一维的。我们处理的是列元素只能跨越多个列，而不能跨越行。<br>  当元素宽度超过行空间时会溢出<br>  当跨列宽度超过一行宽度时由于浮动的关系将会换行显示从而破坏网格，所以需要保证行总宽度正确。</p>
+<p>  Flexbox是一维设计。它处理单个维度，即行或列。不能为列和行创建严格的网格，这意味着如果我们要为网格使用flexbox，我们仍然需要为浮动布局计算百分比。</p>
+</li>
+<li><input disabled type="checkbox"> <p>浮动</p>
+</li>
+<li><input disabled type="checkbox"> <p>定位</p>
+</li>
+<li><input disabled type="checkbox"> <p>多列布局</p>
+</li>
+<li><input disabled type="checkbox"> <p>响应式布局</p>
+</li>
+<li><input disabled type="checkbox"> <p>媒体查询</p>
+</li>
+<li><input disabled type="checkbox"> <p>传统布局方法</p>
+</li>
+<li><input disabled type="checkbox"> <p>兼容</p>
+</li>
+</ul>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><ul>
+<li><input disabled type="checkbox"> 边距折叠</li>
+<li><input checked disabled type="checkbox"> 块格式化上下文（Block Formatting Context，BFC）Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域。</li>
+</ul>
+<pre><code>块格式化上下文包含创建它的元素内部的所有内容，块格式化上下文对浮动定位（ float）与清除浮动（clear）都很重要。浮动定位和清除浮动时只会应用于同一个BFC内的元素。浮动不会影响其它BFC中元素的布局，而清除浮动只能清除同一BFC中在它前面的元素的浮动。外边距折叠（Margin collapsing）也只会发生在属于同一BFC的块级元素之间。
+
+下列方式会创建块格式化上下文：
+- 根元素(&lt;html&gt;)
+- 浮动元素（元素的 float 不是 none）
+- 绝对定位元素（元素的 position 为 absolute 或 fixed）
+- 行内块元素（元素的 display 为 inline-block）
+- 表格单元格（元素的 display为 table-cell，HTML表格单元格默认为该值）
+- 表格标题（元素的 display 为 table-caption，HTML表格标题默认为该值）
+- 匿名表格单元格元素（元素的 display为 table、table-row、 table-row-group、table-header-group、table-footer-group（分别是HTML table、row、tbody、thead、tfoot的默认属性）或 inline-table）
+- overflow 值不为 visible 的块元素
+- display 值为 flow-root 的元素
+- contain 值为 layout、content或 paint 的元素
+- 弹性元素（display为 flex 或 inline-flex元素的直接子元素）
+- 网格元素（display为 grid 或 inline-grid 元素的直接子元素）
+- 多列容器（元素的 column-count 或 column-width 不为 auto，包括 column-count 为 1）
+- column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没有包裹在一个多列容器中（标准变更，Chrome bug）。</code></pre><ul>
+<li><input disabled type="checkbox"> 浮动-清除浮动</li>
+<li><input disabled type="checkbox"> 包含块</li>
+<li><input disabled type="checkbox"> 层叠上下文</li>
+<li><input disabled type="checkbox"> 盒子模型</li>
+<li><input disabled type="checkbox"> 文档流 字符流</li>
+<li><input disabled type="checkbox"> 替换元素</li>
+</ul>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
+<li><p>尽管用一组选择器来定义的单个规则集，比用多个单一选择器来定义的多个规则集更加简洁，但这却不适用于规则集的有效性。这会导致一个重要的后果：如果其中的一个选择器是无效的，如使用了一个未知的伪元素或伪类，会导致整个选择器都会无效，同时对应的规则都会被忽略。</p>
+</li>
+<li><p>@font-face: </p>
+<ul>
+<li>引用远程字体仍然受同域限制，通过HTTP access controls 解除这一限制。</li>
+<li>因为这里没有为 TrueType(ttf), OpenType(otf) 和 Web Open File Format(WOFF) 字体定义MIME，因此不能为这些字体类型设置特定的MIME（实际上WOFF的MIME将会是application/font-woff，但浏览器对此MIME的识别还不统一，其它字体情况也类似，可暂时使用application/octet-stream）</li>
+<li>不能在一个 CSS 选择器中定义 @font-face ，这样写是无效的。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月11日 11:49</p>
+        <p>原始链接： <a class="post-url" href="/2020/06/10/css-consept/" title="css相关概念">https://luhu9012.github.io/2020/06/10/css-consept/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2020/06/10/css-consept/&title=《css相关概念》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2020/06/10/css-consept/&title=《css相关概念》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2020/06/10/css-consept/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《css相关概念》 — 前端笔记&url=https://luhu9012.github.io/2020/06/10/css-consept/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2020/06/10/css-consept/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2020/06/10/css-consept/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/css概念/" class="color2">css 概念</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#语法"><span class="post-toc-text">语法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#todolist-布局"><span class="post-toc-text">todolist  布局</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#概念"><span class="post-toc-text">概念</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#注意事项"><span class="post-toc-text">注意事项</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/04/v8/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">v8引擎学习</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2020 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

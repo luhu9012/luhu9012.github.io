@@ -17,7 +17,7 @@
 <meta property="og:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://luhu9012.github.io/2020/06/04/imgs/v8.jpg">
-<meta property="og:updated_time" content="2020-06-05T11:05:25.098Z">
+<meta property="og:updated_time" content="2020-06-08T07:59:44.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="v8引擎学习">
 <meta name="twitter:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
@@ -333,10 +333,68 @@
 <p>接下来就是垃圾的清除过程。它和副垃圾回收器的垃圾清除过程完全不同，主垃圾回收器会直接将标记为垃圾的数据清理掉。</p>
 <p>对一块内存多次执行标记 - 清除算法后，会产生大量不连续的内存碎片。而碎片过多会导致大对象无法分配到足够的连续内存，于是又引入了另外一种算法——标记 - 整理（Mark-Compact）。</p>
 <p>这个算法的标记过程仍然与标记 - 清除算法里的是一样的，先标记可回收对象，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉这一端之外的内存。</p>
+<h4 id="v8垃圾回收优化"><a href="#v8垃圾回收优化" class="headerlink" title="v8垃圾回收优化"></a>v8垃圾回收优化</h4><p>执行垃圾回收时会占用主线程的时间，如果在执行垃圾回收的过程中，垃圾回收器占用主线程时间过久，比如，页面正在执行一个 JavaScript 动画，因为垃圾回收器在工作，就会导致这个动画在这回收时间内无法执行，造成页面的卡顿 (Jank)，用户体验不佳。</p>
+<p>V8 团队经过了很多年的努力，向现有的垃圾回收器添加并行、并发和增量等垃圾回收技术，并且也已经取得了一些成效。这些技术主要是从两方面来解决垃圾回收效率问题的：</p>
+<ol>
+<li>将一个完整的垃圾回收的任务拆分成多个小的任务，这样就消灭了单个长的垃圾回收任务；</li>
+<li>将标记对象、移动对象等任务转移到后台线程进行，这会大大减少主线程暂停的时间，改善页面卡顿的问题，让动画、滚动和用户交互更加流畅</li>
+</ol>
+<p>V8 的副垃圾回收器所采用的就是并行回收策略：它在执行垃圾回收的过程中，启动了多个线程来负责新生代中的垃圾清理操作，这些线程同时将对象空间中的数据移动到空闲区域。由于数据的地址发生了改变，所以还需要同步更新引用这些对象的指针。</p>
+<p>V8 的主垃圾回收器增量回收 ：垃圾收集器将标记工作分解为更小的块，并且穿插在主线程不同的任务之间执行。采用增量垃圾回收时，垃圾回收器没有必要一次执行完整的垃圾回收过程，每次执行的只是整个垃圾回收过程中的一小部分工作</p>
+<p>总的三个优化方案：</p>
+<p>第一个方案是并行回收，在执行一个完整的垃圾回收过程中，垃圾回收器会使用多个辅助线程来并行执行垃圾回收。</p>
+<p>第二个方案是增量式垃圾回收，垃圾回收器将标记工作分解为更小的块，并且穿插在主线程不同的任务之间执行。采用增量垃圾回收时，垃圾回收器没有必要一次执行完整的垃圾回收过程，每次执行的只是整个垃圾回收过程中的一小部分工作。</p>
+<p>第三个方案是并发回收，回收线程在执行 JavaScript 的过程，辅助线程能够在后台完成的执行垃圾回收的操作。</p>
+<p>主垃圾回收器就综合采用了所有的方案，副垃圾回收器也采用了部分方案。</p>
+<h4 id="javaScript的几种内存问题"><a href="#javaScript的几种内存问题" class="headerlink" title="javaScript的几种内存问题"></a>javaScript的几种内存问题</h4><blockquote>
+<p>内存泄漏 (Memory leak)，它会导致页面的性能越来越差；</p>
+</blockquote>
+<p>在 JavaScript 中，造成内存泄漏 (Memory leak) 的主要原因是不再需要 (没有作用) 的内存数据依然被其他对象引用着。</p>
+<ol>
+<li><p>意外的全局环境变量：例如，在全局环境的函数中，由于函数体内的对象没有被 var、let、const 这些关键字声明，那么 V8 就会将对象挂载在this上，而this可能会指向window，而 window 对象是常驻内存的，所以即便函数退出了，但是 对象依然被 window 对象引用了。为了解决这个问题，我们可以在 JavaScript 文件头部加上use strict，使用严格模式避免意外的全局变量，此时上例中的 this 指向 undefined</p>
+</li>
+<li><p>闭包引用： 我们还要时刻警惕闭包这种情况，因为闭包会引用父级函数中定义的变量，如果引用了不被需要的变量，那么也会造成内存泄漏。</p>
+</li>
+<li><p>dom引用：只有同时满足 DOM 树和 JavaScript 代码都不引用某个 DOM 节点，该节点才会被作为垃圾进行回收。 如果某个节点已从 DOM 树移除，但 JavaScript 仍然引用它，我们称此节点为“detached ”。“detached ”节点是 DOM 内存泄漏的常见原因。</p>
+</li>
+</ol>
+<blockquote>
+<p>内存膨胀 (Memory bloat)，它会导致页面的性能会一直很差；</p>
+</blockquote>
+<p>内存膨胀和内存泄漏有一些差异，内存膨胀主要表现在程序员对内存管理的不科学，比如只需要 50M 内存就可以搞定的，有些程序员却花费了 500M 内存。</p>
+<p>额外使用过多的内存有可能是没有充分地利用好缓存，也有可能加载了一些不必要的资源。通常表现为内存在某一段时间内快速增长，然后达到一个平稳的峰值继续运行。</p>
+<blockquote>
+<p>频繁垃圾回收，它会导致页面出现延迟或者经常暂停。</p>
+</blockquote>
+<p>除了内存泄漏和内存膨胀，还有另外一类内存问题，那就是频繁使用大的临时变量，导致了新生代空间很快被装满，从而频繁触发垃圾回收。频繁的垃圾回收操作会让你感觉到页面卡顿。</p>
+<h3 id="浏览器进程线程的工作过程"><a href="#浏览器进程线程的工作过程" class="headerlink" title="浏览器进程线程的工作过程"></a>浏览器进程线程的工作过程</h3><p>参考： <a href="https://juejin.im/post/5c9c66075188251dab07413d" target="_blank" rel="noopener">https://juejin.im/post/5c9c66075188251dab07413d</a></p>
+<blockquote>
+<p>chrome浏览器多进程:</p>
+<ol>
+<li>浏览器主进程</li>
+</ol>
+</blockquote>
+<p>主要负责界面显示、用户交互、子进程管理，同时提供存储等功能</p>
+<ol start="2">
+<li>插件进程</li>
+</ol>
+<p>主要是负责插件的运行，因插件易崩溃，所以需要通过插件进程来隔离，以保证插件进程崩溃不会对浏览器和页面造成影响。</p>
+<ol start="3">
+<li>网络进程</li>
+</ol>
+<p>主要负责页面的网络资源加载，之前是作为一个模块运行在浏览器进程里面的，直至最近才独立出来，成为一个单独的进程。</p>
+<ol start="4">
+<li>GPU进程</li>
+</ol>
+<p>其实，Chrome 刚开始发布的时候是没有 GPU 进程的。而 GPU 的使用初衷是为了实现 3D CSS 的效果，只是随后网页、Chrome 的 UI 界面都选择采用 GPU 来绘制，这使得 GPU 成为浏览器普遍的需求。最后，Chrome 在其多进程架构上也引入了 GPU 进程。</p>
+<ol start="5">
+<li>渲染进程 </li>
+</ol>
+<p>核心任务是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，排版引擎 Blink 和 JavaScript 引擎 V8 都是运行在该进程中，默认情况下，Chrome 会为每个 Tab 标签创建一个渲染进程。出于安全考虑，渲染进程都是运行在沙箱模式下。</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月05日 19:05</p>
+        <p>最后更新： 2020年06月08日 15:59</p>
         <p>原始链接： <a class="post-url" href="/2020/06/04/v8/" title="v8引擎学习">https://luhu9012.github.io/2020/06/04/v8/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -423,12 +481,22 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习图谱"><span class="post-toc-text">学习图谱</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事件循环系统"><span class="post-toc-text">事件循环系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收"><span class="post-toc-text">垃圾回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javascript函数"><span class="post-toc-text">javascript函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript对象存储-快属性和慢属性"><span class="post-toc-text">javaScript对象存储,快属性和慢属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript变量提升"><span class="post-toc-text">javaScript变量提升</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript作用域链和原型链"><span class="post-toc-text">javaScript作用域链和原型链</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript类型转换规则"><span class="post-toc-text">javaScript类型转换规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8引擎解释执行js过程"><span class="post-toc-text">V8引擎解释执行js过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8中的隐藏类：如何在内存中快速查找对象属性"><span class="post-toc-text">V8中的隐藏类：如何在内存中快速查找对象属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8内联缓存：提升函数执行效率"><span class="post-toc-text">V8内联缓存：提升函数执行效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#消息队列：-回调函数如何执行的"><span class="post-toc-text">消息队列： 回调函数如何执行的</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#宏任务微任务"><span class="post-toc-text">宏任务微任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#genarate生成器-aync-await-实现原理"><span class="post-toc-text">genarate生成器  aync/await 实现原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8的两个垃圾回收器"><span class="post-toc-text">v8的两个垃圾回收器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><span class="post-toc-text">副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><span class="post-toc-text">主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习图谱"><span class="post-toc-text">学习图谱</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事件循环系统"><span class="post-toc-text">事件循环系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收"><span class="post-toc-text">垃圾回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javascript函数"><span class="post-toc-text">javascript函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript对象存储-快属性和慢属性"><span class="post-toc-text">javaScript对象存储,快属性和慢属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript变量提升"><span class="post-toc-text">javaScript变量提升</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript作用域链和原型链"><span class="post-toc-text">javaScript作用域链和原型链</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript类型转换规则"><span class="post-toc-text">javaScript类型转换规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8引擎解释执行js过程"><span class="post-toc-text">V8引擎解释执行js过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8中的隐藏类：如何在内存中快速查找对象属性"><span class="post-toc-text">V8中的隐藏类：如何在内存中快速查找对象属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8内联缓存：提升函数执行效率"><span class="post-toc-text">V8内联缓存：提升函数执行效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#消息队列：-回调函数如何执行的"><span class="post-toc-text">消息队列： 回调函数如何执行的</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#宏任务微任务"><span class="post-toc-text">宏任务微任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#genarate生成器-aync-await-实现原理"><span class="post-toc-text">genarate生成器  aync/await 实现原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8的两个垃圾回收器"><span class="post-toc-text">v8的两个垃圾回收器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><span class="post-toc-text">副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><span class="post-toc-text">主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8垃圾回收优化"><span class="post-toc-text">v8垃圾回收优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript的几种内存问题"><span class="post-toc-text">javaScript的几种内存问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#浏览器进程线程的工作过程"><span class="post-toc-text">浏览器进程线程的工作过程</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
+  
+    <a href="/2020/06/10/css-consept/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          css相关概念
+        
+      </span>
+    </a>
   
   
     <a href="/2020/06/03/animate/" id="article-nav-older" class="article-nav-link-wrap">
@@ -497,7 +565,7 @@
             <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -530,7 +598,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
         </div>
     </div>
 </div>
