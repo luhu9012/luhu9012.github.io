@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="前端笔记">
 <meta property="og:description" content="概念  边距折叠，同号取大，异号相加  外边距折叠：当块级元素（block）的上外边距(margin-top)和下外边距(margin-bottom)同时都有设定时只会只会保留最大边距，这种行为称为边界折叠（margin collapsing），有时也翻译为外边距重叠。三种情况会发生外边距折叠：  同一层相邻的两个元素之间的外边距重叠，除非后一个元素加上clear-fix清除浮动。   没有内容将">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-12T10:40:11.556Z">
+<meta property="og:updated_time" content="2020-06-15T07:18:05.467Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="css相关概念">
 <meta name="twitter:description" content="概念  边距折叠，同号取大，异号相加  外边距折叠：当块级元素（block）的上外边距(margin-top)和下外边距(margin-bottom)同时都有设定时只会只会保留最大边距，这种行为称为边界折叠（margin collapsing），有时也翻译为外边距重叠。三种情况会发生外边距折叠：  同一层相邻的两个元素之间的外边距重叠，除非后一个元素加上clear-fix清除浮动。   没有内容将">
@@ -488,7 +488,7 @@
 </ul>
 <ul>
 <li><input disabled type="checkbox"> <p>多列布局</p>
-<p>  css多列布局：column-count column-width  column-gap </p>
+<p>  css多列布局：column-count列个数 column-width列宽  column-gap列间距  column-rule列分割线</p>
 </li>
 <li><input checked disabled type="checkbox"> <p>css伪元素生成内容：通过::before ::after 伪元素指定content为指定文本或者url引用的图片或者转义后的字符编码</p>
 </li>
@@ -505,6 +505,11 @@
 <ul>
 <li><input disabled type="checkbox"> 兼容</li>
 </ul>
+<ol>
+<li>带浏览器前缀</li>
+<li>@supports 特性支持查询，例如@supports (display: grid){…}</li>
+<li>回滚方式</li>
+</ol>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
 <li><p>尽管用一组选择器来定义的单个规则集，比用多个单一选择器来定义的多个规则集更加简洁，但这却不适用于规则集的有效性。这会导致一个重要的后果：如果其中的一个选择器是无效的，如使用了一个未知的伪元素或伪类，会导致整个选择器都会无效，同时对应的规则都会被忽略。</p>
 </li>
@@ -525,7 +530,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月12日 18:40</p>
+        <p>最后更新： 2020年06月15日 15:18</p>
         <p>原始链接： <a class="post-url" href="/2020/06/10/css-consept/" title="css相关概念">https://luhu9012.github.io/2020/06/10/css-consept/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">

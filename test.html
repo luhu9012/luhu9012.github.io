@@ -8,17 +8,17 @@
   
     <meta name="keywords" content="luhu,luhu's Blog">
   
-  <meta name="description" content="Stacking and float           div {         font: 12px Arial;     }      span.bold { font-weight: bold; }      #absdiv1 {         position: absolute;         width: 150px;         height: 2">
+  <meta name="description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
 <meta property="og:type" content="website">
 <meta property="og:title" content="前端笔记">
 <meta property="og:url" content="https://luhu9012.github.io/test.html">
 <meta property="og:site_name" content="前端笔记">
-<meta property="og:description" content="Stacking and float           div {         font: 12px Arial;     }      span.bold { font-weight: bold; }      #absdiv1 {         position: absolute;         width: 150px;         height: 2">
+<meta property="og:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-12T09:19:13.492Z">
+<meta property="og:updated_time" content="2020-06-16T07:29:01.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端笔记">
-<meta name="twitter:description" content="Stacking and float           div {         font: 12px Arial;     }      span.bold { font-weight: bold; }      #absdiv1 {         position: absolute;         width: 150px;         height: 2">
+<meta name="twitter:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -113,76 +113,37 @@
     <title>Stacking and float</title>
     <style type="text/css">
 
-    div {
-        font: 12px Arial;
-    }
-
-    span.bold { font-weight: bold; }
-
-    #absdiv1 {
-        position: absolute;
-        width: 150px;
-        height: 200px;
-        top: 10px;
-        right: 140px;
-        border: 1px dashed #990000;
-        background-color: #ffdddd;
-        text-align: center;
-    }
-
-    #normdiv {
-        /* opacity: 0.7; */
-        height: 100px;
-        border: 1px dashed #999966;
-        background-color: #ffffcc;
-        margin: 0px 10px 0px 10px;
-        text-align: left;
-    }
-
-    #flodiv1 {
-        margin: 0px 10px 0px 20px;
-        float: left;
-        width: 150px;
-        height: 200px;
-        border: 1px dashed #009900;
-        background-color: #ccffcc;
-        text-align: center;
-    }
-
-    #flodiv2 {
-        margin: 0px 20px 0px 10px;
-        float: right;
-        width: 150px;
-        height: 200px;
-        border: 1px dashed #009900;
-        background-color: #ccffcc;
-        text-align: center;
-    }
-
-    #absdiv2 {
-        position: absolute;
-        width: 150px;
-        height: 100px;
-        top: 130px;
-        left: 100px;
-        border: 1px dashed #990000;
-        background-color: #ffdddd;
-        text-align: center;
-    }
-    span {
-
-    }
+* {
+    padding: 0;
+    margin: 0;
+  }
+  .container {
+    width: 600px;
+    height: 300px;
+    display: flex;
+  }
+  .left {
+    flex: 1 2 500px;
+    background: red;
+  }
+  .right {
+    flex: 2 1 400px;
+    background: blue;
+  }
 
 </style>
 </head>
 
 <body>
-   <span>oooo</span><span>hahahhah</span>
+    <div class="container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
 </body>
 </html>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月12日 17:19</p>
+        <p>最后更新： 2020年06月16日 15:29</p>
         <p>原始链接： <a class="post-url" href="/test.html" title="">https://luhu9012.github.io/test.html</a></p>
         <footer>
             <a href="https://luhu9012.github.io">

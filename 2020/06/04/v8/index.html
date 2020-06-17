@@ -17,7 +17,7 @@
 <meta property="og:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://luhu9012.github.io/2020/06/04/imgs/v8.jpg">
-<meta property="og:updated_time" content="2020-06-08T07:59:44.059Z">
+<meta property="og:updated_time" content="2020-06-17T08:11:10.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="v8引擎学习">
 <meta name="twitter:description" content="学习图谱  市面javascript引擎：SpiderMonkey、V8、JavaScriptCore 在 V8 出现之前，所有的 JavaScript 虚拟机所采用的都是解释执行的方式，这是 JavaScript 执行速度过慢的一个主要原因。而 V8 率先引入了即时编译（JIT）的双轮驱动的设计，这是一种权衡策略，混合编译执行和解释执行这两种手段，给 JavaScript 的执行速度带来了极大的">
@@ -164,7 +164,35 @@
 </blockquote>
 <pre><code>1. 常规属性不大于10个时（v8），存储在对象本身内部，方便快速查找，成为快属性；
 
-2. 长队属性大于10个的，不大于20个的，分配给properties属性一块线性空间存储11-20之间的的数据，读取的顺序按照写入的顺序执行；大于20个的，给properties分配一块非线性空间，以字典形式存储对象(不保证读取顺序)，方便扩容；properties称为慢属性</code></pre><h4 id="javaScript变量提升"><a href="#javaScript变量提升" class="headerlink" title="javaScript变量提升"></a>javaScript变量提升</h4><p>作用域链和原型链是两种不同的概念不能混淆</p>
+2. 长队属性大于10个的，不大于20个的，分配给properties属性一块线性空间存储11-20之间的的数据，读取的顺序按照写入的顺序执行；大于20个的，给properties分配一块非线性空间，以字典形式存储对象(不保证读取顺序)，方便扩容；properties称为慢属性</code></pre><h4 id="javaScript数组存储-快数组和慢数组"><a href="#javaScript数组存储-快数组和慢数组" class="headerlink" title="javaScript数组存储,快数组和慢数组"></a>javaScript数组存储,快数组和慢数组</h4><p>在V8源码中JSArray 是继承自 JSObject 的，所以在 JavaScript 中，数组可以是一个特殊的对象，内部也是以 key-value 形式存储数据，所以 JavaScript 中的数组可以存放不同类型的值。</p>
+<h5 id="V8中-JSArray有两种存储方式："><a href="#V8中-JSArray有两种存储方式：" class="headerlink" title="V8中 JSArray有两种存储方式："></a>V8中 JSArray有两种存储方式：</h5><pre><code>* fast（快数组）：存储结构是 FixedArray ，FixedArray 是 V8 实现的一个类似于数组的类，它表示一段连续的内存，可以使用索引直接定位。新创建的空数组默认就是快数组。当数组满（数组的长度达到数组在内存中申请的内存容量最大值）的时候，继续 push 时， JSArray 会进行动态的扩容，以存储更多的元素。
+
+* slow（慢数组）：存储结构是 HashTable（哈希表），并且数组下标作为 key，慢数组以哈希表的形式存储在内存空间里，它不需要开辟连续的存储空间，但需要额外维护一个哈希表，与快数组相比，性能相对较差。
+
+
+* fast转为slow触发条件：
+  * 当加入的索引值 index 比当前容量 capacity 差值大于等于 1024 时（index - capacity &gt;= 1024）
+  * 快数组新容量是扩容前的容量 3 倍之多时
+
+*  slow 转变为 fast触发条件：
+   *  当慢数组的元素可存放在快数组中且长度在 smi 之间且仅节省了50%的空间，则会转变为快数组</code></pre><h5 id="数组在V8中的动态扩容减容"><a href="#数组在V8中的动态扩容减容" class="headerlink" title="数组在V8中的动态扩容减容"></a>数组在V8中的动态扩容减容</h5><pre><code>默认空数组初始化大小为 4的快数组（fast）
+
+* 在 JavaScript 中，当数组执行 push 操作时，一旦发现数组内存不足，将进行扩容，扩容可以分为以下几步：
+  * push 操作时，发现数组内存不足
+  * 申请 new_capacity = old_capacity /2 + old_capacity + 16 那么长度的内存空间
+  * 将数组拷贝到新内存中
+  * 把新元素放在当前 length 位置
+  * 数组的 length + 1
+  * 返回 length
+
+* 减容可以分为以下几步：
+  * pop 操作时，获取数组 length
+  * 获取 length - 1 上的元素（要删除的元素）
+  * 数组 length - 1
+  * 判断数组的总容量是否大于等于 length - 1 的 2 倍
+  * 是的话，使用 RightTrimFixedArray 函数，计算出需要释放的空间大小，并做好标记，等待 GC 回收
+  * 不是的话，用 holes 对象填充
+  * 返回要删除的元素</code></pre><h4 id="javaScript变量提升"><a href="#javaScript变量提升" class="headerlink" title="javaScript变量提升"></a>javaScript变量提升</h4><p>作用域链和原型链是两种不同的概念不能混淆</p>
 <blockquote>
 <p>变量提升：var声明的变量，函数声明都会提升到作用域上，变量提升知识变量名提升，提升后默认赋值undefined，函数声明是整体函数提升，v8引擎的惰性解析此时并不会编译解释函数体内的源代码，但是v8得预解析会分析函数体内有没有引用函数体外的对象（闭包）,有引用的话就将引用的变量名提升至作用域，并且将引用对象赋值一份到堆内存，防止调用栈执行完毕后引用对象被销毁。</p>
 </blockquote>
@@ -394,7 +422,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月08日 15:59</p>
+        <p>最后更新： 2020年06月17日 16:11</p>
         <p>原始链接： <a class="post-url" href="/2020/06/04/v8/" title="v8引擎学习">https://luhu9012.github.io/2020/06/04/v8/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -481,7 +509,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习图谱"><span class="post-toc-text">学习图谱</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事件循环系统"><span class="post-toc-text">事件循环系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收"><span class="post-toc-text">垃圾回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javascript函数"><span class="post-toc-text">javascript函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript对象存储-快属性和慢属性"><span class="post-toc-text">javaScript对象存储,快属性和慢属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript变量提升"><span class="post-toc-text">javaScript变量提升</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript作用域链和原型链"><span class="post-toc-text">javaScript作用域链和原型链</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript类型转换规则"><span class="post-toc-text">javaScript类型转换规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8引擎解释执行js过程"><span class="post-toc-text">V8引擎解释执行js过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8中的隐藏类：如何在内存中快速查找对象属性"><span class="post-toc-text">V8中的隐藏类：如何在内存中快速查找对象属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8内联缓存：提升函数执行效率"><span class="post-toc-text">V8内联缓存：提升函数执行效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#消息队列：-回调函数如何执行的"><span class="post-toc-text">消息队列： 回调函数如何执行的</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#宏任务微任务"><span class="post-toc-text">宏任务微任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#genarate生成器-aync-await-实现原理"><span class="post-toc-text">genarate生成器  aync/await 实现原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8的两个垃圾回收器"><span class="post-toc-text">v8的两个垃圾回收器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><span class="post-toc-text">副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><span class="post-toc-text">主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8垃圾回收优化"><span class="post-toc-text">v8垃圾回收优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript的几种内存问题"><span class="post-toc-text">javaScript的几种内存问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#浏览器进程线程的工作过程"><span class="post-toc-text">浏览器进程线程的工作过程</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#学习图谱"><span class="post-toc-text">学习图谱</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#事件循环系统"><span class="post-toc-text">事件循环系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#垃圾回收"><span class="post-toc-text">垃圾回收</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javascript函数"><span class="post-toc-text">javascript函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript对象存储-快属性和慢属性"><span class="post-toc-text">javaScript对象存储,快属性和慢属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript数组存储-快数组和慢数组"><span class="post-toc-text">javaScript数组存储,快数组和慢数组</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#V8中-JSArray有两种存储方式："><span class="post-toc-text">V8中 JSArray有两种存储方式：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#数组在V8中的动态扩容减容"><span class="post-toc-text">数组在V8中的动态扩容减容</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript变量提升"><span class="post-toc-text">javaScript变量提升</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript作用域链和原型链"><span class="post-toc-text">javaScript作用域链和原型链</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript类型转换规则"><span class="post-toc-text">javaScript类型转换规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8引擎解释执行js过程"><span class="post-toc-text">V8引擎解释执行js过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8中的隐藏类：如何在内存中快速查找对象属性"><span class="post-toc-text">V8中的隐藏类：如何在内存中快速查找对象属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8内联缓存：提升函数执行效率"><span class="post-toc-text">V8内联缓存：提升函数执行效率</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#消息队列：-回调函数如何执行的"><span class="post-toc-text">消息队列： 回调函数如何执行的</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#宏任务微任务"><span class="post-toc-text">宏任务微任务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#genarate生成器-aync-await-实现原理"><span class="post-toc-text">genarate生成器  aync/await 实现原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8的两个垃圾回收器"><span class="post-toc-text">v8的两个垃圾回收器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#副垃圾回收器-Minor-GC-Scavenger-，主要负责新生代的垃圾回收。"><span class="post-toc-text">副垃圾回收器 -Minor GC (Scavenger)，主要负责新生代的垃圾回收。</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主垃圾回收器-Major-GC，主要负责老生代的垃圾回收。"><span class="post-toc-text">主垃圾回收器 -Major GC，主要负责老生代的垃圾回收。</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#v8垃圾回收优化"><span class="post-toc-text">v8垃圾回收优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#javaScript的几种内存问题"><span class="post-toc-text">javaScript的几种内存问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#浏览器进程线程的工作过程"><span class="post-toc-text">浏览器进程线程的工作过程</span></a></li></ol>
         </nav>
     </aside>
     
