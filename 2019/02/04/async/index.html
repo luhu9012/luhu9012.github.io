@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="luhu,luhu's Blog">
   
-  <meta name="description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
+  <meta name="description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 js中的任务分为同步任务和异步任务  同步任务：当前主线程要执行的任务，">
 <meta name="keywords" content="async 异步">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js异步编程">
 <meta property="og:url" content="https://luhu9012.github.io/2019/02/04/async/index.html">
 <meta property="og:site_name" content="前端笔记">
-<meta property="og:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
+<meta property="og:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 js中的任务分为同步任务和异步任务  同步任务：当前主线程要执行的任务，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-03T10:16:03.359Z">
+<meta property="og:updated_time" content="2020-12-14T04:15:53.437Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js异步编程">
-<meta name="twitter:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 todo promise es5版 es6版 polyfillrx.js">
+<meta name="twitter:description" content="在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。 js中的任务分为同步任务和异步任务  同步任务：当前主线程要执行的任务，">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -138,6 +138,29 @@
       
             
             <p>在最基本的形式中，JavaScript是一种同步的、阻塞的、单线程的语言，在这种语言中，一次只能执行一个操作。但web浏览器定义了函数和API，允许我们当某些事件发生时不是按照同步方式，而是异步地调用函数(比如，时间的推移，用户通过鼠标的交互，或者获取网络数据)。这意味着您的代码可以同时做几件事情，而不需要停止或阻塞主线程。</p>
+<p>js中的任务分为同步任务和异步任务</p>
+<ol>
+<li>同步任务：当前主线程要执行的任务，这些任务一起形成执行栈</li>
+<li>异步任务：不进入主线程，而是进入任务队列，当执行栈为空时，就执行任务队列</li>
+<li>异步任务的队列又分为宏任务与微任务，是两个不同的队列</li>
+<li>宏任务包括：<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>事件</li>
+<li>IO</li>
+<li>postMessage</li>
+<li>requestAnimationFrame</li>
+<li>UI渲染</li>
+<li>setImmediate  nodejs api  在浏览器中已废弃</li>
+</ul>
+</li>
+<li>微任务包括：<ul>
+<li>promise.then</li>
+<li>MutationObserve</li>
+<li>process.nextTick nodejs api</li>
+</ul>
+</li>
+</ol>
 <h3 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h3><blockquote>
 <p>promise es5版 es6版 polyfill<br>rx.js原理<br>各种方案优劣，使用场景</p>
 </blockquote>
@@ -176,7 +199,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月03日 18:16</p>
+        <p>最后更新： 2020年12月14日 12:15</p>
         <p>原始链接： <a class="post-url" href="/2019/02/04/async/" title="js异步编程">https://luhu9012.github.io/2019/02/04/async/</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -281,8 +304,8 @@
     </a>
   
   
-    <a href="/2019/02/04/bom/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">BOM 浏览器对象模型</span>
+    <a href="/2019/02/04/BFC/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">BFC IFC</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -311,7 +334,7 @@
       <p>
         Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
         Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
-      &copy; 2020 luhu9012<br>
+      &copy; 2021 luhu9012<br>
       </p>
     </div>
   </div>

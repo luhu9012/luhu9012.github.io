@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="前端笔记">
 <meta property="og:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-11-26T05:44:24.802Z">
+<meta property="og:updated_time" content="2020-12-14T04:15:53.456Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端笔记">
 <meta name="twitter:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
@@ -141,7 +141,45 @@
         <div class="right"></div>
     </div>
   <script>
-      console.log('获取a',a()) // Uncaught ReferenceError: a is not defined
+    // Shape - 父类(superclass)
+        function Shape() {
+          this.x = 0;
+          this.y = 0;
+        }
+
+        // 父类的方法
+        Shape.prototype.move = function(x, y) {
+          this.x += x;
+          this.y += y;
+          console.info('Shape moved.');
+        };
+
+
+        // console.error('Shape>',new Shape())
+        // Rectangle - 子类(subclass)
+        function Rectangle() {
+          Shape.call(this); // call super constructor.
+        }
+
+        function create(obj){
+          function F(){}
+          F.prototype = obj
+          return new F()
+        }
+
+        // 子类续承父类原型上的属性
+        Rectangle.prototype = Object.create(Shape.prototype);
+        console.error(Rectangle.prototype.constructor)
+        // console.log(Rectangle.prototype.__proto__ === Shape.prototype)
+        // Rectangle.prototype.constructor = Rectangle;
+        // Rectangle.super = Shape
+        // 继承父类静态属性
+        Object.setPrototypeOf(Rectangle,Shape)
+        // console.log(Rectangle.__proto__)
+
+
+        var rect = new Rectangle();
+        // console.error(rect)
   </script>
     <script>
       // script 会形成块级作用域
@@ -153,7 +191,7 @@
 </html>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年11月26日 13:44</p>
+        <p>最后更新： 2020年12月14日 12:15</p>
         <p>原始链接： <a class="post-url" href="/test.html" title="">https://luhu9012.github.io/test.html</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -255,7 +293,7 @@
       <p>
         Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
         Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
-      &copy; 2020 luhu9012<br>
+      &copy; 2021 luhu9012<br>
       </p>
     </div>
   </div>
