@@ -8,17 +8,17 @@
   
     <meta name="keywords" content="luhu,luhu's Blog">
   
-  <meta name="description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
+  <meta name="description" content="/*transition: property name | duration | timing function | delay       transition属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。        */  .box {   position: relative;   box-sizing: border-box">
 <meta property="og:type" content="website">
 <meta property="og:title" content="前端笔记">
 <meta property="og:url" content="https://luhu9012.github.io/test.html">
 <meta property="og:site_name" content="前端笔记">
-<meta property="og:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
+<meta property="og:description" content="/*transition: property name | duration | timing function | delay       transition属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。        */  .box {   position: relative;   box-sizing: border-box">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-12-14T04:15:53.456Z">
+<meta property="og:updated_time" content="2021-02-27T08:30:05.032Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端笔记">
-<meta name="twitter:description" content="Stacking and float       * {     padding: 0;     margin: 0;   }   .container {     width: 600px;     height: 300px;     display: flex;   }   .left {     flex: 1 2 500px;     background: re">
+<meta name="twitter:description" content="/*transition: property name | duration | timing function | delay       transition属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。        */  .box {   position: relative;   box-sizing: border-box">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -109,89 +109,68 @@
             <!DOCTYPE html>
 <html>
 <head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="UTF-8">
-    <title>Stacking and float</title>
-    <style type="text/css">
+    <style>
+      /*transition: property name | duration | timing function | delay
+      transition属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。
+       */
 
-* {
-    padding: 0;
-    margin: 0;
-  }
-  .container {
-    width: 600px;
-    height: 300px;
-    display: flex;
-  }
-  .left {
-    flex: 1 2 500px;
-    background: red;
-  }
-  .right {
-    flex: 2 1 400px;
-    background: blue;
-  }
+.box {
+  position: relative;
+  box-sizing: border-box;
+  background-color: #494d4e;
+  height: 350px;
+  width: 350px;
+}
+ /*before  after 伪元素设置边框宽度 透明 */
+.box::before,.box::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  border: 10px solid transparent;
+ 
+}
+  /*上 右 两个边框 定位到box边缘正确位置 */
+.box::before{
+  top: 0;
+  left: 0;
+}
+ /*下 左 两个边框定位到box边缘正确位置 */
+.box::after{
+  bottom: 0;
+  right: 0;
+}
 
-</style>
+ /*hover时 上 右两个边框依次过渡显示 宽度高度时长均为0.2s，总耗时0.4s */
+.box:hover::before{
+  width: 100%;
+  height: 100%;
+  border-right-color: rgb(81, 81, 243);
+  border-top-color: rgb(81, 81, 243);
+  transition:width 0.2s ease-in 0s,height 0.2s ease-in 0.2s;
+}
+ /*hover时 下 左两个边框还是透明的，待上，右两个边框显示完成后，即是0.4s后，下 左两个边框颜色显示，接着 下 左 边框依次过渡显示 */
+.box:hover::after{
+  width: 100%;
+  height: 100%;
+  border-bottom-color: rgb(81, 81, 243);
+  border-left-color: rgb(81, 81, 243);
+  transition: border-color 0.1s ease-in-out 0.4s,width 0.2s ease-in 0.4s,height 0.2s ease-in 0.6s;
+}
 
+    </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="left"></div>
-        <div class="right"></div>
-    </div>
+  <div class="box">盒子 </div>
   <script>
-    // Shape - 父类(superclass)
-        function Shape() {
-          this.x = 0;
-          this.y = 0;
-        }
-
-        // 父类的方法
-        Shape.prototype.move = function(x, y) {
-          this.x += x;
-          this.y += y;
-          console.info('Shape moved.');
-        };
-
-
-        // console.error('Shape>',new Shape())
-        // Rectangle - 子类(subclass)
-        function Rectangle() {
-          Shape.call(this); // call super constructor.
-        }
-
-        function create(obj){
-          function F(){}
-          F.prototype = obj
-          return new F()
-        }
-
-        // 子类续承父类原型上的属性
-        Rectangle.prototype = Object.create(Shape.prototype);
-        console.error(Rectangle.prototype.constructor)
-        // console.log(Rectangle.prototype.__proto__ === Shape.prototype)
-        // Rectangle.prototype.constructor = Rectangle;
-        // Rectangle.super = Shape
-        // 继承父类静态属性
-        Object.setPrototypeOf(Rectangle,Shape)
-        // console.log(Rectangle.__proto__)
-
-
-        var rect = new Rectangle();
-        // console.error(rect)
+  
   </script>
-    <script>
-      // script 会形成块级作用域
-   function a(){
-    console.log('我是a')
-   }
-    </script>
 </body>
 </html>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年12月14日 12:15</p>
+        <p>最后更新： 2021年02月27日 16:30</p>
         <p>原始链接： <a class="post-url" href="/test.html" title="">https://luhu9012.github.io/test.html</a></p>
         <footer>
             <a href="https://luhu9012.github.io">
@@ -329,7 +308,7 @@
             <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -362,7 +341,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-函数/" style="font-size: 10px;">js 函数</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 16.67px;">性能</a> <a href="/tags/文件上传/" style="font-size: 13.33px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/项目/" style="font-size: 13.33px;">项目</a>
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
         </div>
     </div>
 </div>

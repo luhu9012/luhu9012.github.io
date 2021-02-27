@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css demo | 前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="luhu,luhu's Blog">
+  
+  <meta name="description" content="##参考 CSS的常用套路 checkbox 实现 switch12345678910111213141516171819202122232425262728293031323334&amp;lt;input type=&amp;quot;checkbox&amp;quot; class=&amp;quot;switch&amp;quot; /&amp;gt;  // css // switch 背景 .switch &amp;#123;">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css demo">
+<meta property="og:url" content="https://luhu9012.github.io/2021/02/23/cssdemo/index.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="##参考 CSS的常用套路 checkbox 实现 switch12345678910111213141516171819202122232425262728293031323334&amp;lt;input type=&amp;quot;checkbox&amp;quot; class=&amp;quot;switch&amp;quot; /&amp;gt;  // css // switch 背景 .switch &amp;#123;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-02-27T08:33:46.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css demo">
+<meta name="twitter:description" content="##参考 CSS的常用套路 checkbox 实现 switch12345678910111213141516171819202122232425262728293031323334&amp;lt;input type=&amp;quot;checkbox&amp;quot; class=&amp;quot;switch&amp;quot; /&amp;gt;  // css // switch 背景 .switch &amp;#123;">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">luhu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        luhu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//luhu9012.github.io/">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-cssdemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      css demo
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2021-02-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>##参考</p>
+<p><a href="https://zhuanlan.zhihu.com/p/107741668" target="_blank" rel="noopener">CSS的常用套路</a></p>
+<h4 id="checkbox-实现-switch"><a href="#checkbox-实现-switch" class="headerlink" title="checkbox 实现 switch"></a>checkbox 实现 switch</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;checkbox&quot; class=&quot;switch&quot; /&gt;</span><br><span class="line"> </span><br><span class="line"> // css</span><br><span class="line"> // switch 背景</span><br><span class="line"> .switch &#123;</span><br><span class="line">            -moz-appearance: none;</span><br><span class="line">            -ms-appearance:none;</span><br><span class="line">            -webkit-appearance: none; // appearance 去掉默认的checkbox样式</span><br><span class="line">            position: relative;</span><br><span class="line">            width: 50px;</span><br><span class="line">            height: 25px;</span><br><span class="line">            background: rgb(207, 205, 205);</span><br><span class="line">            border-radius: 20px;</span><br><span class="line">            outline: none;</span><br><span class="line">        &#125;</span><br><span class="line">// 伪元素实现switch内部的按钮</span><br><span class="line">.switch::after &#123;</span><br><span class="line">    position:absolute;</span><br><span class="line">    content:&apos;&apos;;</span><br><span class="line">    width:50%;</span><br><span class="line">    height:90%;</span><br><span class="line">    left:0; // 初始位置</span><br><span class="line">    top:1px; // 垂直方向居中</span><br><span class="line">     background: #fff;</span><br><span class="line">     transition: all 0.5s；</span><br><span class="line">&#125;</span><br><span class="line">// 切换状态</span><br><span class="line"> .switch:checked &#123;</span><br><span class="line">            background-color: cornflowerblue;</span><br><span class="line">   &#125;</span><br><span class="line">// 切换状态后调整内部按钮位置靠右侧</span><br><span class="line"> .switch:checked::after &#123;</span><br><span class="line">        left: 48%;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="css-实现圆环进度条动画、闹钟动画"><a href="#css-实现圆环进度条动画、闹钟动画" class="headerlink" title="css 实现圆环进度条动画、闹钟动画"></a>css 实现圆环进度条动画、闹钟动画</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;圆环进度条动画、闹钟动画&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">.circle_process&#123;</span><br><span class="line">	position: relative;</span><br><span class="line">	width: 199px;</span><br><span class="line">	height : 200px;</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .wrapper&#123;</span><br><span class="line">	width: 100px;</span><br><span class="line">	height: 200px;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top:0;</span><br><span class="line">	overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .right&#123;</span><br><span class="line">	right:0;</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .left&#123;</span><br><span class="line">	left:0;</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .circle&#123;</span><br><span class="line">	width: 160px;</span><br><span class="line">	height: 160px;</span><br><span class="line">	border:20px solid transparent;</span><br><span class="line">	border-radius: 50%;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top:0;</span><br><span class="line">	transform : rotate(-135deg);</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .rightcircle&#123;</span><br><span class="line">	border-top:20px solid green;</span><br><span class="line">	border-right:20px solid green;</span><br><span class="line">	right:0;</span><br><span class="line">	/* -webkit-animation: circle_right 5s linear infinite; */</span><br><span class="line">&#125;</span><br><span class="line">.circle_process .leftcircle&#123;</span><br><span class="line">	border-bottom:20px solid green;</span><br><span class="line">	border-left:20px solid green;</span><br><span class="line">	left:0;</span><br><span class="line">	/* -webkit-animation: circle_left 5s linear infinite; */</span><br><span class="line">&#125;</span><br><span class="line">@keyframes circle_right&#123;</span><br><span class="line">	0%&#123;</span><br><span class="line">		-webkit-transform: rotate(-135deg);</span><br><span class="line">	&#125;</span><br><span class="line">	50%,100%&#123;</span><br><span class="line">		-webkit-transform: rotate(45deg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">@keyframes circle_left&#123;</span><br><span class="line">	0%,50%&#123;</span><br><span class="line">		-webkit-transform: rotate(-135deg);</span><br><span class="line">	&#125;</span><br><span class="line">	100%&#123;</span><br><span class="line">		-webkit-transform: rotate(45deg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 中间文字div</span><br><span class="line">.show&#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 50%;</span><br><span class="line">  left: 50%;</span><br><span class="line">  transform: translate(-50%,-50%);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;circle_process&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;wrapper right&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;circle rightcircle&quot; id=&quot;rightcircle&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  </span><br><span class="line">    &lt;div class=&quot;wrapper left&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;circle leftcircle&quot; id=&quot;leftcircle&quot;&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;show&quot; id=&quot;show&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">// 闹钟动画</span><br><span class="line">  function getTime()&#123;</span><br><span class="line">    var date = new Date();</span><br><span class="line">    var second = date.getSeconds();</span><br><span class="line">    var rightcircle = document.getElementById(&apos;rightcircle&apos;);</span><br><span class="line">    var leftcircle = document.getElementById(&apos;leftcircle&apos;);</span><br><span class="line">    var show = document.getElementById(&apos;show&apos;);</span><br><span class="line">    show.innerHTML = second;</span><br><span class="line">    if(second&lt;=30)&#123;</span><br><span class="line">        rightcircle.style.cssText = &quot;transform: rotate(&quot;+ (-135+6*second) +&quot;deg)&quot;;</span><br><span class="line">        leftcircle.style.cssText = &quot;transform: rotate(-135deg)&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        rightcircle.style.cssText = &quot;transform: rotate(45deg)&quot;;</span><br><span class="line">        leftcircle.style.cssText = &quot;transform: rotate(&quot;+ (-135+6*(second-30)) +&quot;deg)&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">getTime();</span><br><span class="line">setInterval(function()&#123;</span><br><span class="line">    getTime();</span><br><span class="line">&#125;, 1000)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="clip实现的圆环动画"><a href="#clip实现的圆环动画" class="headerlink" title="clip实现的圆环动画"></a>clip实现的圆环动画</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;圆环进度条动画、闹钟动画&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line"> div&#123;</span><br><span class="line">            box-sizing: border-box;</span><br><span class="line">        &#125;</span><br><span class="line">        .box&#123;</span><br><span class="line">            width: 200px;</span><br><span class="line">            height: 200px;</span><br><span class="line">            position: relative;</span><br><span class="line">            background-color: #ccc;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            left: 40%;</span><br><span class="line">            top: 200px;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        .num&#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top: 50%;</span><br><span class="line">            left: 50%;</span><br><span class="line">            background: #fff;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            width: 180px; </span><br><span class="line">            height: 180px;</span><br><span class="line">            transform: translate(-50%, -50%);</span><br><span class="line">            text-align: center;</span><br><span class="line">            line-height: 180px;</span><br><span class="line">            font-size: 32px;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        .clip&#123;</span><br><span class="line">            width: 200px;</span><br><span class="line">            height: 200px;</span><br><span class="line">            position: absolute;</span><br><span class="line">            border: 10px solid #ccc;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            clip: rect(0, 200px, 200px, 100px);</span><br><span class="line">        &#125;</span><br><span class="line">        .left&#123;</span><br><span class="line">            width: 200px;</span><br><span class="line">            height: 200px;</span><br><span class="line">            position: absolute;</span><br><span class="line">            border: 10px solid lightblue;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            clip: rect(0 100px 200px 0);</span><br><span class="line">            top: -10px;</span><br><span class="line">            left: -10px;</span><br><span class="line">        &#125;</span><br><span class="line">        .right&#123;</span><br><span class="line">            width: 200px;</span><br><span class="line">            height: 200px;</span><br><span class="line">            position: absolute;</span><br><span class="line">            border: 10px solid lightblue;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            clip: rect(0 200px 200px 100px);</span><br><span class="line">            top: -10px;</span><br><span class="line">            left: -10px;</span><br><span class="line">        &#125;</span><br><span class="line">        .width-none&#123;</span><br><span class="line">            width: 0;</span><br><span class="line">        &#125;</span><br><span class="line">        .auto&#123;</span><br><span class="line">            clip: auto;</span><br><span class="line">        &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;clip&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;right width-none&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;num&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script &gt;</span><br><span class="line">    let clip = document.querySelector(&apos;.clip&apos;),</span><br><span class="line">    left = document.querySelector(&apos;.left&apos;),</span><br><span class="line">    right = document.querySelector(&apos;.right&apos;),</span><br><span class="line">    num = document.querySelector(&apos;.num&apos;),</span><br><span class="line">    rotate = 0;</span><br><span class="line"></span><br><span class="line">    let loop = setInterval(() =&gt; &#123;</span><br><span class="line">        if(rotate &gt;= 100)&#123;</span><br><span class="line">            rotate = 0;</span><br><span class="line">            right.classList.add(&apos;width-none&apos;);</span><br><span class="line">            clip.classList.remove(&apos;auto&apos;);</span><br><span class="line">        &#125; else if(rotate &gt; 50)&#123;</span><br><span class="line">            right.classList.remove(&apos;width-none&apos;);</span><br><span class="line">            clip.classList.add(&apos;auto&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        rotate++;</span><br><span class="line">        left.style.transform = &apos;rotate(&apos;+ 3.6*rotate + &apos;deg)&apos;;</span><br><span class="line">        num.innerHTML = `$&#123;rotate&#125;%`</span><br><span class="line">    &#125;,100)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="扇形圆环-css变量"><a href="#扇形圆环-css变量" class="headerlink" title="扇形圆环 css变量"></a>扇形圆环 css变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        .pie-simple &#123;</span><br><span class="line">            width: 128px;</span><br><span class="line">            height: 128px;</span><br><span class="line">            background-color: white;</span><br><span class="line">            border-radius: 50%;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">        &#125;</span><br><span class="line">        .pie-left,</span><br><span class="line">        .pie-right &#123;</span><br><span class="line">            width: 50%;</span><br><span class="line">            height: 100%;</span><br><span class="line">            float: left;</span><br><span class="line">            position: relative;</span><br><span class="line">            overflow: hidden;</span><br><span class="line">        &#125;</span><br><span class="line">        .pie-left::before,</span><br><span class="line">        .pie-right::before,</span><br><span class="line">        .pie-right::after &#123;</span><br><span class="line">            content: &apos;&apos;;</span><br><span class="line">            position: absolute;</span><br><span class="line">            width: 100%; height: 100%;</span><br><span class="line">            background-color: red;</span><br><span class="line">        &#125;</span><br><span class="line">        .pie-left::before &#123;</span><br><span class="line">            left: 100%;</span><br><span class="line">            transform-origin: left;</span><br><span class="line">            transform: rotate(calc(3.6deg * (var(--percent) - 50)));</span><br><span class="line">            opacity: calc(99999 * (var(--percent) - 50));</span><br><span class="line">        &#125;</span><br><span class="line">        .pie-right::before &#123;</span><br><span class="line">            right: 100%;</span><br><span class="line">            transform-origin: right;</span><br><span class="line">            transform: rotate(calc(3.6deg * var(--percent)));</span><br><span class="line">        &#125;</span><br><span class="line">        .pie-right::after &#123;</span><br><span class="line">            opacity: calc(99999 * (var(--percent) - 50));</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;pie-item&quot;&gt;</span><br><span class="line">        &lt;p&gt;10%大小&lt;/p&gt;</span><br><span class="line">        &lt;div class=&quot;pie-simple&quot; style=&quot;--percent: 10;&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;pie-left&quot;&gt;&lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;pie-right&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;pie-item&quot;&gt;</span><br><span class="line">        &lt;p&gt;40%大小&lt;/p&gt;</span><br><span class="line">        &lt;div class=&quot;pie-simple&quot; style=&quot;--percent: 40;&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;pie-left&quot;&gt;&lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;pie-right&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;pie-item&quot;&gt;</span><br><span class="line">        &lt;p&gt;80%大小&lt;/p&gt;</span><br><span class="line">        &lt;div class=&quot;pie-simple&quot; style=&quot;--percent: 80;&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;pie-left&quot;&gt;&lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;pie-right&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;pie-item&quot;&gt;</span><br><span class="line">        &lt;p&gt;99%大小&lt;/p&gt;</span><br><span class="line">        &lt;div class=&quot;pie-simple&quot; style=&quot;--percent: 99;&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;pie-left&quot;&gt;&lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;pie-right&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="css-实现-…加载效果"><a href="#css-实现-…加载效果" class="headerlink" title="css 实现 …加载效果"></a>css 实现 …加载效果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line"></span><br><span class="line">    .dotting &#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">    width: 10px; </span><br><span class="line">    min-height: 2px;</span><br><span class="line">    padding-left: 2px;</span><br><span class="line">    padding-right: 2px;</span><br><span class="line">    /* 第一个点 */</span><br><span class="line">    border-left: 2px solid currentColor; </span><br><span class="line">    /* 第三个点 */</span><br><span class="line">    border-right: 2px solid currentColor;     </span><br><span class="line">    /* 第二个点 */</span><br><span class="line">    background-color: currentColor; </span><br><span class="line">    /* background-clip设置元素的背景（背景图片或颜色）是否延伸到边框、内边距盒子、内容盒子下面 ，content-box 才能使border-left、background-color、border-right之间产生间隔*/</span><br><span class="line">    background-clip: content-box;</span><br><span class="line">    /* border-box 才能使 padding 效果出来， background-color 才会显示成一个点*/</span><br><span class="line">    box-sizing: border-box;</span><br><span class="line"></span><br><span class="line">    animation: dot 0.8s infinite step-start both;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@keyframes dot &#123;</span><br><span class="line">    25% &#123; border-color: transparent; background-color: transparent; &#125;          /* 0个点 */</span><br><span class="line">    50% &#123; border-right-color: transparent; background-color: transparent; &#125;    /* 1个点 */</span><br><span class="line">    75% &#123; border-right-color: transparent; &#125;                                   /* 2个点 */</span><br><span class="line">    100% &#123;  &#125;                                                                  /* 3个点 */</span><br><span class="line">&#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div &gt;测试 &lt;span class=&quot;dotting&quot;&gt;&lt;/span&gt; &lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="transition-实现边框动画"><a href="#transition-实现边框动画" class="headerlink" title="transition 实现边框动画"></a>transition 实现边框动画</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    /*transition: property name | duration | timing function | delay</span><br><span class="line">      transition属性可以被指定为一个或多个 CSS 属性的过渡效果，多个属性之间用逗号进行分隔。</span><br><span class="line">       */</span><br><span class="line"></span><br><span class="line">    .box &#123;</span><br><span class="line">      position: relative;</span><br><span class="line">      box-sizing: border-box;</span><br><span class="line">      background-color: #494d4e;</span><br><span class="line">      height: 350px;</span><br><span class="line">      width: 350px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*before  after 伪元素设置边框宽度 透明 */</span><br><span class="line">    .box::before,</span><br><span class="line">    .box::after &#123;</span><br><span class="line">      content: &apos;&apos;;</span><br><span class="line">      position: absolute;</span><br><span class="line">      width: 0;</span><br><span class="line">      height: 0;</span><br><span class="line">      box-sizing: border-box;</span><br><span class="line">      border: 10px solid transparent;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*上 右 两个边框 定位到box边缘正确位置 */</span><br><span class="line">    .box::before &#123;</span><br><span class="line">      top: 0;</span><br><span class="line">      left: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*下 左 两个边框定位到box边缘正确位置 */</span><br><span class="line">    .box::after &#123;</span><br><span class="line">      bottom: 0;</span><br><span class="line">      right: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*hover时 上 右两个边框依次过渡显示 宽度高度时长均为0.2s，总耗时0.4s */</span><br><span class="line">    .box:hover::before &#123;</span><br><span class="line">      width: 100%;</span><br><span class="line">      height: 100%;</span><br><span class="line">      border-right-color: rgb(81, 81, 243);</span><br><span class="line">      border-top-color: rgb(81, 81, 243);</span><br><span class="line">      transition: width 0.2s ease-in 0s, height 0.2s ease-in 0.2s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*hover时 下 左两个边框还是透明的，待上，右两个边框显示完成后，即是0.4s后，下 左两个边框颜色显示，接着 下 左 边框依次过渡显示 */</span><br><span class="line">    .box:hover::after &#123;</span><br><span class="line">      width: 100%;</span><br><span class="line">      height: 100%;</span><br><span class="line">      border-bottom-color: rgb(81, 81, 243);</span><br><span class="line">      border-left-color: rgb(81, 81, 243);</span><br><span class="line">      transition: border-color 0.1s ease-in-out 0.4s, width 0.2s ease-in 0.4s, height 0.2s ease-in 0.6s;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot;&gt;盒子 &lt;/div&gt;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line"></span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年02月27日 16:33</p>
+        <p>原始链接： <a class="post-url" href="/2021/02/23/cssdemo/" title="css demo">https://luhu9012.github.io/2021/02/23/cssdemo/</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/2021/02/23/cssdemo/&title=《css demo》 — 前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/2021/02/23/cssdemo/&title=《css demo》 — 前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/2021/02/23/cssdemo/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《css demo》 — 前端笔记&url=https://luhu9012.github.io/2021/02/23/cssdemo/&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/2021/02/23/cssdemo/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/2021/02/23/cssdemo/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/css/" class="color4">css</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#checkbox-实现-switch"><span class="post-toc-text">checkbox 实现 switch</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#css-实现圆环进度条动画、闹钟动画"><span class="post-toc-text">css 实现圆环进度条动画、闹钟动画</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#clip实现的圆环动画"><span class="post-toc-text">clip实现的圆环动画</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#扇形圆环-css变量"><span class="post-toc-text">扇形圆环 css变量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#css-实现-…加载效果"><span class="post-toc-text">css 实现 …加载效果</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#transition-实现边框动画"><span class="post-toc-text">transition 实现边框动画</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/05/safety/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">前端安全</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

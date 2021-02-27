@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>前端笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="luhu,luhu's Blog">
+  
+  <meta name="description" content="Document        #myCanvas {       border: 1px solid skyblue;       background: rgba(12, 30, 78, 0.8);     }              您的浏览器不支持 Canvas            var item1 = null,       item2 = null,">
+<meta property="og:type" content="website">
+<meta property="og:title" content="前端笔记">
+<meta property="og:url" content="https://luhu9012.github.io/test2.html">
+<meta property="og:site_name" content="前端笔记">
+<meta property="og:description" content="Document        #myCanvas {       border: 1px solid skyblue;       background: rgba(12, 30, 78, 0.8);     }              您的浏览器不支持 Canvas            var item1 = null,       item2 = null,">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-02-25T09:43:16.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端笔记">
+<meta name="twitter:description" content="Document        #myCanvas {       border: 1px solid skyblue;       background: rgba(12, 30, 78, 0.8);     }              您的浏览器不支持 Canvas            var item1 = null,       item2 = null,">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">luhu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        luhu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个专注 WEB 开发的技术博客
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="//luhu9012.github.io/">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+            
+            <!DOCTYPE html>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #myCanvas {
+      border: 1px solid skyblue;
+      background: rgba(12, 30, 78, 0.8);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="800" height="800">
+    您的浏览器不支持 Canvas
+  </canvas>
+
+  <script>
+    var item1 = null,
+      item2 = null,
+      item3 = null;
+    var _W = _H = 800;
+    var speed = 0.6, // 旋转速度, 正值顺时针
+      radius = 40; // 图形半径
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = _W;
+    canvas.height = _H;
+    var img = new Image();
+    img.src = './test3.png';
+    img.onload = function() {
+      // item1 = new CircleItem(img, radius, 400, 400, speed); // 图像, 图圆形长半径, 显示中心x,显示中心y, 旋转速度
+      item2 = new CircleItem(img, radius - 10, 400, 400, -speed*1.5);
+      // item3 = new CircleItem(img, radius - 150, 400, 400, speed*2);
+    };
+
+    var position_selected
+    var img2 = new Image();
+    // img2.src = './position_selected.svg';
+    img2.src = './position.png';
+    img2.onload = function() {
+      position_selected = img2
+    };
+
+          var timer;
+          var gravity = 0.2;
+          var buffer = 0;
+
+          var iStop = false;
+
+          var boxes = {'startSpeed':-2,'currentSpeed':-2,'boxTop':600,'boxLeft':0,maxtop:600}
+
+          function drawIcon(){
+          boxes.currentSpeed += gravity;
+          boxes.boxTop += boxes.currentSpeed;
+          if(boxes.boxTop > boxes.maxtop){
+          boxes.boxTop -= boxes.currentSpeed;
+          }
+
+          // cxt.fillRect(boxes.boxLeft, boxes.boxTop, 100, 100);
+          ctx.drawImage(
+            position_selected, // 规定要使用的图像、画布或视频。
+            400 +boxes.boxLeft-radius/2+5, // -10 与 -20 是考虑图标本身的大小对绘制位置的影响
+            boxes.boxTop-radius*2-400-30, // 开始的 x,y 坐标位置。
+              30,
+              30 // 剪裁大小x,y
+            )
+          if(boxes.boxTop >= boxes.maxtop){
+            boxes.startSpeed += buffer;
+            boxes.currentSpeed = boxes.startSpeed;
+          }
+          
+          }
+
+
+
+
+    var CircleItem = function(img, r, x, y, speed) {
+      this._r = r; // 半径
+      this._img = img; // 图片
+      this._w = r * 2; // 缓存canvas宽度
+      this._h = r * 2; // 缓存canvas高度
+      this._x = x; // 外部绘制中心
+      this._y = y; // 外部绘制中心
+      this._speed = speed;
+      this.rectCenterPoint = {
+        x: this._r,
+        y: this._r
+      }; // 内部圆心
+      this.cache();
+    }
+    CircleItem.prototype.draw = function() {
+      this.rotate();
+      ctx.scale(1, 0.3);
+      ctx.drawImage(this.cacheCanvas, 0, 0, this._w, this._h, this._x - this._r, this._y - this._r, this._r * 2, this._r * 2);
+      ctx.scale(1, 1 / 0.3);
+    };
+    CircleItem.prototype.cache = function() {
+      this.cacheCanvas = document.createElement("canvas");
+      this.cacheCtx = this.cacheCanvas.getContext("2d");
+      this.cacheCanvas.width = this._w;
+      this.cacheCanvas.height = this._h;
+      this.cacheCtx.save();
+      this.cacheCtx.beginPath();
+      this.cacheCtx.drawImage(this._img, 0, 0, this._r * 2, this._r * 2);
+      this.cacheCtx.closePath();
+      this.cacheCtx.restore();
+    };
+    CircleItem.prototype.rotate = function() {
+      this.cacheCtx.clearRect(0, 0, this._w, this._h);
+      this.cacheCtx.translate(this.rectCenterPoint.x, this.rectCenterPoint.y);
+      this.cacheCtx.rotate(this._speed * Math.PI / 180);
+      this.cacheCtx.translate(-this.rectCenterPoint.x, -this.rectCenterPoint.y);
+      this.cacheCtx.drawImage(this._img, 0, 0, this._r * 2, this._r * 2);
+    };
+
+    function animate() {
+      ctx.clearRect(0, 0, _W, _H);
+      // item1 && item1.draw();
+      item2 && item2.draw();
+      // item3 && item3.draw();
+      position_selected && drawIcon()
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年02月25日 17:43</p>
+        <p>原始链接： <a class="post-url" href="/test2.html" title="">https://luhu9012.github.io/test2.html</a></p>
+        <footer>
+            <a href="https://luhu9012.github.io">
+                <img src="/images/logo.png" alt="luhu9012">
+                luhu9012
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://luhu9012.github.io/test2.html&title=前端笔记&pic=https://luhu9012.github.ioimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://luhu9012.github.io/test2.html&title=前端笔记&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://luhu9012.github.io/test2.html" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=前端笔记&url=https://luhu9012.github.io/test2.html&via=https://luhu9012.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://luhu9012.github.io/test2.html" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://luhu9012.github.io/test2.html" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 luhu9012<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://luhu9012.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bom/">bom</a><a class="category-link" href="/categories/css/">css</a><a class="category-link" href="/categories/js实践/">js实践</a><a class="category-link" href="/categories/js异步编程/">js异步编程</a><a class="category-link" href="/categories/动画/">动画</a><a class="category-link" href="/categories/框架/">框架</a><a class="category-link" href="/categories/设计模式/">设计模式</a><a class="category-link" href="/categories/项目/">项目</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/async-异步/" style="font-size: 10px;">async 异步</a> <a href="/tags/bfc/" style="font-size: 10px;">bfc</a> <a href="/tags/bind-new-instanceof-call-applay-继承-decorator-nextTick/" style="font-size: 10px;">bind new instanceof call applay 继承 decorator  nextTick</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/css-概念/" style="font-size: 10px;">css 概念</a> <a href="/tags/css动画-js动画/" style="font-size: 10px;">css动画 js动画</a> <a href="/tags/es6-语法/" style="font-size: 10px;">es6 语法</a> <a href="/tags/javaSciript/" style="font-size: 20px;">javaSciript</a> <a href="/tags/js-机制/" style="font-size: 10px;">js 机制</a> <a href="/tags/js基础-js运行机制/" style="font-size: 10px;">js基础 js运行机制</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/垂直居中/" style="font-size: 10px;">垂直居中</a> <a href="/tags/奇技淫巧/" style="font-size: 10px;">奇技淫巧</a> <a href="/tags/性能/" style="font-size: 10px;">性能</a> <a href="/tags/文件上传/" style="font-size: 20px;">文件上传</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/浏览器-V8/" style="font-size: 10px;">浏览器  V8</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/防抖-节流-柯里化-pip-compose-js缓存算法-数组与树形结构互转-图片并发下载/" style="font-size: 10px;">防抖 节流 柯里化 pip compose js缓存算法 数组与树形结构互转 图片并发下载</a> <a href="/tags/项目/" style="font-size: 20px;">项目</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
